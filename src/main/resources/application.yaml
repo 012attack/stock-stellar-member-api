@@ -1,0 +1,25 @@
+server:
+  port: 8081
+  servlet:
+    context-path: /member-api
+
+spring:
+  application:
+    name: member-api
+
+  jpa:
+    properties:
+      hibernate:
+        jdbc:
+          lob:
+            non_contextual_creation: true
+          time_zone: UTC
+        default_batch_fetch_size: 100
+        naming:
+          physical-strategy: org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy
+        show-sql: false
+    database: postgresql
+
+    docker:
+      compose:
+        lifecycle-management: start_only

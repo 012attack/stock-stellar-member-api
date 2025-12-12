@@ -25,6 +25,7 @@ repositories {
 }
 
 dependencies {
+    // spring boot starter
     implementation("org.springframework.boot:spring-boot-h2console")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-kafka")
@@ -32,12 +33,22 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
     implementation("org.springframework.boot:spring-boot-starter-webmvc")
     implementation("org.mybatis.spring.boot:mybatis-spring-boot-starter:4.0.0")
+    implementation("com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.12.0")
+
+    // security
     implementation("org.thymeleaf.extras:thymeleaf-extras-springsecurity6")
+
     compileOnly("org.projectlombok:lombok")
+
     developmentOnly("org.springframework.boot:spring-boot-docker-compose")
+
     runtimeOnly("com.h2database:h2")
+
     runtimeOnly("org.postgresql:postgresql")
+
     annotationProcessor("org.projectlombok:lombok")
+
+    // test
     testImplementation("org.springframework.boot:spring-boot-starter-data-jpa-test")
     testImplementation("org.springframework.boot:spring-boot-starter-kafka-test")
     testImplementation("org.springframework.boot:spring-boot-starter-security-test")
