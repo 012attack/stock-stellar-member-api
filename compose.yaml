@@ -7,5 +7,3 @@ services:
       - POSTGRES_USER=myuser
     ports:
       - '5433:5432'
-    networks:
-      - app-net

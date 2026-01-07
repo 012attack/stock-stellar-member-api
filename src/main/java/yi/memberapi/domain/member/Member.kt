@@ -4,21 +4,18 @@ import jakarta.persistence.Entity
 import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
-import lombok.*
 
 @Entity
-@Getter
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-class Member {
+class Member(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private var id: Long? = null
+    val id: Long? = null,
 
-    private var username: String? = null
+    val username: String? = null,
 
-    private var password: String? = null
+    val password: String? = null,
 
-    private var name: String? = null
+    val name: String? = null
+) {
+    protected constructor() : this(null, null, null, null)
 }

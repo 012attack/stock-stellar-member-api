@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(dir /s /b \"C:\\yi-project\\stockstellar\\BE\\member-api\\src\\main\\java\\yi\\memberapi\\application\")",
+      "Bash(dir /s /b \"C:\\yi-project\\stockstellar\\BE\\member-api\\src\\main\\java\\yi\\memberapi\\common\")",
+      "Bash(dir /s /b \"C:\\yi-project\\stockstellar\\BE\\member-api\\src\\main\\java\\yi\\memberapi\\domain\")",
+      "Bash(docker:*)",
+      "Bash(docker-compose:*)",
+      "Bash(./gradlew compileKotlin:*)",
+      "Bash(./gradlew build:*)"
+    ]
+  }
+}
