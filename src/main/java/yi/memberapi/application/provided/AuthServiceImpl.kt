@@ -7,11 +7,11 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import yi.memberapi.adapter.security.MemberUserDetails
 import yi.memberapi.adapter.security.MemberUserDetailsService
-import yi.memberapi.application.provided.dto.LoginRequest
-import yi.memberapi.application.provided.dto.RefreshTokenRequest
-import yi.memberapi.application.provided.dto.RegisterRequest
-import yi.memberapi.application.provided.dto.RegisterResponse
-import yi.memberapi.application.provided.dto.TokenResponse
+import yi.memberapi.adapter.webapi.dto.LoginRequest
+import yi.memberapi.adapter.webapi.dto.RefreshTokenRequest
+import yi.memberapi.adapter.webapi.dto.RegisterRequest
+import yi.memberapi.adapter.webapi.dto.RegisterResponse
+import yi.memberapi.adapter.webapi.dto.TokenResponse
 import yi.memberapi.application.required.MemberRepository
 import yi.memberapi.application.required.RefreshTokenRepository
 import yi.memberapi.common.exception.AuthException

@@ -8,11 +8,11 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import yi.memberapi.adapter.security.MemberUserDetails
 import yi.memberapi.application.provided.AuthService
-import yi.memberapi.application.provided.dto.LoginRequest
-import yi.memberapi.application.provided.dto.RefreshTokenRequest
-import yi.memberapi.application.provided.dto.RegisterRequest
-import yi.memberapi.application.provided.dto.RegisterResponse
-import yi.memberapi.application.provided.dto.TokenResponse
+import yi.memberapi.adapter.webapi.dto.LoginRequest
+import yi.memberapi.adapter.webapi.dto.RefreshTokenRequest
+import yi.memberapi.adapter.webapi.dto.RegisterRequest
+import yi.memberapi.adapter.webapi.dto.RegisterResponse
+import yi.memberapi.adapter.webapi.dto.TokenResponse
 import java.net.URI
 
 @RestController

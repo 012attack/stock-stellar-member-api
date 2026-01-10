@@ -1,10 +1,10 @@
 package yi.memberapi.application.provided
 
-import yi.memberapi.application.provided.dto.LoginRequest
-import yi.memberapi.application.provided.dto.RefreshTokenRequest
-import yi.memberapi.application.provided.dto.RegisterRequest
-import yi.memberapi.application.provided.dto.RegisterResponse
-import yi.memberapi.application.provided.dto.TokenResponse
+import yi.memberapi.adapter.webapi.dto.LoginRequest
+import yi.memberapi.adapter.webapi.dto.RefreshTokenRequest
+import yi.memberapi.adapter.webapi.dto.RegisterRequest
+import yi.memberapi.adapter.webapi.dto.RegisterResponse
+import yi.memberapi.adapter.webapi.dto.TokenResponse
 
 interface AuthService {
     fun register(request: RegisterRequest): RegisterResponse

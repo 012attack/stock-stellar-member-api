@@ -1,4 +1,4 @@
-package yi.memberapi.application.provided.dto
+package yi.memberapi.adapter.webapi.dto
 
 data class LoginRequest(
     val username: String,
