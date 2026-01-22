@@ -67,6 +67,12 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-thymeleaf-test")
     testImplementation("org.springframework.boot:spring-boot-starter-webmvc-test")
     testImplementation("org.mybatis.spring.boot:mybatis-spring-boot-starter-test:4.0.0")
+    testImplementation("io.mockk:mockk:1.13.13")
+    testImplementation("com.ninja-squad:springmockk:4.0.2")
+    testImplementation("org.testcontainers:testcontainers:1.20.4")
+    testImplementation("org.testcontainers:junit-jupiter:1.20.4")
+    testImplementation("io.jsonwebtoken:jjwt-impl:0.12.6")
+    testImplementation("io.jsonwebtoken:jjwt-jackson:0.12.6")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
     implementation(kotlin("stdlib-jdk8"))
 }
