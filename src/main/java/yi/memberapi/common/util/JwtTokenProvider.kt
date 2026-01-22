@@ -17,20 +17,27 @@ class JwtTokenProvider(
         Keys.hmacShaKeyFor(jwtProperties.secret.toByteArray())
     }
 
-    fun generateAccessToken(userDetails: UserDetails): String {
-        return generateToken(userDetails, jwtProperties.accessTokenExpiration)
+    fun generateAccessToken(userDetails: UserDetails, memberId: Long): String {
+        return generateToken(userDetails.username, memberId, jwtProperties.accessTokenExpiration, "access")
     }
 
-    fun generateRefreshToken(userDetails: UserDetails): String {
-        return generateToken(userDetails, jwtProperties.refreshTokenExpiration)
+    fun generateRefreshToken(userDetails: UserDetails, memberId: Long, rememberMe: Boolean): String {
+        val expiration = if (rememberMe) {
+            jwtProperties.refreshTokenExpirationRememberMe
+        } else {
+            jwtProperties.refreshTokenExpiration
+        }
+        return generateToken(userDetails.username, memberId, expiration, "refresh")
     }
 
-    private fun generateToken(userDetails: UserDetails, expiration: Long): String {
+    private fun generateToken(username: String, memberId: Long, expiration: Long, tokenType: String): String {
         val now = Date()
         val expiryDate = Date(now.time + expiration)
 
         return Jwts.builder()
-            .subject(userDetails.username)
+            .subject(username)
+            .claim("memberId", memberId)
+            .claim("type", tokenType)
             .issuedAt(now)
             .expiration(expiryDate)
             .signWith(secretKey)
@@ -61,6 +68,16 @@ class JwtTokenProvider(
         return claims.subject
     }
 
+    fun getMemberIdFromToken(token: String): Long {
+        val claims = Jwts.parser()
+            .verifyWith(secretKey)
+            .build()
+            .parseSignedClaims(token)
+            .payload
+
+        return (claims["memberId"] as Number).toLong()
+    }
+
     fun getExpirationFromToken(token: String): Date {
         val claims = Jwts.parser()
             .verifyWith(secretKey)
@@ -73,5 +90,15 @@ class JwtTokenProvider(
 
     fun getAccessTokenExpiration(): Long = jwtProperties.accessTokenExpiration
 
-    fun getRefreshTokenExpiration(): Long = jwtProperties.refreshTokenExpiration
+    fun getRefreshTokenExpiration(rememberMe: Boolean): Long {
+        return if (rememberMe) {
+            jwtProperties.refreshTokenExpirationRememberMe
+        } else {
+            jwtProperties.refreshTokenExpiration
+        }
+    }
+
+    fun getAccessTokenExpirationSeconds(): Long = jwtProperties.accessTokenExpiration / 1000
+
+    fun getRefreshTokenExpirationSeconds(rememberMe: Boolean): Long = getRefreshTokenExpiration(rememberMe) / 1000
 }

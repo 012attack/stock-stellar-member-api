@@ -6,4 +6,5 @@ sealed class AuthException(message: String) : RuntimeException(message) {
     class TokenExpiredException : AuthException("Token has expired")
     class RefreshTokenNotFoundException : AuthException("Refresh token not found")
     class UsernameAlreadyExistsException : AuthException("Username already exists")
+    class IpMismatchException : AuthException("Client IP mismatch detected. Please login again.")
 }

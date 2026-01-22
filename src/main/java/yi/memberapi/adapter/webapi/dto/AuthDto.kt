@@ -2,18 +2,24 @@ package yi.memberapi.adapter.webapi.dto
 
 data class LoginRequest(
     val username: String,
-    val password: String
+    val password: String,
+    val rememberMe: Boolean = false
+)
+
+data class LoginResponse(
+    val message: String = "로그인 성공",
+    val expiresIn: Long
 )
 
 data class TokenResponse(
     val accessToken: String,
-    val refreshToken: String,
     val tokenType: String = "Bearer",
     val expiresIn: Long
 )
 
-data class RefreshTokenRequest(
-    val refreshToken: String
+data class RefreshResponse(
+    val message: String = "토큰 갱신 성공",
+    val expiresIn: Long
 )
 
 data class RegisterRequest(

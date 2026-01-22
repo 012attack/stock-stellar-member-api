@@ -8,12 +8,14 @@ import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource
 import org.springframework.stereotype.Component
 import org.springframework.web.filter.OncePerRequestFilter
+import yi.memberapi.application.required.RedisTokenRepository
 import yi.memberapi.common.util.JwtTokenProvider
 
 @Component
 class JwtAuthenticationFilter(
     private val jwtTokenProvider: JwtTokenProvider,
-    private val userDetailsService: MemberUserDetailsService
+    private val userDetailsService: MemberUserDetailsService,
+    private val redisTokenRepository: RedisTokenRepository
 ) : OncePerRequestFilter() {
 
     override fun doFilterInternal(
@@ -23,7 +25,7 @@ class JwtAuthenticationFilter(
     ) {
         val token = extractToken(request)
 
-        if (token != null && jwtTokenProvider.validateToken(token)) {
+        if (token != null && jwtTokenProvider.validateToken(token) && redisTokenRepository.isAccessTokenValid(token)) {
             val username = jwtTokenProvider.getUsernameFromToken(token)
             val userDetails = userDetailsService.loadUserByUsername(username)
 
