@@ -9,7 +9,7 @@ import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.springframework.security.core.userdetails.UsernameNotFoundException
-import yi.memberapi.application.required.MemberRepository
+import yi.memberapi.application.provided.MemberRepository
 import yi.memberapi.domain.member.Member
 import java.util.*
 

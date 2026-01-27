@@ -8,7 +8,7 @@ import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource
 import org.springframework.stereotype.Component
 import org.springframework.web.filter.OncePerRequestFilter
-import yi.memberapi.application.required.RedisTokenRepository
+import yi.memberapi.application.provided.RedisTokenRepository
 import yi.memberapi.common.util.JwtTokenProvider
 
 @Component

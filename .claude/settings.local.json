@@ -8,7 +8,22 @@
       "Bash(docker-compose:*)",
       "Bash(./gradlew compileKotlin:*)",
       "Bash(./gradlew build:*)",
-      "Bash(java -version:*)"
+      "Bash(java -version:*)",
+      "Bash(tree:*)",
+      "Bash(./gradlew clean:*)",
+      "Bash(where:*)",
+      "Bash(dir \"C:\\\\Program Files\\\\Java\")",
+      "Bash(dir \"C:\\\\Program Files\\\\Eclipse Adoptium\")",
+      "Bash(dir \"C:\\\\Program Files\\\\AdoptOpenJDK\")",
+      "Bash(dir \"C:\\\\Program Files\\\\Microsoft\")",
+      "Bash(findstr:*)",
+      "Bash(set \"JAVA_HOME=C:\\\\Users\\\\012at\\\\.jdks\\\\ms-21.0.9\")",
+      "Bash(JAVA_HOME=\"C:/Users/012at/.jdks/ms-21.0.9\" PATH=\"$JAVA_HOME/bin:$PATH\" ./gradlew clean:*)",
+      "Bash(JAVA_HOME=\"C:/Users/012at/.jdks/ms-21.0.9\" PATH=\"$JAVA_HOME/bin:$PATH\" ./gradlew:*)",
+      "Bash(JAVA_HOME=\"C:/Users/012at/.jdks/ms-21.0.9\" PATH=\"$JAVA_HOME/bin:$PATH\" ./gradlew clean build:*)",
+      "Bash(JAVA_HOME=\"C:/Users/012at/.jdks/ms-21.0.9\" PATH=\"$JAVA_HOME/bin:$PATH\" ./gradlew dependencies --configuration testCompileClasspath)",
+      "Bash(JAVA_HOME=\"C:/Users/012at/.jdks/ms-21.0.9\" PATH=\"$JAVA_HOME/bin:$PATH\" ./gradlew test --no-daemon)",
+      "Bash(JAVA_HOME=\"C:/Users/012at/.jdks/ms-21.0.9\" PATH=\"$JAVA_HOME/bin:$PATH\" ./gradlew test:*)"
     ]
   }
 }

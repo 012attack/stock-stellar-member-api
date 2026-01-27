@@ -3,6 +3,7 @@ package yi.memberapi.adapter.webapi
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.ninjasquad.springmockk.MockkBean
 import io.mockk.every
+import io.mockk.mockk
 import io.mockk.verify
 import jakarta.servlet.http.Cookie
 import jakarta.servlet.http.HttpServletResponse
@@ -10,33 +11,65 @@ import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
+import org.springframework.boot.test.context.TestConfiguration
+import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc
+import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest
+import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Import
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
-import yi.memberapi.adapter.webapi.dto.LoginRequest
-import yi.memberapi.adapter.webapi.dto.LoginResponse
-import yi.memberapi.adapter.webapi.dto.RefreshResponse
-import yi.memberapi.adapter.webapi.dto.RegisterRequest
-import yi.memberapi.adapter.webapi.dto.RegisterResponse
-import yi.memberapi.application.provided.AuthService
+import yi.memberapi.adapter.webapi.dto.request.LoginRequest
+import yi.memberapi.adapter.webapi.dto.request.RegisterRequest
+import yi.memberapi.adapter.webapi.dto.response.LoginResponse
+import yi.memberapi.adapter.webapi.dto.response.RefreshResponse
+import yi.memberapi.adapter.webapi.dto.response.RegisterResponse
+import yi.memberapi.application.required.MemberAuthenticator
+import yi.memberapi.application.required.MemberRegister
+import yi.memberapi.application.required.TokenRefresher
 import yi.memberapi.common.exception.AuthException
+import yi.memberapi.common.exception.GlobalExceptionHandler
 
 @WebMvcTest(AuthApi::class)
 @AutoConfigureMockMvc(addFilters = false)
+@Import(GlobalExceptionHandler::class, AuthApiTest.TestConfig::class)
 class AuthApiTest {
+
+    @TestConfiguration
+    class TestConfig {
+        @Bean
+        fun memberRegister(): MemberRegister = mockk(relaxed = true)
+
+        @Bean
+        fun memberAuthenticator(): MemberAuthenticator = mockk(relaxed = true)
+
+        @Bean
+        fun tokenRefresher(): TokenRefresher = mockk(relaxed = true)
+
+        @Bean
+        fun jwtTokenProvider(): yi.memberapi.common.util.JwtTokenProvider = mockk(relaxed = true)
+
+        @Bean
+        fun memberUserDetailsService(): yi.memberapi.adapter.security.MemberUserDetailsService = mockk(relaxed = true)
+
+        @Bean
+        fun redisTokenRepository(): yi.memberapi.application.provided.RedisTokenRepository = mockk(relaxed = true)
+    }
 
     @Autowired
     private lateinit var mockMvc: MockMvc
 
-    @Autowired
-    private lateinit var objectMapper: ObjectMapper
+    private val objectMapper: ObjectMapper = ObjectMapper()
 
-    @MockkBean
-    private lateinit var authService: AuthService
+    @Autowired
+    private lateinit var memberRegister: MemberRegister
+
+    @Autowired
+    private lateinit var memberAuthenticator: MemberAuthenticator
+
+    @Autowired
+    private lateinit var tokenRefresher: TokenRefresher
 
     @Nested
     @DisplayName("POST /api/auth/register")
@@ -56,7 +89,7 @@ class AuthApiTest {
                 name = "New User"
             )
 
-            every { authService.register(request) } returns response
+            every { memberRegister.register(request) } returns response
 
             mockMvc.perform(
                 post("/api/auth/register")
@@ -79,7 +112,7 @@ class AuthApiTest {
                 name = "Existing User"
             )
 
-            every { authService.register(request) } throws AuthException.UsernameAlreadyExistsException()
+            every { memberRegister.register(request) } throws AuthException.UsernameAlreadyExistsException()
 
             mockMvc.perform(
                 post("/api/auth/register")
@@ -107,7 +140,7 @@ class AuthApiTest {
                 expiresIn = 1800L
             )
 
-            every { authService.login(request, any(), any()) } returns response
+            every { memberAuthenticator.login(request, any(), any()) } returns response
 
             mockMvc.perform(
                 post("/api/auth/login")
@@ -129,7 +162,7 @@ class AuthApiTest {
                 rememberMe = false
             )
 
-            every { authService.login(request, any(), any()) } throws AuthException.InvalidCredentialsException()
+            every { memberAuthenticator.login(request, any(), any()) } throws AuthException.InvalidCredentialsException()
 
             mockMvc.perform(
                 post("/api/auth/login")
@@ -152,7 +185,7 @@ class AuthApiTest {
                 expiresIn = 1800L
             )
 
-            every { authService.login(request, any(), any()) } returns response
+            every { memberAuthenticator.login(request, any(), any()) } returns response
 
             mockMvc.perform(
                 post("/api/auth/login")
@@ -175,7 +208,7 @@ class AuthApiTest {
                 expiresIn = 1800L
             )
 
-            every { authService.refresh("valid-refresh-token", any(), any()) } returns response
+            every { tokenRefresher.refresh("valid-refresh-token", any(), any()) } returns response
 
             mockMvc.perform(
                 post("/api/auth/refresh")
@@ -199,7 +232,7 @@ class AuthApiTest {
         @Test
         @DisplayName("존재하지 않는 Refresh Token으로 갱신 시 401을 반환한다")
         fun refresh_tokenNotFound() {
-            every { authService.refresh("invalid-token", any(), any()) } throws AuthException.RefreshTokenNotFoundException()
+            every { tokenRefresher.refresh("invalid-token", any(), any()) } throws AuthException.RefreshTokenNotFoundException()
 
             mockMvc.perform(
                 post("/api/auth/refresh")
@@ -211,7 +244,7 @@ class AuthApiTest {
         @Test
         @DisplayName("만료된 Refresh Token으로 갱신 시 401을 반환한다")
         fun refresh_tokenExpired() {
-            every { authService.refresh("expired-token", any(), any()) } throws AuthException.TokenExpiredException()
+            every { tokenRefresher.refresh("expired-token", any(), any()) } throws AuthException.TokenExpiredException()
 
             mockMvc.perform(
                 post("/api/auth/refresh")
@@ -223,7 +256,7 @@ class AuthApiTest {
         @Test
         @DisplayName("IP가 일치하지 않으면 403을 반환한다")
         fun refresh_ipMismatch() {
-            every { authService.refresh("valid-token", any(), any()) } throws AuthException.IpMismatchException()
+            every { tokenRefresher.refresh("valid-token", any(), any()) } throws AuthException.IpMismatchException()
 
             mockMvc.perform(
                 post("/api/auth/refresh")
@@ -241,7 +274,7 @@ class AuthApiTest {
         @Test
         @DisplayName("로그아웃 성공 시 204를 반환한다")
         fun logout_success() {
-            every { authService.logout(any(), any(), any()) } returns Unit
+            every { memberAuthenticator.logout(any(), any(), any()) } returns Unit
 
             mockMvc.perform(
                 post("/api/auth/logout")
@@ -250,13 +283,13 @@ class AuthApiTest {
             )
                 .andExpect(status().isNoContent)
 
-            verify { authService.logout("Bearer access-token", "refresh-token", any()) }
+            verify { memberAuthenticator.logout("Bearer access-token", "refresh-token", any()) }
         }
 
         @Test
         @DisplayName("토큰 없이 로그아웃해도 204를 반환한다")
         fun logout_withoutTokens() {
-            every { authService.logout(any(), any(), any()) } returns Unit
+            every { memberAuthenticator.logout(any(), any(), any()) } returns Unit
 
             mockMvc.perform(
                 post("/api/auth/logout")
@@ -279,7 +312,7 @@ class AuthApiTest {
             )
             val response = LoginResponse(expiresIn = 1800L)
 
-            every { authService.login(request, "192.168.1.1", any()) } returns response
+            every { memberAuthenticator.login(request, "192.168.1.1", any()) } returns response
 
             mockMvc.perform(
                 post("/api/auth/login")
@@ -289,7 +322,7 @@ class AuthApiTest {
             )
                 .andExpect(status().isOk)
 
-            verify { authService.login(request, "192.168.1.1", any()) }
+            verify { memberAuthenticator.login(request, "192.168.1.1", any()) }
         }
 
         @Test
@@ -302,7 +335,7 @@ class AuthApiTest {
             )
             val response = LoginResponse(expiresIn = 1800L)
 
-            every { authService.login(request, "10.0.0.1", any()) } returns response
+            every { memberAuthenticator.login(request, "10.0.0.1", any()) } returns response
 
             mockMvc.perform(
                 post("/api/auth/login")
@@ -312,7 +345,7 @@ class AuthApiTest {
             )
                 .andExpect(status().isOk)
 
-            verify { authService.login(request, "10.0.0.1", any()) }
+            verify { memberAuthenticator.login(request, "10.0.0.1", any()) }
         }
     }
 }

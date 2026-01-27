@@ -2,16 +2,16 @@ package yi.memberapi.adapter.security
 
 import io.mockk.*
 import jakarta.servlet.FilterChain
-import jakarta.servlet.http.HttpServletRequest
-import jakarta.servlet.http.HttpServletResponse
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
+import org.springframework.mock.web.MockHttpServletRequest
+import org.springframework.mock.web.MockHttpServletResponse
 import org.springframework.security.core.context.SecurityContextHolder
-import yi.memberapi.application.required.RedisTokenRepository
+import yi.memberapi.application.provided.RedisTokenRepository
 import yi.memberapi.common.util.JwtTokenProvider
 import yi.memberapi.domain.member.Member
 
@@ -22,8 +22,8 @@ class JwtAuthenticationFilterTest {
     private lateinit var redisTokenRepository: RedisTokenRepository
     private lateinit var jwtAuthenticationFilter: JwtAuthenticationFilter
 
-    private lateinit var request: HttpServletRequest
-    private lateinit var response: HttpServletResponse
+    private lateinit var request: MockHttpServletRequest
+    private lateinit var response: MockHttpServletResponse
     private lateinit var filterChain: FilterChain
 
     @BeforeEach
@@ -38,8 +38,8 @@ class JwtAuthenticationFilterTest {
             redisTokenRepository
         )
 
-        request = mockk(relaxed = true)
-        response = mockk(relaxed = true)
+        request = MockHttpServletRequest()
+        response = MockHttpServletResponse()
         filterChain = mockk(relaxed = true)
 
         SecurityContextHolder.clearContext()
@@ -61,16 +61,16 @@ class JwtAuthenticationFilterTest {
             val member = Member(id = 1L, username = "testuser", password = "password", name = "Test")
             val userDetails = MemberUserDetails(member)
 
-            every { request.getHeader("Authorization") } returns "Bearer $validToken"
+            request.addHeader("Authorization", "Bearer $validToken")
             every { jwtTokenProvider.validateToken(validToken) } returns true
             every { redisTokenRepository.isAccessTokenValid(validToken) } returns true
             every { jwtTokenProvider.getUsernameFromToken(validToken) } returns "testuser"
             every { userDetailsService.loadUserByUsername("testuser") } returns userDetails
 
-            jwtAuthenticationFilter.doFilterInternal(request, response, filterChain)
+            jwtAuthenticationFilter.doFilter(request, response, filterChain)
 
             assertNotNull(SecurityContextHolder.getContext().authentication)
-            assertEquals("testuser", SecurityContextHolder.getContext().authentication.name)
+            assertEquals("testuser", SecurityContextHolder.getContext().authentication!!.name)
 
             verify { filterChain.doFilter(request, response) }
         }
@@ -78,9 +78,9 @@ class JwtAuthenticationFilterTest {
         @Test
         @DisplayName("Authorization 헤더가 없으면 인증을 설정하지 않는다")
         fun extractToken_noAuthorizationHeader() {
-            every { request.getHeader("Authorization") } returns null
+            // No Authorization header set
 
-            jwtAuthenticationFilter.doFilterInternal(request, response, filterChain)
+            jwtAuthenticationFilter.doFilter(request, response, filterChain)
 
             assertNull(SecurityContextHolder.getContext().authentication)
             verify { filterChain.doFilter(request, response) }
@@ -89,9 +89,9 @@ class JwtAuthenticationFilterTest {
         @Test
         @DisplayName("Bearer로 시작하지 않는 토큰은 무시한다")
         fun extractToken_nonBearerToken() {
-            every { request.getHeader("Authorization") } returns "Basic credentials"
+            request.addHeader("Authorization", "Basic credentials")
 
-            jwtAuthenticationFilter.doFilterInternal(request, response, filterChain)
+            jwtAuthenticationFilter.doFilter(request, response, filterChain)
 
             assertNull(SecurityContextHolder.getContext().authentication)
             verify { filterChain.doFilter(request, response) }
@@ -107,10 +107,10 @@ class JwtAuthenticationFilterTest {
         fun validateToken_invalidJwt() {
             val invalidToken = "invalid-jwt-token"
 
-            every { request.getHeader("Authorization") } returns "Bearer $invalidToken"
+            request.addHeader("Authorization", "Bearer $invalidToken")
             every { jwtTokenProvider.validateToken(invalidToken) } returns false
 
-            jwtAuthenticationFilter.doFilterInternal(request, response, filterChain)
+            jwtAuthenticationFilter.doFilter(request, response, filterChain)
 
             assertNull(SecurityContextHolder.getContext().authentication)
             verify { filterChain.doFilter(request, response) }
@@ -122,11 +122,11 @@ class JwtAuthenticationFilterTest {
         fun validateToken_notInRedis() {
             val token = "token-not-in-redis"
 
-            every { request.getHeader("Authorization") } returns "Bearer $token"
+            request.addHeader("Authorization", "Bearer $token")
             every { jwtTokenProvider.validateToken(token) } returns true
             every { redisTokenRepository.isAccessTokenValid(token) } returns false
 
-            jwtAuthenticationFilter.doFilterInternal(request, response, filterChain)
+            jwtAuthenticationFilter.doFilter(request, response, filterChain)
 
             assertNull(SecurityContextHolder.getContext().authentication)
             verify { filterChain.doFilter(request, response) }
@@ -140,13 +140,13 @@ class JwtAuthenticationFilterTest {
             val member = Member(id = 1L, username = "testuser", password = "password", name = "Test")
             val userDetails = MemberUserDetails(member)
 
-            every { request.getHeader("Authorization") } returns "Bearer $validToken"
+            request.addHeader("Authorization", "Bearer $validToken")
             every { jwtTokenProvider.validateToken(validToken) } returns true
             every { redisTokenRepository.isAccessTokenValid(validToken) } returns true
             every { jwtTokenProvider.getUsernameFromToken(validToken) } returns "testuser"
             every { userDetailsService.loadUserByUsername("testuser") } returns userDetails
 
-            jwtAuthenticationFilter.doFilterInternal(request, response, filterChain)
+            jwtAuthenticationFilter.doFilter(request, response, filterChain)
 
             assertNotNull(SecurityContextHolder.getContext().authentication)
             verify { filterChain.doFilter(request, response) }
@@ -164,17 +164,17 @@ class JwtAuthenticationFilterTest {
             val member = Member(id = 1L, username = "testuser", password = "password", name = "Test User")
             val userDetails = MemberUserDetails(member)
 
-            every { request.getHeader("Authorization") } returns "Bearer $validToken"
+            request.addHeader("Authorization", "Bearer $validToken")
             every { jwtTokenProvider.validateToken(validToken) } returns true
             every { redisTokenRepository.isAccessTokenValid(validToken) } returns true
             every { jwtTokenProvider.getUsernameFromToken(validToken) } returns "testuser"
             every { userDetailsService.loadUserByUsername("testuser") } returns userDetails
 
-            jwtAuthenticationFilter.doFilterInternal(request, response, filterChain)
+            jwtAuthenticationFilter.doFilter(request, response, filterChain)
 
             val authentication = SecurityContextHolder.getContext().authentication
             assertNotNull(authentication)
-            assertEquals("testuser", authentication.name)
+            assertEquals("testuser", authentication!!.name)
             assertTrue(authentication.isAuthenticated)
             assertNotNull(authentication.authorities)
         }
@@ -182,9 +182,9 @@ class JwtAuthenticationFilterTest {
         @Test
         @DisplayName("필터 체인은 항상 호출된다")
         fun filterChain_alwaysCalled() {
-            every { request.getHeader("Authorization") } returns null
+            // No Authorization header set
 
-            jwtAuthenticationFilter.doFilterInternal(request, response, filterChain)
+            jwtAuthenticationFilter.doFilter(request, response, filterChain)
 
             verify(exactly = 1) { filterChain.doFilter(request, response) }
         }
@@ -192,10 +192,10 @@ class JwtAuthenticationFilterTest {
         @Test
         @DisplayName("인증 실패 시에도 필터 체인은 호출된다")
         fun filterChain_calledOnAuthenticationFailure() {
-            every { request.getHeader("Authorization") } returns "Bearer invalid-token"
+            request.addHeader("Authorization", "Bearer invalid-token")
             every { jwtTokenProvider.validateToken("invalid-token") } returns false
 
-            jwtAuthenticationFilter.doFilterInternal(request, response, filterChain)
+            jwtAuthenticationFilter.doFilter(request, response, filterChain)
 
             assertNull(SecurityContextHolder.getContext().authentication)
             verify(exactly = 1) { filterChain.doFilter(request, response) }

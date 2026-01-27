@@ -9,23 +9,27 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestHeader
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
-import yi.memberapi.application.provided.AuthService
-import yi.memberapi.adapter.webapi.dto.LoginRequest
-import yi.memberapi.adapter.webapi.dto.LoginResponse
-import yi.memberapi.adapter.webapi.dto.RefreshResponse
-import yi.memberapi.adapter.webapi.dto.RegisterRequest
-import yi.memberapi.adapter.webapi.dto.RegisterResponse
+import yi.memberapi.application.required.MemberAuthenticator
+import yi.memberapi.application.required.MemberRegister
+import yi.memberapi.application.required.TokenRefresher
+import yi.memberapi.adapter.webapi.dto.request.LoginRequest
+import yi.memberapi.adapter.webapi.dto.request.RegisterRequest
+import yi.memberapi.adapter.webapi.dto.response.LoginResponse
+import yi.memberapi.adapter.webapi.dto.response.RefreshResponse
+import yi.memberapi.adapter.webapi.dto.response.RegisterResponse
 import java.net.URI
 
 @RestController
 @RequestMapping("/api/auth")
 class AuthApi(
-    private val authService: AuthService
+    private val memberRegister: MemberRegister,
+    private val memberAuthenticator: MemberAuthenticator,
+    private val tokenRefresher: TokenRefresher
 ) {
 
     @PostMapping("/register")
     fun register(@RequestBody request: RegisterRequest): ResponseEntity<RegisterResponse> {
-        val response = authService.register(request)
+        val response = memberRegister.register(request)
         return ResponseEntity.created(URI.create("/api/members/${response.id}")).body(response)
     }
 
@@ -36,7 +40,7 @@ class AuthApi(
         httpResponse: HttpServletResponse
     ): ResponseEntity<LoginResponse> {
         val clientIp = extractClientIp(httpRequest)
-        val response = authService.login(request, clientIp, httpResponse)
+        val response = memberAuthenticator.login(request, clientIp, httpResponse)
         return ResponseEntity.ok(response)
     }
 
@@ -47,7 +51,7 @@ class AuthApi(
         httpResponse: HttpServletResponse
     ): ResponseEntity<RefreshResponse> {
         val clientIp = extractClientIp(httpRequest)
-        val response = authService.refresh(refreshToken, clientIp, httpResponse)
+        val response = tokenRefresher.refresh(refreshToken, clientIp, httpResponse)
         return ResponseEntity.ok(response)
     }
 
@@ -57,7 +61,7 @@ class AuthApi(
         @CookieValue(name = "refreshToken", required = false) refreshToken: String?,
         httpResponse: HttpServletResponse
     ): ResponseEntity<Unit> {
-        authService.logout(authorization, refreshToken, httpResponse)
+        memberAuthenticator.logout(authorization, refreshToken, httpResponse)
         return ResponseEntity.noContent().build()
     }
 

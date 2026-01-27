@@ -1,4 +1,4 @@
-package yi.memberapi.application.required
+package yi.memberapi.application.provided
 
 import org.springframework.data.jpa.repository.JpaRepository
 import yi.memberapi.domain.member.Member

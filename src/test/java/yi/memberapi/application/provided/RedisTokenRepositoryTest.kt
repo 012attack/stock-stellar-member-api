@@ -1,4 +1,4 @@
-package yi.memberapi.application.required
+package yi.memberapi.application.provided
 
 import io.mockk.*
 import org.junit.jupiter.api.Assertions.*

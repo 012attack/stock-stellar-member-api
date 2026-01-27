@@ -20,13 +20,12 @@ class GlobalExceptionHandlerTest {
     fun handleInvalidCredentials() {
         val exception = AuthException.InvalidCredentialsException()
 
-        val response = exceptionHandler.handleInvalidCredentials(exception)
+        val problemDetail = exceptionHandler.handleAuthException(exception)
 
-        assertEquals(HttpStatus.UNAUTHORIZED, response.statusCode)
-        assertEquals(401, response.body?.status)
-        assertEquals("Unauthorized", response.body?.error)
-        assertNotNull(response.body?.message)
-        assertNotNull(response.body?.timestamp)
+        assertEquals(HttpStatus.UNAUTHORIZED.value(), problemDetail.status)
+        assertEquals("Unauthorized", problemDetail.title)
+        assertEquals("Invalid username or password", problemDetail.detail)
+        assertNotNull(problemDetail.type)
     }
 
     @Test
@@ -34,11 +33,11 @@ class GlobalExceptionHandlerTest {
     fun handleInvalidToken() {
         val exception = AuthException.InvalidTokenException()
 
-        val response = exceptionHandler.handleInvalidToken(exception)
+        val problemDetail = exceptionHandler.handleAuthException(exception)
 
-        assertEquals(HttpStatus.UNAUTHORIZED, response.statusCode)
-        assertEquals(401, response.body?.status)
-        assertEquals("Unauthorized", response.body?.error)
+        assertEquals(HttpStatus.UNAUTHORIZED.value(), problemDetail.status)
+        assertEquals("Unauthorized", problemDetail.title)
+        assertEquals("Invalid or expired token", problemDetail.detail)
     }
 
     @Test
@@ -46,11 +45,11 @@ class GlobalExceptionHandlerTest {
     fun handleTokenExpired() {
         val exception = AuthException.TokenExpiredException()
 
-        val response = exceptionHandler.handleTokenExpired(exception)
+        val problemDetail = exceptionHandler.handleAuthException(exception)
 
-        assertEquals(HttpStatus.UNAUTHORIZED, response.statusCode)
-        assertEquals(401, response.body?.status)
-        assertEquals("Unauthorized", response.body?.error)
+        assertEquals(HttpStatus.UNAUTHORIZED.value(), problemDetail.status)
+        assertEquals("Unauthorized", problemDetail.title)
+        assertEquals("Token has expired", problemDetail.detail)
     }
 
     @Test
@@ -58,11 +57,11 @@ class GlobalExceptionHandlerTest {
     fun handleRefreshTokenNotFound() {
         val exception = AuthException.RefreshTokenNotFoundException()
 
-        val response = exceptionHandler.handleRefreshTokenNotFound(exception)
+        val problemDetail = exceptionHandler.handleAuthException(exception)
 
-        assertEquals(HttpStatus.UNAUTHORIZED, response.statusCode)
-        assertEquals(401, response.body?.status)
-        assertEquals("Unauthorized", response.body?.error)
+        assertEquals(HttpStatus.UNAUTHORIZED.value(), problemDetail.status)
+        assertEquals("Unauthorized", problemDetail.title)
+        assertEquals("Refresh token not found", problemDetail.detail)
     }
 
     @Test
@@ -70,11 +69,11 @@ class GlobalExceptionHandlerTest {
     fun handleUsernameAlreadyExists() {
         val exception = AuthException.UsernameAlreadyExistsException()
 
-        val response = exceptionHandler.handleUsernameAlreadyExists(exception)
+        val problemDetail = exceptionHandler.handleAuthException(exception)
 
-        assertEquals(HttpStatus.CONFLICT, response.statusCode)
-        assertEquals(409, response.body?.status)
-        assertEquals("Conflict", response.body?.error)
+        assertEquals(HttpStatus.CONFLICT.value(), problemDetail.status)
+        assertEquals("Conflict", problemDetail.title)
+        assertEquals("Username already exists", problemDetail.detail)
     }
 
     @Test
@@ -82,10 +81,10 @@ class GlobalExceptionHandlerTest {
     fun handleIpMismatch() {
         val exception = AuthException.IpMismatchException()
 
-        val response = exceptionHandler.handleIpMismatch(exception)
+        val problemDetail = exceptionHandler.handleAuthException(exception)
 
-        assertEquals(HttpStatus.FORBIDDEN, response.statusCode)
-        assertEquals(403, response.body?.status)
-        assertEquals("Forbidden", response.body?.error)
+        assertEquals(HttpStatus.FORBIDDEN.value(), problemDetail.status)
+        assertEquals("Forbidden", problemDetail.title)
+        assertEquals("Client IP mismatch detected. Please login again.", problemDetail.detail)
     }
 }
