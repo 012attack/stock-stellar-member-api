@@ -23,7 +23,9 @@
       "Bash(JAVA_HOME=\"C:/Users/012at/.jdks/ms-21.0.9\" PATH=\"$JAVA_HOME/bin:$PATH\" ./gradlew clean build:*)",
       "Bash(JAVA_HOME=\"C:/Users/012at/.jdks/ms-21.0.9\" PATH=\"$JAVA_HOME/bin:$PATH\" ./gradlew dependencies --configuration testCompileClasspath)",
       "Bash(JAVA_HOME=\"C:/Users/012at/.jdks/ms-21.0.9\" PATH=\"$JAVA_HOME/bin:$PATH\" ./gradlew test --no-daemon)",
-      "Bash(JAVA_HOME=\"C:/Users/012at/.jdks/ms-21.0.9\" PATH=\"$JAVA_HOME/bin:$PATH\" ./gradlew test:*)"
+      "Bash(JAVA_HOME=\"C:/Users/012at/.jdks/ms-21.0.9\" PATH=\"$JAVA_HOME/bin:$PATH\" ./gradlew test:*)",
+      "Bash(.gradlew compileKotlin:*)",
+      "Bash(./gradlew.bat compileKotlin:*)"
     ]
   }
 }

@@ -39,3 +39,6 @@ bad case: domain + suffix is always service like AuthService
 - apply Command Query Responsibility Separation
   - separate prefix name like Command CommandMember
   - don't attach meaningless suffix name like handler
+
+## implementing webapi controller rules
+- separate file by purpose of controller, example: MemberRegisterApi, FindMemberApi, ...
