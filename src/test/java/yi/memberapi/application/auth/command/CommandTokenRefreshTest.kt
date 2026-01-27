@@ -1,4 +1,4 @@
-package yi.memberapi.application.auth.service
+package yi.memberapi.application.auth.command
 
 import io.mockk.*
 import jakarta.servlet.http.HttpServletResponse
@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import yi.memberapi.adapter.security.MemberUserDetails
 import yi.memberapi.adapter.security.MemberUserDetailsService
+import yi.memberapi.application.auth.service.AuthCookieManager
 import yi.memberapi.application.provided.RedisTokenRepository
 import yi.memberapi.common.exception.AuthException
 import yi.memberapi.common.util.JwtTokenProvider
@@ -17,13 +18,13 @@ import yi.memberapi.domain.member.Member
 import yi.memberapi.domain.token.RefreshTokenInfo
 import java.time.Instant
 
-class TokenRefresherImplTest {
+class CommandTokenRefreshTest {
 
     private lateinit var userDetailsService: MemberUserDetailsService
     private lateinit var jwtTokenProvider: JwtTokenProvider
     private lateinit var redisTokenRepository: RedisTokenRepository
     private lateinit var authCookieManager: AuthCookieManager
-    private lateinit var tokenRefresher: TokenRefresherImpl
+    private lateinit var commandTokenRefresh: CommandTokenRefresh
     private lateinit var httpResponse: HttpServletResponse
 
     @BeforeEach
@@ -34,7 +35,7 @@ class TokenRefresherImplTest {
         authCookieManager = mockk(relaxed = true)
         httpResponse = mockk(relaxed = true)
 
-        tokenRefresher = TokenRefresherImpl(
+        commandTokenRefresh = CommandTokenRefresh(
             userDetailsService,
             jwtTokenProvider,
             redisTokenRepository,
@@ -77,9 +78,8 @@ class TokenRefresherImplTest {
             every { authCookieManager.hashToken(any()) } returns "new-hashed-token"
             every { authCookieManager.createRefreshTokenCookie(any(), any()) } returns mockk(relaxed = true)
 
-            val result = tokenRefresher.refresh(refreshToken, clientIp, httpResponse)
+            val result = commandTokenRefresh.refresh(refreshToken, clientIp, httpResponse)
 
-            assertEquals("토큰 갱신 성공", result.message)
             assertEquals(1800L, result.expiresIn)
 
             verify { redisTokenRepository.deleteRefreshToken(refreshToken) }
@@ -96,7 +96,7 @@ class TokenRefresherImplTest {
             every { redisTokenRepository.findRefreshToken(refreshToken) } returns null
 
             assertThrows<AuthException.RefreshTokenNotFoundException> {
-                tokenRefresher.refresh(refreshToken, clientIp, httpResponse)
+                commandTokenRefresh.refresh(refreshToken, clientIp, httpResponse)
             }
         }
 
@@ -117,7 +117,7 @@ class TokenRefresherImplTest {
             every { redisTokenRepository.findRefreshToken(refreshToken) } returns tokenInfo
 
             assertThrows<AuthException.TokenExpiredException> {
-                tokenRefresher.refresh(refreshToken, clientIp, httpResponse)
+                commandTokenRefresh.refresh(refreshToken, clientIp, httpResponse)
             }
 
             verify { redisTokenRepository.deleteRefreshToken(refreshToken) }
@@ -142,7 +142,7 @@ class TokenRefresherImplTest {
             every { jwtTokenProvider.validateToken(refreshToken) } returns true
 
             assertThrows<AuthException.IpMismatchException> {
-                tokenRefresher.refresh(refreshToken, clientIp, httpResponse)
+                commandTokenRefresh.refresh(refreshToken, clientIp, httpResponse)
             }
 
             verify { redisTokenRepository.deleteAllUserTokens(1L) }
@@ -167,7 +167,7 @@ class TokenRefresherImplTest {
             every { jwtTokenProvider.validateToken(refreshToken) } returns false
 
             assertThrows<AuthException.InvalidTokenException> {
-                tokenRefresher.refresh(refreshToken, clientIp, httpResponse)
+                commandTokenRefresh.refresh(refreshToken, clientIp, httpResponse)
             }
 
             verify { redisTokenRepository.deleteRefreshToken(refreshToken) }

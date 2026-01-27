@@ -34,3 +34,8 @@ bad case: domain + suffix is always service like AuthService
 ## Handling Exception rules
 - use problemDetail object
 - process similar exception by extending super class
+
+## implementing service rules
+- apply Command Query Responsibility Separation
+  - separate prefix name like Command CommandMember
+  - don't attach meaningless suffix name like handler

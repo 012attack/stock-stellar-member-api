@@ -1,4 +1,4 @@
-package yi.memberapi.application.auth.service
+package yi.memberapi.application.auth.command
 
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
@@ -12,7 +12,7 @@ import yi.memberapi.domain.member.Member
 
 @Service
 @Transactional
-class MemberRegisterImpl(
+class CommandMemberRegister(
     private val memberRepository: MemberRepository,
     private val passwordEncoder: PasswordEncoder
 ) : MemberRegister {

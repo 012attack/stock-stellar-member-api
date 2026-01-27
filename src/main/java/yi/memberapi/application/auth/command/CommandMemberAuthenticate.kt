@@ -1,4 +1,4 @@
-package yi.memberapi.application.auth.service
+package yi.memberapi.application.auth.command
 
 import jakarta.servlet.http.HttpServletResponse
 import org.springframework.security.authentication.AuthenticationManager
@@ -10,6 +10,7 @@ import yi.memberapi.adapter.security.MemberUserDetails
 import yi.memberapi.adapter.security.MemberUserDetailsService
 import yi.memberapi.adapter.webapi.dto.request.LoginRequest
 import yi.memberapi.adapter.webapi.dto.response.LoginResponse
+import yi.memberapi.application.auth.service.AuthCookieManager
 import yi.memberapi.application.required.MemberAuthenticator
 import yi.memberapi.application.provided.RedisTokenRepository
 import yi.memberapi.common.exception.AuthException
@@ -19,7 +20,7 @@ import java.time.Instant
 
 @Service
 @Transactional
-class MemberAuthenticatorImpl(
+class CommandMemberAuthenticate(
     private val authenticationManager: AuthenticationManager,
     private val userDetailsService: MemberUserDetailsService,
     private val jwtTokenProvider: JwtTokenProvider,

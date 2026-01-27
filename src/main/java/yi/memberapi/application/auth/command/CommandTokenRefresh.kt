@@ -1,4 +1,4 @@
-package yi.memberapi.application.auth.service
+package yi.memberapi.application.auth.command
 
 import jakarta.servlet.http.HttpServletResponse
 import org.springframework.stereotype.Service
@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional
 import yi.memberapi.adapter.security.MemberUserDetails
 import yi.memberapi.adapter.security.MemberUserDetailsService
 import yi.memberapi.adapter.webapi.dto.response.RefreshResponse
+import yi.memberapi.application.auth.service.AuthCookieManager
 import yi.memberapi.application.provided.RedisTokenRepository
 import yi.memberapi.application.required.TokenRefresher
 import yi.memberapi.common.exception.AuthException
@@ -15,7 +16,7 @@ import java.time.Instant
 
 @Service
 @Transactional
-class TokenRefresherImpl(
+class CommandTokenRefresh(
     private val userDetailsService: MemberUserDetailsService,
     private val jwtTokenProvider: JwtTokenProvider,
     private val redisTokenRepository: RedisTokenRepository,

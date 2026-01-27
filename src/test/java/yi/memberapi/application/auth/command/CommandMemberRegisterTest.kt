@@ -1,4 +1,4 @@
-package yi.memberapi.application.auth.service
+package yi.memberapi.application.auth.command
 
 import io.mockk.*
 import org.junit.jupiter.api.Assertions.*
@@ -13,18 +13,18 @@ import yi.memberapi.application.provided.MemberRepository
 import yi.memberapi.common.exception.AuthException
 import yi.memberapi.domain.member.Member
 
-class MemberRegisterImplTest {
+class CommandMemberRegisterTest {
 
     private lateinit var memberRepository: MemberRepository
     private lateinit var passwordEncoder: PasswordEncoder
-    private lateinit var memberRegister: MemberRegisterImpl
+    private lateinit var commandMemberRegister: CommandMemberRegister
 
     @BeforeEach
     fun setUp() {
         memberRepository = mockk(relaxed = true)
         passwordEncoder = mockk(relaxed = true)
 
-        memberRegister = MemberRegisterImpl(
+        commandMemberRegister = CommandMemberRegister(
             memberRepository,
             passwordEncoder
         )
@@ -53,7 +53,7 @@ class MemberRegisterImplTest {
             every { passwordEncoder.encode(request.password) } returns "encoded_password"
             every { memberRepository.save(any()) } returns savedMember
 
-            val result = memberRegister.register(request)
+            val result = commandMemberRegister.register(request)
 
             assertEquals(1L, result.id)
             assertEquals("newuser", result.username)
@@ -75,7 +75,7 @@ class MemberRegisterImplTest {
             every { memberRepository.existsByUsername(request.username) } returns true
 
             assertThrows<AuthException.UsernameAlreadyExistsException> {
-                memberRegister.register(request)
+                commandMemberRegister.register(request)
             }
 
             verify { memberRepository.existsByUsername(request.username) }

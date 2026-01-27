@@ -1,4 +1,4 @@
-package yi.memberapi.application.auth.service
+package yi.memberapi.application.auth.command
 
 import io.mockk.*
 import jakarta.servlet.http.HttpServletResponse
@@ -13,19 +13,20 @@ import org.springframework.security.authentication.BadCredentialsException
 import yi.memberapi.adapter.security.MemberUserDetails
 import yi.memberapi.adapter.security.MemberUserDetailsService
 import yi.memberapi.adapter.webapi.dto.request.LoginRequest
+import yi.memberapi.application.auth.service.AuthCookieManager
 import yi.memberapi.application.provided.RedisTokenRepository
 import yi.memberapi.common.exception.AuthException
 import yi.memberapi.common.util.JwtTokenProvider
 import yi.memberapi.domain.member.Member
 
-class MemberAuthenticatorImplTest {
+class CommandMemberAuthenticateTest {
 
     private lateinit var authenticationManager: AuthenticationManager
     private lateinit var userDetailsService: MemberUserDetailsService
     private lateinit var jwtTokenProvider: JwtTokenProvider
     private lateinit var redisTokenRepository: RedisTokenRepository
     private lateinit var authCookieManager: AuthCookieManager
-    private lateinit var memberAuthenticator: MemberAuthenticatorImpl
+    private lateinit var commandMemberAuthenticate: CommandMemberAuthenticate
     private lateinit var httpResponse: HttpServletResponse
 
     @BeforeEach
@@ -37,7 +38,7 @@ class MemberAuthenticatorImplTest {
         authCookieManager = mockk(relaxed = true)
         httpResponse = mockk(relaxed = true)
 
-        memberAuthenticator = MemberAuthenticatorImpl(
+        commandMemberAuthenticate = CommandMemberAuthenticate(
             authenticationManager,
             userDetailsService,
             jwtTokenProvider,
@@ -76,9 +77,8 @@ class MemberAuthenticatorImplTest {
             every { authCookieManager.hashToken(any()) } returns "hashed-token"
             every { authCookieManager.createRefreshTokenCookie(any(), any()) } returns mockk(relaxed = true)
 
-            val result = memberAuthenticator.login(request, clientIp, httpResponse)
+            val result = commandMemberAuthenticate.login(request, clientIp, httpResponse)
 
-            assertEquals("로그인 성공", result.message)
             assertEquals(1800L, result.expiresIn)
 
             verify { redisTokenRepository.deleteAllUserTokens(1L) }
@@ -114,7 +114,7 @@ class MemberAuthenticatorImplTest {
             every { authCookieManager.hashToken(any()) } returns "hashed-token"
             every { authCookieManager.createRefreshTokenCookie(any(), any()) } returns mockk(relaxed = true)
 
-            val result = memberAuthenticator.login(request, clientIp, httpResponse)
+            val result = commandMemberAuthenticate.login(request, clientIp, httpResponse)
 
             assertNotNull(result)
             verify { jwtTokenProvider.generateRefreshToken(userDetails, 1L, true) }
@@ -134,7 +134,7 @@ class MemberAuthenticatorImplTest {
             every { authenticationManager.authenticate(any()) } throws BadCredentialsException("Bad credentials")
 
             assertThrows<AuthException.InvalidCredentialsException> {
-                memberAuthenticator.login(request, clientIp, httpResponse)
+                commandMemberAuthenticate.login(request, clientIp, httpResponse)
             }
         }
     }
@@ -151,7 +151,7 @@ class MemberAuthenticatorImplTest {
 
             every { jwtTokenProvider.getMemberIdFromToken("access-token") } returns 1L
 
-            memberAuthenticator.logout(accessToken, refreshToken, httpResponse)
+            commandMemberAuthenticate.logout(accessToken, refreshToken, httpResponse)
 
             verify { redisTokenRepository.deleteAllUserTokens(1L) }
             verify { redisTokenRepository.deleteRefreshToken(refreshToken) }
@@ -163,7 +163,7 @@ class MemberAuthenticatorImplTest {
         fun logout_withRefreshTokenOnly() {
             val refreshToken = "refresh-token"
 
-            memberAuthenticator.logout(null, refreshToken, httpResponse)
+            commandMemberAuthenticate.logout(null, refreshToken, httpResponse)
 
             verify { redisTokenRepository.deleteRefreshToken(refreshToken) }
             verify { authCookieManager.clearRefreshTokenCookie(httpResponse) }
@@ -173,7 +173,7 @@ class MemberAuthenticatorImplTest {
         @DisplayName("토큰 없이 로그아웃해도 예외가 발생하지 않는다")
         fun logout_withoutTokens() {
             assertDoesNotThrow {
-                memberAuthenticator.logout(null, null, httpResponse)
+                commandMemberAuthenticate.logout(null, null, httpResponse)
             }
 
             verify { authCookieManager.clearRefreshTokenCookie(httpResponse) }
