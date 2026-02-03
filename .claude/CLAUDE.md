@@ -33,29 +33,19 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - **Observability**: OpenTelemetry
 
 ## Architecture
-
-The project follows a layered/hexagonal architecture pattern:
-
-```
-yi.memberapi/
-├── adapter/           # External interfaces
-│   ├── webapi/        # REST controllers (e.g., LoginApi)
-│   └── security/      # Security adapters
-├── application/       # Application services
-│   ├── provided/      # Services this app provides
-│   └── required/      # Ports for external dependencies
-├── domain/            # Domain entities and business logic
-│   ├── member/        # Member aggregate (Member entity)
-│   └── shared/        # Shared domain objects
-└── common/            # Cross-cutting concerns
-    ├── annotation/
-    ├── config/
-    ├── constant/
-    └── util/
-```
+.\rules\architecture.md
 
 ## Configuration
 
 - Application runs on port **8081** with context path `/member-api`
 - PostgreSQL connection: `localhost:5433`, database `member`, user `myuser`
 - Docker Compose auto-starts PostgreSQL when running with `bootRun`
+
+##  rules
+.\rules\common_rules.md
+
+## create new function rules
+.\rules\new_function_rules.md
+
+## api document rules
+.\rules\api_document_rules.md
