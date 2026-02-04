@@ -9,7 +9,8 @@ import java.util.*
 
 @Repository
 class RedisTokenRepository(
-    private val redisTemplate: RedisTemplate<String, Any>
+    private val refreshTokenRedisTemplate: RedisTemplate<String, RefreshTokenInfo>,
+    private val tokenStringRedisTemplate: RedisTemplate<String, String>
 ) {
     companion object {
         private const val REFRESH_TOKEN_PREFIX = "refresh_token:"
@@ -21,55 +22,55 @@ class RedisTokenRepository(
         val tokenHash = hashToken(token)
         val key = "$REFRESH_TOKEN_PREFIX$tokenHash"
 
-        redisTemplate.opsForValue().set(key, tokenInfo, Duration.ofSeconds(ttlSeconds))
+        refreshTokenRedisTemplate.opsForValue().set(key, tokenInfo, Duration.ofSeconds(ttlSeconds))
 
         val userKey = "$USER_TOKEN_PREFIX${tokenInfo.memberId}"
-        redisTemplate.opsForSet().add(userKey, tokenHash)
-        redisTemplate.expire(userKey, Duration.ofSeconds(ttlSeconds))
+        tokenStringRedisTemplate.opsForSet().add(userKey, tokenHash)
+        tokenStringRedisTemplate.expire(userKey, Duration.ofSeconds(ttlSeconds))
     }
 
     fun findRefreshToken(token: String): RefreshTokenInfo? {
         val tokenHash = hashToken(token)
         val key = "$REFRESH_TOKEN_PREFIX$tokenHash"
-        return redisTemplate.opsForValue().get(key) as? RefreshTokenInfo
+        return refreshTokenRedisTemplate.opsForValue().get(key)
     }
 
     fun deleteRefreshToken(token: String) {
         val tokenHash = hashToken(token)
         val key = "$REFRESH_TOKEN_PREFIX$tokenHash"
-        val tokenInfo = redisTemplate.opsForValue().get(key) as? RefreshTokenInfo
+        val tokenInfo = refreshTokenRedisTemplate.opsForValue().get(key)
 
-        redisTemplate.delete(key)
+        refreshTokenRedisTemplate.delete(key)
 
         tokenInfo?.let {
             val userKey = "$USER_TOKEN_PREFIX${it.memberId}"
-            redisTemplate.opsForSet().remove(userKey, tokenHash)
+            tokenStringRedisTemplate.opsForSet().remove(userKey, tokenHash)
         }
     }
 
     fun deleteAllUserTokens(memberId: Long) {
         val userKey = "$USER_TOKEN_PREFIX$memberId"
-        val tokenHashes = redisTemplate.opsForSet().members(userKey) ?: emptySet()
+        val tokenHashes = tokenStringRedisTemplate.opsForSet().members(userKey) ?: emptySet()
 
         tokenHashes.forEach { hash ->
-            redisTemplate.delete("$REFRESH_TOKEN_PREFIX$hash")
+            refreshTokenRedisTemplate.delete("$REFRESH_TOKEN_PREFIX$hash")
         }
-        redisTemplate.delete(userKey)
+        tokenStringRedisTemplate.delete(userKey)
     }
 
     fun saveAccessToken(token: String, memberId: Long, ttlSeconds: Long) {
         val key = "$ACCESS_TOKEN_PREFIX${hashToken(token)}"
-        redisTemplate.opsForValue().set(key, memberId, Duration.ofSeconds(ttlSeconds))
+        tokenStringRedisTemplate.opsForValue().set(key, memberId.toString(), Duration.ofSeconds(ttlSeconds))
     }
 
     fun isAccessTokenValid(token: String): Boolean {
         val key = "$ACCESS_TOKEN_PREFIX${hashToken(token)}"
-        return redisTemplate.hasKey(key)
+        return tokenStringRedisTemplate.hasKey(key)
     }
 
     fun invalidateAccessToken(token: String) {
         val key = "$ACCESS_TOKEN_PREFIX${hashToken(token)}"
-        redisTemplate.delete(key)
+        tokenStringRedisTemplate.delete(key)
     }
 
     private fun hashToken(token: String): String {
