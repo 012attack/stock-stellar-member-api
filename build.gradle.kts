@@ -79,6 +79,7 @@ dependencies {
     testImplementation("io.jsonwebtoken:jjwt-jackson:0.12.6")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
     implementation(kotlin("stdlib-jdk8"))
+    implementation(kotlin("reflect"))
 }
 
 tasks.withType<Test> {
