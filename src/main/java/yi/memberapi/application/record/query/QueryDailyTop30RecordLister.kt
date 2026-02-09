@@ -18,10 +18,20 @@ class QueryDailyTop30RecordLister(
     private val dailyTop30RecordRepository: DailyTop30RecordRepository
 ) : DailyTop30RecordLister {
 
-    override fun listByDate(recordDate: LocalDate?): DailyTop30RecordListResponse {
+    override fun listByDate(
+        recordDate: LocalDate?,
+        stockName: String?,
+        stockCode: String?,
+        themeName: String?
+    ): DailyTop30RecordListResponse {
         val targetDate = recordDate ?: getLatestRecordDate()
 
-        val records = dailyTop30RecordRepository.findByRecordDateWithStockAndThemes(targetDate)
+        val hasFilters = stockName != null || stockCode != null || themeName != null
+        val records = if (hasFilters) {
+            dailyTop30RecordRepository.findByRecordDateWithFilters(targetDate, stockName, stockCode, themeName)
+        } else {
+            dailyTop30RecordRepository.findByRecordDateWithStockAndThemes(targetDate)
+        }
 
         return DailyTop30RecordListResponse(
             records = records.map { it.toResponse() },

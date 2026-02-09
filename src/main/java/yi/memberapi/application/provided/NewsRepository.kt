@@ -12,17 +12,17 @@ interface NewsRepository : JpaRepository<News, Int> {
         SELECT n FROM News n
         LEFT JOIN FETCH n.press
         WHERE (:title IS NULL OR n.title LIKE %:title%)
-        AND (:pressId IS NULL OR n.press.id = :pressId)
+        AND (:pressName IS NULL OR n.press.name LIKE %:pressName%)
         ORDER BY n.createdAt DESC
     """,
         countQuery = """
         SELECT COUNT(n) FROM News n
         WHERE (:title IS NULL OR n.title LIKE %:title%)
-        AND (:pressId IS NULL OR n.press.id = :pressId)
+        AND (:pressName IS NULL OR n.press.name LIKE %:pressName%)
     """)
     fun findWithFilters(
         title: String?,
-        pressId: Int?,
+        pressName: String?,
         pageable: Pageable
     ): Page<News>
 

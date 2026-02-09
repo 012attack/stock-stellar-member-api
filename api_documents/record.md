@@ -21,6 +21,9 @@
 | Parameter | Type | Required | Default | Description |
 |-----------|------|----------|---------|-------------|
 | recordDate | string | X | 최신 날짜 | 조회할 날짜 (yyyy-MM-dd 형식) |
+| stockName | string | X | - | 종목명으로 필터링 (부분 일치) |
+| stockCode | string | X | - | 종목코드로 필터링 (부분 일치) |
+| themeName | string | X | - | 테마명으로 필터링 (부분 일치) |
 
 ### Response `200 OK`
 
@@ -62,6 +65,9 @@
 
 ```
 GET /member-api/api/daily-top30-records?recordDate=2026-02-04
+GET /member-api/api/daily-top30-records?recordDate=2026-02-04&stockName=삼성
+GET /member-api/api/daily-top30-records?recordDate=2026-02-04&stockCode=005930
+GET /member-api/api/daily-top30-records?recordDate=2026-02-04&themeName=반도체
 ```
 
 ### Example Response

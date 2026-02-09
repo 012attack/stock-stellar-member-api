@@ -15,9 +15,9 @@ class QueryNewsLister(
     private val newsRepository: NewsRepository
 ) : NewsLister {
 
-    override fun list(page: Int, size: Int, title: String?, pressId: Int?): NewsListResponse {
+    override fun list(page: Int, size: Int, title: String?, pressName: String?): NewsListResponse {
         val pageable = PageRequest.of(page, size)
-        val newsPage = newsRepository.findWithFilters(title, pressId, pageable)
+        val newsPage = newsRepository.findWithFilters(title, pressName, pageable)
 
         val newsList = newsPage.content.map { news ->
             NewsResponse(

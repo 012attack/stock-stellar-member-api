@@ -24,7 +24,7 @@
 | page | int | X | 0 | 페이지 번호 (0부터 시작) |
 | size | int | X | 20 | 페이지 당 항목 수 |
 | title | string | X | - | 제목 검색 (부분 일치) |
-| pressId | int | X | - | 언론사 ID로 필터링 |
+| pressName | string | X | - | 언론사명으로 필터링 (부분 일치) |
 
 ### Response `200 OK`
 
@@ -56,7 +56,7 @@
 ### Example Request
 
 ```
-GET /member-api/api/news?page=0&size=10&title=삼성&pressId=1
+GET /member-api/api/news?page=0&size=10&title=삼성&pressName=한국경제
 ```
 
 ### Example Response

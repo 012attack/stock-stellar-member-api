@@ -4,5 +4,10 @@ import yi.memberapi.adapter.webapi.dto.response.DailyTop30RecordListResponse
 import java.time.LocalDate
 
 interface DailyTop30RecordLister {
-    fun listByDate(recordDate: LocalDate?): DailyTop30RecordListResponse
+    fun listByDate(
+        recordDate: LocalDate?,
+        stockName: String? = null,
+        stockCode: String? = null,
+        themeName: String? = null
+    ): DailyTop30RecordListResponse
 }

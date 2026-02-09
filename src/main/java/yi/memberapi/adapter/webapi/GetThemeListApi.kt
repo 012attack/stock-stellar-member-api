@@ -5,23 +5,22 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
-import yi.memberapi.adapter.webapi.dto.response.NewsListResponse
-import yi.memberapi.application.required.NewsLister
+import yi.memberapi.adapter.webapi.dto.response.ThemeListResponse
+import yi.memberapi.application.required.ThemeLister
 
 @RestController
-@RequestMapping("/api/news")
-class GetNewsListApi(
-    private val newsLister: NewsLister
+@RequestMapping("/api/themes")
+class GetThemeListApi(
+    private val themeLister: ThemeLister
 ) {
 
     @GetMapping
-    fun getNews(
+    fun getThemes(
         @RequestParam(defaultValue = "0") page: Int,
         @RequestParam(defaultValue = "20") size: Int,
-        @RequestParam(required = false) title: String?,
-        @RequestParam(required = false) pressName: String?
-    ): ResponseEntity<NewsListResponse> {
-        val response = newsLister.list(page, size, title, pressName)
+        @RequestParam(required = false) themeName: String?
+    ): ResponseEntity<ThemeListResponse> {
+        val response = themeLister.list(page, size, themeName)
         return ResponseEntity.ok(response)
     }
 }
