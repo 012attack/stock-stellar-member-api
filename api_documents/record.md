@@ -20,7 +20,8 @@
 
 | Parameter | Type | Required | Default | Description |
 |-----------|------|----------|---------|-------------|
-| recordDate | string | X | 최신 날짜 | 조회할 날짜 (yyyy-MM-dd 형식) |
+| startDate | string | X | 최신 날짜 | 시작 날짜 (yyyy-MM-dd 형식) |
+| endDate | string | X | 최신 날짜 | 끝 날짜 (yyyy-MM-dd 형식) |
 | stockName | string | X | - | 종목명으로 필터링 (부분 일치) |
 | stockCode | string | X | - | 종목코드로 필터링 (부분 일치) |
 | themeName | string | X | - | 테마명으로 필터링 (부분 일치) |
@@ -30,7 +31,8 @@
 | Field | Type | Description |
 |-------|------|-------------|
 | records | array | Daily Top 30 기록 목록 |
-| recordDate | string | 조회된 날짜 |
+| startDate | string | 조회 시작 날짜 |
+| endDate | string | 조회 끝 날짜 |
 
 ### DailyTop30Record Object
 
@@ -64,10 +66,10 @@
 ### Example Request
 
 ```
-GET /member-api/api/daily-top30-records?recordDate=2026-02-04
-GET /member-api/api/daily-top30-records?recordDate=2026-02-04&stockName=삼성
-GET /member-api/api/daily-top30-records?recordDate=2026-02-04&stockCode=005930
-GET /member-api/api/daily-top30-records?recordDate=2026-02-04&themeName=반도체
+GET /member-api/api/daily-top30-records?startDate=2026-02-01&endDate=2026-02-04
+GET /member-api/api/daily-top30-records?startDate=2026-02-01&endDate=2026-02-04&stockName=삼성
+GET /member-api/api/daily-top30-records?startDate=2026-02-04&endDate=2026-02-04&stockCode=005930
+GET /member-api/api/daily-top30-records?startDate=2026-01-01&endDate=2026-02-04&themeName=반도체
 ```
 
 ### Example Response
@@ -95,11 +97,11 @@ GET /member-api/api/daily-top30-records?recordDate=2026-02-04&themeName=반도�
     },
     {
       "id": 2,
-      "recordDate": "2026-02-04",
-      "rank": 2,
+      "recordDate": "2026-02-03",
+      "rank": 1,
       "changeRate": "+4.8%",
       "description": "2차전지 호재",
-      "createdAt": "2026-02-04T10:00:00",
+      "createdAt": "2026-02-03T10:00:00",
       "stock": {
         "id": 2,
         "stockCode": "373220",
@@ -111,6 +113,7 @@ GET /member-api/api/daily-top30-records?recordDate=2026-02-04&themeName=반도�
       ]
     }
   ],
-  "recordDate": "2026-02-04"
+  "startDate": "2026-02-01",
+  "endDate": "2026-02-04"
 }
 ```

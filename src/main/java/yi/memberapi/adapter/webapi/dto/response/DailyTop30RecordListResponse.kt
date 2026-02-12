@@ -4,5 +4,6 @@ import java.time.LocalDate
 
 data class DailyTop30RecordListResponse(
     val records: List<DailyTop30RecordResponse>,
-    val recordDate: LocalDate
+    val startDate: LocalDate,
+    val endDate: LocalDate
 )

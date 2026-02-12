@@ -18,12 +18,13 @@ class GetDailyTop30RecordListApi(
 
     @GetMapping
     fun getDailyTop30Records(
-        @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) recordDate: LocalDate?,
+        @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) startDate: LocalDate?,
+        @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) endDate: LocalDate?,
         @RequestParam(required = false) stockName: String?,
         @RequestParam(required = false) stockCode: String?,
         @RequestParam(required = false) themeName: String?
     ): ResponseEntity<DailyTop30RecordListResponse> {
-        val response = dailyTop30RecordLister.listByDate(recordDate, stockName, stockCode, themeName)
+        val response = dailyTop30RecordLister.listByDateRange(startDate, endDate, stockName, stockCode, themeName)
         return ResponseEntity.ok(response)
     }
 }
