@@ -19,9 +19,10 @@ class GetNewsListApi(
         @RequestParam(defaultValue = "0") page: Int,
         @RequestParam(defaultValue = "20") size: Int,
         @RequestParam(required = false) title: String?,
-        @RequestParam(required = false) pressName: String?
+        @RequestParam(required = false) pressName: String?,
+        @RequestParam(required = false) themeName: String?
     ): ResponseEntity<NewsListResponse> {
-        val response = newsLister.list(page, size, title, pressName)
+        val response = newsLister.list(page, size, title, pressName, themeName)
         return ResponseEntity.ok(response)
     }
 }

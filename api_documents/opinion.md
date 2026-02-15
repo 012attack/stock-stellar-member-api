@@ -115,6 +115,36 @@ Content-Type: application/json
 | createdAt | datetime | 생성일시 |
 | targetType | string | 대상 타입 (RECORD / NEWS) |
 | targetId | int | 대상 ID |
+| target | object | 연결된 대상 데이터 (nullable) |
+
+### Target Object
+
+| Field | Type | Description |
+|-------|------|-------------|
+| targetType | string | 대상 타입 (RECORD / NEWS) |
+| news | object | 뉴스 정보 (targetType이 NEWS일 때) |
+| record | object | 상한가 레코드 정보 (targetType이 RECORD일 때) |
+
+### Target - News Object
+
+| Field | Type | Description |
+|-------|------|-------------|
+| id | int | 뉴스 ID |
+| title | string | 뉴스 제목 |
+| link | string | 뉴스 링크 URL |
+| press | object | 언론사 정보 (nullable) |
+| createdAt | datetime | 생성일시 |
+
+### Target - Record Object
+
+| Field | Type | Description |
+|-------|------|-------------|
+| id | int | 레코드 ID |
+| recordDate | date | 기록 날짜 |
+| rank | int | 순위 |
+| changeRate | string | 등락률 (nullable) |
+| stock | object | 종목 정보 (nullable) |
+| themes | array | 테마 목록 |
 
 ### Example Request
 
@@ -135,7 +165,26 @@ Authorization: Bearer {accessToken}
       "memberName": "홍길동",
       "createdAt": "2026-02-14T10:30:00",
       "targetType": "RECORD",
-      "targetId": 1
+      "targetId": 1,
+      "target": {
+        "targetType": "RECORD",
+        "news": null,
+        "record": {
+          "id": 1,
+          "recordDate": "2026-02-14",
+          "rank": 1,
+          "changeRate": "+29.95%",
+          "stock": {
+            "id": 1,
+            "stockCode": "005930",
+            "stockName": "삼성전자",
+            "companySummary": "반도체 제조업체"
+          },
+          "themes": [
+            { "id": 1, "themeName": "반도체" }
+          ]
+        }
+      }
     }
   ],
   "page": 0,

@@ -9,5 +9,6 @@ data class OpinionResponse(
     val memberName: String,
     val createdAt: LocalDateTime?,
     val targetType: String,
-    val targetId: Int
+    val targetId: Int,
+    val target: OpinionTargetResponse? = null
 )

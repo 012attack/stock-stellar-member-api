@@ -27,6 +27,7 @@
 | size | int | X | 20 | 페이지 당 항목 수 |
 | title | string | X | - | 제목 검색 (부분 일치) |
 | pressName | string | X | - | 언론사명으로 필터링 (부분 일치) |
+| themeName | string | X | - | 테마명으로 필터링 (부분 일치) |
 
 ### Response `200 OK`
 
@@ -66,7 +67,7 @@
 ### Example Request
 
 ```
-GET /member-api/api/news?page=0&size=10&title=삼성&pressName=한국경제
+GET /member-api/api/news?page=0&size=10&title=삼성&pressName=한국경제&themeName=반도체
 ```
 
 ### Example Response

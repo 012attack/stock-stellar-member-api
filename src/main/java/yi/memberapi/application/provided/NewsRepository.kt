@@ -9,20 +9,25 @@ import yi.memberapi.domain.news.News
 interface NewsRepository : JpaRepository<News, Int> {
 
     @Query("""
-        SELECT n FROM News n
+        SELECT DISTINCT n FROM News n
         LEFT JOIN FETCH n.press
+        LEFT JOIN n.themes t
         WHERE (:title IS NULL OR n.title LIKE %:title%)
         AND (:pressName IS NULL OR n.press.name LIKE %:pressName%)
+        AND (:themeName IS NULL OR t.themeName LIKE %:themeName%)
         ORDER BY n.createdAt DESC
     """,
         countQuery = """
-        SELECT COUNT(n) FROM News n
+        SELECT COUNT(DISTINCT n) FROM News n
+        LEFT JOIN n.themes t
         WHERE (:title IS NULL OR n.title LIKE %:title%)
         AND (:pressName IS NULL OR n.press.name LIKE %:pressName%)
+        AND (:themeName IS NULL OR t.themeName LIKE %:themeName%)
     """)
     fun findWithFilters(
         title: String?,
         pressName: String?,
+        themeName: String?,
         pageable: Pageable
     ): Page<News>
 
