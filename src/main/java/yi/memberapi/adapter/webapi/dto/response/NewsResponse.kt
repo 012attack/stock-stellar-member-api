@@ -7,5 +7,6 @@ data class NewsResponse(
     val title: String,
     val link: String,
     val press: PressResponse?,
+    val themes: List<ThemeResponse> = emptyList(),
     val createdAt: LocalDateTime?
 )

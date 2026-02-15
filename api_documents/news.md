@@ -10,6 +10,8 @@
 |--------|----------|-------------|------|
 | GET | `/` | 뉴스 목록 조회 | 필요 |
 | GET | `/{id}` | 뉴스 상세 조회 | 필요 |
+| POST | `/{newsId}/themes` | 뉴스에 테마 추가 | 필요 |
+| DELETE | `/{newsId}/themes/{themeId}` | 뉴스에서 테마 제거 | 필요 |
 
 ---
 
@@ -44,6 +46,7 @@
 | title | string | 제목 |
 | link | string | 뉴스 링크 URL |
 | press | object | 언론사 정보 (nullable) |
+| themes | array | 테마 목록 |
 | createdAt | datetime | 생성일시 |
 
 ### Press Object
@@ -52,6 +55,13 @@
 |-------|------|-------------|
 | id | int | 언론사 ID |
 | name | string | 언론사 이름 |
+
+### Theme Object
+
+| Field | Type | Description |
+|-------|------|-------------|
+| id | int | 테마 ID |
+| themeName | string | 테마 이름 |
 
 ### Example Request
 
@@ -72,6 +82,10 @@ GET /member-api/api/news?page=0&size=10&title=삼성&pressName=한국경제
         "id": 1,
         "name": "한국경제"
       },
+      "themes": [
+        { "id": 1, "themeName": "반도체" },
+        { "id": 2, "themeName": "대형주" }
+      ],
       "createdAt": "2026-02-05T10:30:00"
     },
     {
@@ -82,6 +96,7 @@ GET /member-api/api/news?page=0&size=10&title=삼성&pressName=한국경제
         "id": 1,
         "name": "한국경제"
       },
+      "themes": [],
       "createdAt": "2026-02-05T09:15:00"
     }
   ],
@@ -135,6 +150,74 @@ GET /member-api/api/news/1
     "id": 1,
     "name": "한국경제"
   },
+  "themes": [
+    { "id": 1, "themeName": "반도체" },
+    { "id": 2, "themeName": "대형주" }
+  ],
   "createdAt": "2026-02-05T10:30:00"
 }
+```
+
+---
+
+## POST /{newsId}/themes
+
+> 뉴스에 테마 추가
+
+### Path Parameters
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| newsId | int | O | 뉴스 ID |
+
+### Request Body
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| themeIds | array(int) | O | 추가할 테마 ID 목록 |
+
+### Response `200 OK`
+
+성공 시 빈 응답
+
+### Response `400 Bad Request`
+
+뉴스를 찾을 수 없는 경우
+
+### Example Request
+
+```
+POST /member-api/api/news/1/themes
+Content-Type: application/json
+
+{
+  "themeIds": [1, 2, 3]
+}
+```
+
+---
+
+## DELETE /{newsId}/themes/{themeId}
+
+> 뉴스에서 테마 제거
+
+### Path Parameters
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| newsId | int | O | 뉴스 ID |
+| themeId | int | O | 제거할 테마 ID |
+
+### Response `204 No Content`
+
+성공 시 빈 응답
+
+### Response `400 Bad Request`
+
+뉴스를 찾을 수 없는 경우
+
+### Example Request
+
+```
+DELETE /member-api/api/news/1/themes/2
 ```

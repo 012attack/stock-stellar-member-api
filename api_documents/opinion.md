@@ -14,6 +14,8 @@
 | POST | `/api/news/{newsId}/opinions` | 뉴스에 의견 작성 | 필요 |
 | GET | `/api/news/{newsId}/opinions` | 특정 뉴스의 의견 목록 | 필요 |
 | GET | `/api/opinions/news` | 전체 뉴스 의견 목록 | 필요 |
+| PUT | `/api/daily-top30-records/{recordId}/opinions/{opinionId}` | 상한가 의견 수정 | 필요 |
+| PUT | `/api/news/{newsId}/opinions/{opinionId}` | 뉴스 의견 수정 | 필요 |
 
 ---
 
@@ -269,4 +271,100 @@ Authorization: Bearer {accessToken}
 ```
 GET /member-api/api/opinions/news?page=0&size=10
 Authorization: Bearer {accessToken}
+```
+
+---
+
+## PUT /api/daily-top30-records/{recordId}/opinions/{opinionId}
+
+> 상한가 레코드 의견 수정 (본인 의견만 수정 가능)
+
+### Path Parameters
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| recordId | int | O | 상한가 레코드 ID |
+| opinionId | int | O | 의견 ID |
+
+### Request Body
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| title | string | O | 수정할 제목 (최대 200자) |
+| content | string | O | 수정할 내용 |
+
+### Response `200 OK`
+
+| Field | Type | Description |
+|-------|------|-------------|
+| id | int | 의견 ID |
+| title | string | 수정된 제목 |
+| content | string | 수정된 내용 |
+| memberName | string | 작성자 이름 |
+| createdAt | datetime | 생성일시 |
+| targetType | string | 대상 타입 (RECORD) |
+| targetId | int | 대상 ID |
+
+### Example Request
+
+```
+PUT /member-api/api/daily-top30-records/1/opinions/1
+Authorization: Bearer {accessToken}
+Content-Type: application/json
+
+{
+  "title": "수정된 제목",
+  "content": "수정된 내용입니다."
+}
+```
+
+### Example Response
+
+```json
+{
+  "id": 1,
+  "title": "수정된 제목",
+  "content": "수정된 내용입니다.",
+  "memberName": "홍길동",
+  "createdAt": "2026-02-14T10:30:00",
+  "targetType": "RECORD",
+  "targetId": 1
+}
+```
+
+---
+
+## PUT /api/news/{newsId}/opinions/{opinionId}
+
+> 뉴스 의견 수정 (본인 의견만 수정 가능)
+
+### Path Parameters
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| newsId | int | O | 뉴스 ID |
+| opinionId | int | O | 의견 ID |
+
+### Request Body
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| title | string | O | 수정할 제목 (최대 200자) |
+| content | string | O | 수정할 내용 |
+
+### Response `200 OK`
+
+응답 형식은 상한가 의견 수정 응답과 동일합니다 (targetType은 NEWS).
+
+### Example Request
+
+```
+PUT /member-api/api/news/1/opinions/2
+Authorization: Bearer {accessToken}
+Content-Type: application/json
+
+{
+  "title": "수정된 뉴스 의견",
+  "content": "수정된 뉴스 의견 내용입니다."
+}
 ```

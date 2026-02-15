@@ -12,10 +12,10 @@ class Opinion(
     val id: Int? = null,
 
     @Column(name = "title", nullable = false, length = 200)
-    val title: String,
+    var title: String,
 
     @Column(name = "content", nullable = false, columnDefinition = "TEXT")
-    val content: String,
+    var content: String,
 
     @Enumerated(EnumType.STRING)
     @Column(name = "target_type", nullable = false, length = 20)
@@ -29,7 +29,14 @@ class Opinion(
     val member: Member? = null,
 
     @Column(name = "created_at")
-    val createdAt: LocalDateTime? = null
+    var createdAt: LocalDateTime? = null
 ) {
+    @PrePersist
+    fun prePersist() {
+        if (createdAt == null) {
+            createdAt = LocalDateTime.now()
+        }
+    }
+
     protected constructor() : this(null, "", "", TargetType.RECORD, 0, null, null)
 }

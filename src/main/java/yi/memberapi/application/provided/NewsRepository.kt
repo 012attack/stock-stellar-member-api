@@ -31,4 +31,7 @@ interface NewsRepository : JpaRepository<News, Int> {
 
     @Query("SELECT n FROM News n LEFT JOIN FETCH n.press WHERE n.id = :id")
     fun findByIdWithPress(id: Int): News?
+
+    @Query("SELECT n FROM News n LEFT JOIN FETCH n.press LEFT JOIN FETCH n.themes WHERE n.id = :id")
+    fun findByIdWithPressAndThemes(id: Int): News?
 }

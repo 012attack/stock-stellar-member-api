@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import yi.memberapi.adapter.webapi.dto.response.NewsResponse
 import yi.memberapi.adapter.webapi.dto.response.PressResponse
+import yi.memberapi.adapter.webapi.dto.response.ThemeResponse
 import yi.memberapi.application.provided.NewsRepository
 import yi.memberapi.application.required.NewsFinder
 
@@ -14,7 +15,7 @@ class QueryNewsFinder(
 ) : NewsFinder {
 
     override fun findById(id: Int): NewsResponse? {
-        return newsRepository.findByIdWithPress(id)?.let { news ->
+        return newsRepository.findByIdWithPressAndThemes(id)?.let { news ->
             NewsResponse(
                 id = news.id!!,
                 title = news.title,
@@ -23,6 +24,12 @@ class QueryNewsFinder(
                     PressResponse(
                         id = press.id!!,
                         name = press.name
+                    )
+                },
+                themes = news.themes.map { theme ->
+                    ThemeResponse(
+                        id = theme.id!!,
+                        themeName = theme.themeName
                     )
                 },
                 createdAt = news.createdAt

@@ -1,6 +1,7 @@
 package yi.memberapi.domain.news
 
 import jakarta.persistence.*
+import yi.memberapi.domain.theme.Theme
 import java.time.LocalDateTime
 
 @Entity
@@ -24,7 +25,15 @@ class News(
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "press_id")
-    val press: Press? = null
+    val press: Press? = null,
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+        name = "news_themes",
+        joinColumns = [JoinColumn(name = "news_id")],
+        inverseJoinColumns = [JoinColumn(name = "theme_id")]
+    )
+    val themes: MutableSet<Theme> = mutableSetOf()
 ) {
-    protected constructor() : this(null, "", "", null, null, null)
+    protected constructor() : this(null, "", "", null, null, null, mutableSetOf())
 }

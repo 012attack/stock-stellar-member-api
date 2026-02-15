@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional
 import yi.memberapi.adapter.webapi.dto.response.NewsListResponse
 import yi.memberapi.adapter.webapi.dto.response.NewsResponse
 import yi.memberapi.adapter.webapi.dto.response.PressResponse
+import yi.memberapi.adapter.webapi.dto.response.ThemeResponse
 import yi.memberapi.application.provided.NewsRepository
 import yi.memberapi.application.required.NewsLister
 
@@ -28,6 +29,12 @@ class QueryNewsLister(
                     PressResponse(
                         id = press.id!!,
                         name = press.name
+                    )
+                },
+                themes = news.themes.map { theme ->
+                    ThemeResponse(
+                        id = theme.id!!,
+                        themeName = theme.themeName
                     )
                 },
                 createdAt = news.createdAt
