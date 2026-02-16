@@ -49,3 +49,6 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## api document rules
 .\rules\api_document_rules.md
+
+## coding convention
+C:\yi-project\stockstellar\BE\member-api\.claude\rules\convention.md
