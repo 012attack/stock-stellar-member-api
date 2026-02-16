@@ -2,22 +2,21 @@ package yi.memberapi.application.impl.stock.command
 
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import yi.memberapi.application.provided.StockRepository
-import yi.memberapi.application.provided.ThemeRepository
+import yi.memberapi.application.required.StockFinder
+import yi.memberapi.application.required.ThemeFinder
 import yi.memberapi.application.required.StockThemeAdder
 
 @Service
 @Transactional
 class CommandStockThemeAdder(
-    private val stockRepository: StockRepository,
-    private val themeRepository: ThemeRepository
+    private val stockFinder: StockFinder,
+    private val themeFinder: ThemeFinder
 ) : StockThemeAdder {
 
     override fun add(stockId: Int, themeIds: List<Int>) {
-        val stock = stockRepository.findByIdWithThemes(stockId)
-            ?: throw IllegalArgumentException("Stock not found: $stockId")
+        val stock = stockFinder.findEntityByIdWithThemes(stockId)
 
-        val themes = themeRepository.findAllById(themeIds)
+        val themes = themeFinder.findAllEntitiesByIds(themeIds)
         stock.themes.addAll(themes)
     }
 }

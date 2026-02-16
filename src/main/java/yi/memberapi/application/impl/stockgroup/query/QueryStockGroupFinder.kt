@@ -7,12 +7,23 @@ import yi.memberapi.adapter.webapi.dto.response.StockResponse
 import yi.memberapi.adapter.webapi.dto.response.ThemeResponse
 import yi.memberapi.application.provided.StockGroupRepository
 import yi.memberapi.application.required.StockGroupFinder
+import yi.memberapi.domain.stockgroup.StockGroup
 
 @Service
 @Transactional(readOnly = true)
 class QueryStockGroupFinder(
     private val stockGroupRepository: StockGroupRepository
 ) : StockGroupFinder {
+
+    override fun findEntityByIdWithMember(id: Int): StockGroup {
+        return stockGroupRepository.findByIdWithMember(id)
+            ?: throw IllegalArgumentException("StockGroup not found: $id")
+    }
+
+    override fun findEntityByIdWithStocks(id: Int): StockGroup {
+        return stockGroupRepository.findByIdWithStocks(id)
+            ?: throw IllegalArgumentException("StockGroup not found: $id")
+    }
 
     override fun find(id: Int, memberId: Long): StockGroupDetailResponse {
         val stockGroup = stockGroupRepository.findByIdWithStocks(id)

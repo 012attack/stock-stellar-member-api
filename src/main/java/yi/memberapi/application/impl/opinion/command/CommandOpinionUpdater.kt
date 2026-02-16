@@ -4,18 +4,17 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import yi.memberapi.adapter.webapi.dto.request.UpdateOpinionRequest
 import yi.memberapi.adapter.webapi.dto.response.OpinionResponse
-import yi.memberapi.application.provided.OpinionRepository
+import yi.memberapi.application.required.OpinionFinder
 import yi.memberapi.application.required.OpinionUpdater
 
 @Service
 @Transactional
 class CommandOpinionUpdater(
-    private val opinionRepository: OpinionRepository
+    private val opinionFinder: OpinionFinder
 ) : OpinionUpdater {
 
     override fun update(opinionId: Int, request: UpdateOpinionRequest, memberId: Long): OpinionResponse {
-        val opinion = opinionRepository.findById(opinionId)
-            .orElseThrow { IllegalArgumentException("Opinion not found: $opinionId") }
+        val opinion = opinionFinder.findEntityById(opinionId)
 
         if (opinion.member?.id != memberId) {
             throw IllegalArgumentException("본인의 의견만 수정할 수 있습니다.")

@@ -2,22 +2,21 @@ package yi.memberapi.application.impl.news.command
 
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import yi.memberapi.application.provided.NewsRepository
-import yi.memberapi.application.provided.ThemeRepository
+import yi.memberapi.application.required.NewsFinder
+import yi.memberapi.application.required.ThemeFinder
 import yi.memberapi.application.required.NewsThemeAdder
 
 @Service
 @Transactional
 class CommandNewsThemeAdder(
-    private val newsRepository: NewsRepository,
-    private val themeRepository: ThemeRepository
+    private val newsFinder: NewsFinder,
+    private val themeFinder: ThemeFinder
 ) : NewsThemeAdder {
 
     override fun add(newsId: Int, themeIds: List<Int>) {
-        val news = newsRepository.findByIdWithPressAndThemes(newsId)
-            ?: throw IllegalArgumentException("News not found: $newsId")
+        val news = newsFinder.findEntityByIdWithPressAndThemes(newsId)
 
-        val themes = themeRepository.findAllById(themeIds)
+        val themes = themeFinder.findAllEntitiesByIds(themeIds)
         news.themes.addAll(themes)
     }
 }

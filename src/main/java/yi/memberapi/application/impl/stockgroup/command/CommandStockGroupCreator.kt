@@ -18,7 +18,6 @@ class CommandStockGroupCreator(
 
     override fun create(request: CreateStockGroupRequest, memberId: Long): StockGroupResponse {
         val member = memberFinder.findById(memberId)
-            .orElseThrow { IllegalArgumentException("Member not found: $memberId") }
 
         val stockGroup = StockGroup(
             title = request.title,

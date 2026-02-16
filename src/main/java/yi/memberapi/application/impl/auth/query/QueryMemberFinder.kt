@@ -13,8 +13,9 @@ class QueryMemberFinder(
     private val memberRepository: MemberRepository
 ) : MemberFinder {
 
-    override fun findById(id: Long): Optional<Member> {
+    override fun findById(id: Long): Member {
         return memberRepository.findById(id)
+            .orElseThrow { IllegalArgumentException("Member not found: $id") }
     }
 
     override fun findByUsername(username: String): Optional<Member> {

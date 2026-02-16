@@ -7,12 +7,18 @@ import yi.memberapi.adapter.webapi.dto.response.PressResponse
 import yi.memberapi.adapter.webapi.dto.response.ThemeResponse
 import yi.memberapi.application.provided.NewsRepository
 import yi.memberapi.application.required.NewsFinder
+import yi.memberapi.domain.news.News
 
 @Service
 @Transactional(readOnly = true)
 class QueryNewsFinder(
     private val newsRepository: NewsRepository
 ) : NewsFinder {
+
+    override fun findEntityByIdWithPressAndThemes(id: Int): News {
+        return newsRepository.findByIdWithPressAndThemes(id)
+            ?: throw IllegalArgumentException("News not found: $id")
+    }
 
     override fun findById(id: Int): NewsResponse? {
         return newsRepository.findByIdWithPressAndThemes(id)?.let { news ->

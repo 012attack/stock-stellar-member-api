@@ -7,6 +7,7 @@ import yi.memberapi.application.provided.NewsRepository
 import yi.memberapi.application.provided.StockRepository
 import yi.memberapi.application.provided.ThemeRepository
 import yi.memberapi.application.required.ThemeFinder
+import yi.memberapi.domain.theme.Theme
 
 @Service
 @Transactional(readOnly = true)
@@ -15,6 +16,10 @@ class QueryThemeFinder(
     private val newsRepository: NewsRepository,
     private val stockRepository: StockRepository
 ) : ThemeFinder {
+
+    override fun findAllEntitiesByIds(ids: List<Int>): List<Theme> {
+        return themeRepository.findAllById(ids)
+    }
 
     override fun findById(id: Int): ThemeDetailResponse? {
         val theme = themeRepository.findById(id).orElse(null) ?: return null

@@ -19,7 +19,6 @@ class CommandOpinionCreator(
 
     override fun create(request: CreateOpinionRequest, targetType: TargetType, targetId: Int, memberId: Long): OpinionResponse {
         val member = memberFinder.findById(memberId)
-            .orElseThrow { IllegalArgumentException("Member not found: $memberId") }
 
         val opinion = Opinion(
             title = request.title,

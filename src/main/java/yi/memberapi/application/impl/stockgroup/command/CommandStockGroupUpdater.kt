@@ -4,18 +4,17 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import yi.memberapi.adapter.webapi.dto.request.UpdateStockGroupRequest
 import yi.memberapi.adapter.webapi.dto.response.StockGroupResponse
-import yi.memberapi.application.provided.StockGroupRepository
+import yi.memberapi.application.required.StockGroupFinder
 import yi.memberapi.application.required.StockGroupUpdater
 
 @Service
 @Transactional
 class CommandStockGroupUpdater(
-    private val stockGroupRepository: StockGroupRepository
+    private val stockGroupFinder: StockGroupFinder
 ) : StockGroupUpdater {
 
     override fun update(id: Int, request: UpdateStockGroupRequest, memberId: Long): StockGroupResponse {
-        val stockGroup = stockGroupRepository.findByIdWithMember(id)
-            ?: throw IllegalArgumentException("StockGroup not found: $id")
+        val stockGroup = stockGroupFinder.findEntityByIdWithMember(id)
 
         if (stockGroup.member?.id != memberId) {
             throw IllegalArgumentException("Not authorized to update this stock group")
