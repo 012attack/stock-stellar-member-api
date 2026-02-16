@@ -11,6 +11,8 @@
 | GET | `/` | 종목 목록 조회 | 필요 |
 | GET | `/{id}` | 종목 상세 조회 (ID) | 필요 |
 | GET | `/code/{stockCode}` | 종목 상세 조회 (종목코드) | 필요 |
+| POST | `/{stockId}/themes` | 종목에 테마 추가 | 필요 |
+| DELETE | `/{stockId}/themes/{themeId}` | 종목에서 테마 제거 | 필요 |
 
 ---
 
@@ -26,6 +28,7 @@
 | size | int | X | 20 | 페이지 당 항목 수 |
 | stockName | string | X | - | 종목명으로 검색 (부분 일치) |
 | stockCode | string | X | - | 종목코드로 검색 (부분 일치) |
+| themeName | string | X | - | 테마명으로 필터 (부분 일치) |
 
 ### Response `200 OK`
 
@@ -45,6 +48,14 @@
 | stockCode | string | 종목코드 |
 | stockName | string | 종목명 |
 | companySummary | string | 회사 요약 (nullable) |
+| themes | array | 연결된 테마 목록 |
+
+### Theme Object (in Stock)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| id | int | 테마 ID |
+| themeName | string | 테마명 |
 
 ### Example Request
 
@@ -52,6 +63,7 @@
 GET /member-api/api/stocks?page=0&size=10
 GET /member-api/api/stocks?page=0&size=10&stockName=삼성
 GET /member-api/api/stocks?page=0&size=10&stockCode=005930
+GET /member-api/api/stocks?page=0&size=10&themeName=반도체
 ```
 
 ### Example Response
@@ -63,13 +75,20 @@ GET /member-api/api/stocks?page=0&size=10&stockCode=005930
       "id": 1,
       "stockCode": "005930",
       "stockName": "삼성전자",
-      "companySummary": "반도체 및 전자제품 제조"
+      "companySummary": "반도체 및 전자제품 제조",
+      "themes": [
+        { "id": 1, "themeName": "반도체" },
+        { "id": 2, "themeName": "AI" }
+      ]
     },
     {
       "id": 2,
       "stockCode": "373220",
       "stockName": "LG에너지솔루션",
-      "companySummary": "2차전지 제조"
+      "companySummary": "2차전지 제조",
+      "themes": [
+        { "id": 3, "themeName": "2차전지" }
+      ]
     }
   ],
   "page": 0,
@@ -99,6 +118,7 @@ GET /member-api/api/stocks?page=0&size=10&stockCode=005930
 | stockCode | string | 종목코드 |
 | stockName | string | 종목명 |
 | companySummary | string | 회사 요약 (nullable) |
+| themes | array | 연결된 테마 목록 |
 
 ### Response `404 Not Found`
 
@@ -117,7 +137,11 @@ GET /member-api/api/stocks/1
   "id": 1,
   "stockCode": "005930",
   "stockName": "삼성전자",
-  "companySummary": "반도체 및 전자제품 제조"
+  "companySummary": "반도체 및 전자제품 제조",
+  "themes": [
+    { "id": 1, "themeName": "반도체" },
+    { "id": 2, "themeName": "AI" }
+  ]
 }
 ```
 
@@ -141,6 +165,7 @@ GET /member-api/api/stocks/1
 | stockCode | string | 종목코드 |
 | stockName | string | 종목명 |
 | companySummary | string | 회사 요약 (nullable) |
+| themes | array | 연결된 테마 목록 |
 
 ### Response `404 Not Found`
 
@@ -159,6 +184,74 @@ GET /member-api/api/stocks/code/005930
   "id": 1,
   "stockCode": "005930",
   "stockName": "삼성전자",
-  "companySummary": "반도체 및 전자제품 제조"
+  "companySummary": "반도체 및 전자제품 제조",
+  "themes": [
+    { "id": 1, "themeName": "반도체" },
+    { "id": 2, "themeName": "AI" }
+  ]
 }
 ```
+
+---
+
+## POST /{stockId}/themes
+
+> 종목에 테마 추가
+
+### Path Parameters
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| stockId | int | O | 종목 ID |
+
+### Request Body
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| themeIds | array[int] | O | 추가할 테마 ID 목록 |
+
+### Example Request
+
+```
+POST /member-api/api/stocks/1/themes
+Content-Type: application/json
+
+{
+  "themeIds": [1, 2, 3]
+}
+```
+
+### Response `200 OK`
+
+성공 시 빈 응답
+
+### Response `400 Bad Request`
+
+종목을 찾을 수 없는 경우
+
+---
+
+## DELETE /{stockId}/themes/{themeId}
+
+> 종목에서 테마 제거
+
+### Path Parameters
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| stockId | int | O | 종목 ID |
+| themeId | int | O | 제거할 테마 ID |
+
+### Example Request
+
+```
+DELETE /member-api/api/stocks/1/themes/2
+```
+
+### Response `204 No Content`
+
+성공 시 빈 응답
+
+### Response `400 Bad Request`
+
+종목을 찾을 수 없는 경우

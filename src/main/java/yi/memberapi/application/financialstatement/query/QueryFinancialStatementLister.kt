@@ -47,7 +47,7 @@ class QueryFinancialStatementLister(
                 sjDiv = fs.sjDiv,
                 sjNm = fs.sjNm,
                 accountId = fs.accountId,
-                accountNm = fs.accountNm,
+                accountNm = fs.accountType?.accountNm ?: "",
                 accountDetail = fs.accountDetail,
                 thstrmNm = fs.thstrmNm,
                 thstrmAmount = fs.thstrmAmount,

@@ -51,7 +51,7 @@
 | sjDiv | string | 재무제표 종류 (BS: 재무상태표, IS: 손익계산서, CIS: 포괄손익계산서, CF: 현금흐름표, SCE: 자본변동표) |
 | sjNm | string | 재무제표 종류명 (nullable) |
 | accountId | string | 계정 ID (nullable) |
-| accountNm | string | 계정명 |
+| accountNm | string | 계정명 (account_types 테이블 참조) |
 | accountDetail | string | 계정 상세 (nullable) |
 | thstrmNm | string | 당기명 (nullable) |
 | thstrmAmount | long | 당기금액 (nullable) |

@@ -1,6 +1,7 @@
 package yi.memberapi.domain.financialstatement
 
 import jakarta.persistence.*
+import yi.memberapi.domain.accounttype.AccountType
 import yi.memberapi.domain.stock.Stock
 import java.time.LocalDateTime
 
@@ -39,8 +40,9 @@ class FinancialStatement(
     @Column(name = "account_id", length = 100)
     val accountId: String? = null,
 
-    @Column(name = "account_nm", nullable = false, length = 200)
-    val accountNm: String,
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "account_type_id", nullable = false)
+    val accountType: AccountType? = null,
 
     @Column(name = "account_detail", length = 500)
     val accountDetail: String? = null,
@@ -85,7 +87,7 @@ class FinancialStatement(
     val createdAt: LocalDateTime? = null
 ) {
     protected constructor() : this(
-        null, null, "", "", "", null, "", "", null, null, "",
+        null, null, "", "", "", null, "", "", null, null, null,
         null, null, null, null, null, null, null, null, null, null, null, null, null, null
     )
 }

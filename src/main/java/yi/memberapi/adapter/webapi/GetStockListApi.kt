@@ -19,9 +19,10 @@ class GetStockListApi(
         @RequestParam(defaultValue = "0") page: Int,
         @RequestParam(defaultValue = "20") size: Int,
         @RequestParam(required = false) stockName: String?,
-        @RequestParam(required = false) stockCode: String?
+        @RequestParam(required = false) stockCode: String?,
+        @RequestParam(required = false) themeName: String?
     ): ResponseEntity<StockListResponse> {
-        val response = stockLister.list(page, size, stockName, stockCode)
+        val response = stockLister.list(page, size, stockName, stockCode, themeName)
         return ResponseEntity.ok(response)
     }
 }

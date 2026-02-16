@@ -11,6 +11,7 @@ interface FinancialStatementRepository : JpaRepository<FinancialStatement, Int> 
     @Query("""
         SELECT fs FROM FinancialStatement fs
         LEFT JOIN FETCH fs.stock s
+        LEFT JOIN FETCH fs.accountType at
         WHERE (:stockName IS NULL OR s.stockName LIKE %:stockName%)
         AND (:bsnsYear IS NULL OR fs.bsnsYear = :bsnsYear)
         AND (:reprtCode IS NULL OR fs.reprtCode = :reprtCode)

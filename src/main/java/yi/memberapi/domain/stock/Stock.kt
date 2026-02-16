@@ -1,6 +1,7 @@
 package yi.memberapi.domain.stock
 
 import jakarta.persistence.*
+import yi.memberapi.domain.theme.Theme
 import java.time.LocalDateTime
 
 @Entity
@@ -23,7 +24,15 @@ class Stock(
     val createdAt: LocalDateTime? = null,
 
     @Column(name = "updated_at")
-    val updatedAt: LocalDateTime? = null
+    val updatedAt: LocalDateTime? = null,
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+        name = "stock_themes",
+        joinColumns = [JoinColumn(name = "stock_id")],
+        inverseJoinColumns = [JoinColumn(name = "theme_id")]
+    )
+    val themes: MutableSet<Theme> = mutableSetOf()
 ) {
-    protected constructor() : this(null, "", "", null, null, null)
+    protected constructor() : this(null, "", "", null, null, null, mutableSetOf())
 }
