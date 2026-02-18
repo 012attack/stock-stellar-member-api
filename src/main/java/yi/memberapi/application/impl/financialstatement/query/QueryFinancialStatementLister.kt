@@ -3,9 +3,9 @@ package yi.memberapi.application.impl.financialstatement.query
 import org.springframework.data.domain.PageRequest
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import yi.memberapi.adapter.webapi.dto.response.FinancialStatementListResponse
-import yi.memberapi.adapter.webapi.dto.response.FinancialStatementResponse
-import yi.memberapi.adapter.webapi.dto.response.StockResponse
+import yi.memberapi.adapter.webapi.financialstatement.dto.response.FinancialStatementListResponse
+import yi.memberapi.adapter.webapi.financialstatement.dto.response.FinancialStatementResponse
+import yi.memberapi.adapter.webapi.stock.dto.response.StockResponse
 import yi.memberapi.application.provided.FinancialStatementRepository
 import yi.memberapi.application.required.FinancialStatementLister
 

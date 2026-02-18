@@ -4,8 +4,8 @@ import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Sort
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import yi.memberapi.adapter.webapi.dto.response.MemberListResponse
-import yi.memberapi.adapter.webapi.dto.response.MemberResponse
+import yi.memberapi.adapter.webapi.auth.dto.response.MemberListResponse
+import yi.memberapi.adapter.webapi.auth.dto.response.MemberResponse
 import yi.memberapi.application.provided.MemberRepository
 import yi.memberapi.application.required.MemberLister
 

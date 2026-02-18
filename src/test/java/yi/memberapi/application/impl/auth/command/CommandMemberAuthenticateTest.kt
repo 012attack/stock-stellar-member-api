@@ -12,7 +12,7 @@ import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.authentication.BadCredentialsException
 import yi.memberapi.adapter.security.MemberUserDetails
 import yi.memberapi.adapter.security.MemberUserDetailsService
-import yi.memberapi.adapter.webapi.dto.request.LoginRequest
+import yi.memberapi.adapter.webapi.auth.dto.request.LoginRequest
 import yi.memberapi.application.impl.auth.service.AuthCookieManager
 import yi.memberapi.application.provided.RedisTokenRepository
 import yi.memberapi.common.exception.AuthException

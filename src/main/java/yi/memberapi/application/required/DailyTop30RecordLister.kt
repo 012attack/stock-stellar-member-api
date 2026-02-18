@@ -1,6 +1,6 @@
 package yi.memberapi.application.required
 
-import yi.memberapi.adapter.webapi.dto.response.DailyTop30RecordListResponse
+import yi.memberapi.adapter.webapi.record.dto.response.DailyTop30RecordListResponse
 import java.time.LocalDate
 
 interface DailyTop30RecordLister {

@@ -1,6 +1,6 @@
 package yi.memberapi.application.required
 
-import yi.memberapi.adapter.webapi.dto.response.FavoriteListResponse
+import yi.memberapi.adapter.webapi.favorite.dto.response.FavoriteListResponse
 import yi.memberapi.domain.favorite.FavoriteTargetType
 
 interface FavoriteLister {

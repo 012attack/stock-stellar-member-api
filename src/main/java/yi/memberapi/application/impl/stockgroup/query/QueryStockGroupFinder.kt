@@ -2,9 +2,9 @@ package yi.memberapi.application.impl.stockgroup.query
 
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import yi.memberapi.adapter.webapi.dto.response.StockGroupDetailResponse
-import yi.memberapi.adapter.webapi.dto.response.StockResponse
-import yi.memberapi.adapter.webapi.dto.response.ThemeResponse
+import yi.memberapi.adapter.webapi.stockgroup.dto.response.StockGroupDetailResponse
+import yi.memberapi.adapter.webapi.stock.dto.response.StockResponse
+import yi.memberapi.adapter.webapi.theme.dto.response.ThemeResponse
 import yi.memberapi.application.provided.StockGroupRepository
 import yi.memberapi.application.required.StockGroupFinder
 import yi.memberapi.domain.stockgroup.StockGroup

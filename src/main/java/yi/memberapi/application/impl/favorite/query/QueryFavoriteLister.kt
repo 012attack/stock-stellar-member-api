@@ -3,8 +3,8 @@ package yi.memberapi.application.impl.favorite.query
 import org.springframework.data.domain.PageRequest
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import yi.memberapi.adapter.webapi.dto.response.FavoriteListResponse
-import yi.memberapi.adapter.webapi.dto.response.FavoriteResponse
+import yi.memberapi.adapter.webapi.favorite.dto.response.FavoriteListResponse
+import yi.memberapi.adapter.webapi.favorite.dto.response.FavoriteResponse
 import yi.memberapi.application.provided.FavoriteRepository
 import yi.memberapi.application.required.FavoriteLister
 import yi.memberapi.domain.favorite.FavoriteTargetType

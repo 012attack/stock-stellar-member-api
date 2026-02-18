@@ -3,9 +3,9 @@ package yi.memberapi.application.impl.stock.query
 import org.springframework.data.domain.PageRequest
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import yi.memberapi.adapter.webapi.dto.response.StockListResponse
-import yi.memberapi.adapter.webapi.dto.response.StockResponse
-import yi.memberapi.adapter.webapi.dto.response.ThemeResponse
+import yi.memberapi.adapter.webapi.stock.dto.response.StockListResponse
+import yi.memberapi.adapter.webapi.stock.dto.response.StockResponse
+import yi.memberapi.adapter.webapi.theme.dto.response.ThemeResponse
 import yi.memberapi.application.provided.StockRepository
 import yi.memberapi.application.required.StockLister
 

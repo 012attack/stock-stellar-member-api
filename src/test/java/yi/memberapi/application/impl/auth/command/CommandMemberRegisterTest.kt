@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.springframework.security.crypto.password.PasswordEncoder
-import yi.memberapi.adapter.webapi.dto.request.RegisterRequest
+import yi.memberapi.adapter.webapi.auth.dto.request.RegisterRequest
 import yi.memberapi.application.provided.MemberRepository
 import yi.memberapi.application.required.MemberFinder
 import yi.memberapi.common.exception.AuthException

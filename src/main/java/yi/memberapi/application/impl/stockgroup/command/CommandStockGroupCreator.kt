@@ -2,8 +2,8 @@ package yi.memberapi.application.impl.stockgroup.command
 
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import yi.memberapi.adapter.webapi.dto.request.CreateStockGroupRequest
-import yi.memberapi.adapter.webapi.dto.response.StockGroupResponse
+import yi.memberapi.adapter.webapi.stockgroup.dto.request.CreateStockGroupRequest
+import yi.memberapi.adapter.webapi.stockgroup.dto.response.StockGroupResponse
 import yi.memberapi.application.provided.StockGroupRepository
 import yi.memberapi.application.required.MemberFinder
 import yi.memberapi.application.required.StockGroupCreator

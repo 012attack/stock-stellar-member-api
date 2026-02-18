@@ -3,8 +3,8 @@ package yi.memberapi.application.impl.stockgroup.query
 import org.springframework.data.domain.PageRequest
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import yi.memberapi.adapter.webapi.dto.response.StockGroupListResponse
-import yi.memberapi.adapter.webapi.dto.response.StockGroupResponse
+import yi.memberapi.adapter.webapi.stockgroup.dto.response.StockGroupListResponse
+import yi.memberapi.adapter.webapi.stockgroup.dto.response.StockGroupResponse
 import yi.memberapi.application.provided.StockGroupRepository
 import yi.memberapi.application.required.StockGroupLister
 

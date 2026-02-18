@@ -2,8 +2,8 @@ package yi.memberapi.application.impl.opinion.command
 
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import yi.memberapi.adapter.webapi.dto.request.CreateOpinionRequest
-import yi.memberapi.adapter.webapi.dto.response.OpinionResponse
+import yi.memberapi.adapter.webapi.opinion.dto.request.CreateOpinionRequest
+import yi.memberapi.adapter.webapi.opinion.dto.response.OpinionResponse
 import yi.memberapi.application.provided.OpinionRepository
 import yi.memberapi.application.required.MemberFinder
 import yi.memberapi.application.required.OpinionCreator

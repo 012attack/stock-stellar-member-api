@@ -1,6 +1,6 @@
 package yi.memberapi.application.required
 
-import yi.memberapi.adapter.webapi.dto.response.OpinionListResponse
+import yi.memberapi.adapter.webapi.opinion.dto.response.OpinionListResponse
 import yi.memberapi.domain.opinion.TargetType
 
 interface OpinionLister {

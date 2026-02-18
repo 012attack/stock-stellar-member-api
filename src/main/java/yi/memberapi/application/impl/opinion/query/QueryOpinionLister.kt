@@ -4,7 +4,12 @@ import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageRequest
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import yi.memberapi.adapter.webapi.dto.response.*
+import yi.memberapi.adapter.webapi.news.dto.response.PressResponse
+import yi.memberapi.adapter.webapi.opinion.dto.response.OpinionListResponse
+import yi.memberapi.adapter.webapi.opinion.dto.response.OpinionResponse
+import yi.memberapi.adapter.webapi.opinion.dto.response.OpinionTargetResponse
+import yi.memberapi.adapter.webapi.stock.dto.response.StockResponse
+import yi.memberapi.adapter.webapi.theme.dto.response.ThemeResponse
 import yi.memberapi.application.provided.DailyTop30RecordRepository
 import yi.memberapi.application.provided.NewsRepository
 import yi.memberapi.application.provided.OpinionRepository

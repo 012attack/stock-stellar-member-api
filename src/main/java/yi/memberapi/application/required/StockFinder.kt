@@ -1,6 +1,6 @@
 package yi.memberapi.application.required
 
-import yi.memberapi.adapter.webapi.dto.response.StockResponse
+import yi.memberapi.adapter.webapi.stock.dto.response.StockResponse
 import yi.memberapi.domain.stock.Stock
 
 interface StockFinder {

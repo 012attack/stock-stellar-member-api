@@ -2,7 +2,7 @@ package yi.memberapi.application.impl.favorite.query
 
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import yi.memberapi.adapter.webapi.dto.response.FavoriteCheckResponse
+import yi.memberapi.adapter.webapi.favorite.dto.response.FavoriteCheckResponse
 import yi.memberapi.application.provided.FavoriteRepository
 import yi.memberapi.application.required.FavoriteChecker
 import yi.memberapi.domain.favorite.FavoriteTargetType

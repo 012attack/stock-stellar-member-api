@@ -3,10 +3,10 @@ package yi.memberapi.application.impl.record.query
 import org.springframework.data.domain.PageRequest
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import yi.memberapi.adapter.webapi.dto.response.DailyTop30RecordListResponse
-import yi.memberapi.adapter.webapi.dto.response.DailyTop30RecordResponse
-import yi.memberapi.adapter.webapi.dto.response.StockResponse
-import yi.memberapi.adapter.webapi.dto.response.ThemeResponse
+import yi.memberapi.adapter.webapi.record.dto.response.DailyTop30RecordListResponse
+import yi.memberapi.adapter.webapi.record.dto.response.DailyTop30RecordResponse
+import yi.memberapi.adapter.webapi.stock.dto.response.StockResponse
+import yi.memberapi.adapter.webapi.theme.dto.response.ThemeResponse
 import yi.memberapi.application.provided.DailyTop30RecordRepository
 import yi.memberapi.application.required.DailyTop30RecordLister
 import yi.memberapi.domain.record.DailyTop30Record

@@ -3,8 +3,8 @@ package yi.memberapi.application.impl.theme.query
 import org.springframework.data.domain.PageRequest
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import yi.memberapi.adapter.webapi.dto.response.ThemeListResponse
-import yi.memberapi.adapter.webapi.dto.response.ThemeResponse
+import yi.memberapi.adapter.webapi.theme.dto.response.ThemeListResponse
+import yi.memberapi.adapter.webapi.theme.dto.response.ThemeResponse
 import yi.memberapi.application.provided.ThemeRepository
 import yi.memberapi.application.required.ThemeLister
 

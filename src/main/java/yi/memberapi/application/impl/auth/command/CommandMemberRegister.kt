@@ -3,8 +3,8 @@ package yi.memberapi.application.impl.auth.command
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import yi.memberapi.adapter.webapi.dto.request.RegisterRequest
-import yi.memberapi.adapter.webapi.dto.response.RegisterResponse
+import yi.memberapi.adapter.webapi.auth.dto.request.RegisterRequest
+import yi.memberapi.adapter.webapi.auth.dto.response.RegisterResponse
 import yi.memberapi.application.required.MemberFinder
 import yi.memberapi.application.required.MemberRegister
 import yi.memberapi.application.provided.MemberRepository

@@ -20,11 +20,12 @@ import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
-import yi.memberapi.adapter.webapi.dto.request.LoginRequest
-import yi.memberapi.adapter.webapi.dto.request.RegisterRequest
-import yi.memberapi.adapter.webapi.dto.response.LoginResponse
-import yi.memberapi.adapter.webapi.dto.response.RefreshResponse
-import yi.memberapi.adapter.webapi.dto.response.RegisterResponse
+import yi.memberapi.adapter.webapi.auth.AuthApi
+import yi.memberapi.adapter.webapi.auth.dto.request.LoginRequest
+import yi.memberapi.adapter.webapi.auth.dto.request.RegisterRequest
+import yi.memberapi.adapter.webapi.auth.dto.response.LoginResponse
+import yi.memberapi.adapter.webapi.auth.dto.response.RefreshResponse
+import yi.memberapi.adapter.webapi.auth.dto.response.RegisterResponse
 import yi.memberapi.application.required.MemberAuthenticator
 import yi.memberapi.application.required.MemberRegister
 import yi.memberapi.application.required.TokenRefresher
