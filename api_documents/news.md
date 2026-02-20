@@ -28,6 +28,7 @@
 | title | string | X | - | 제목 검색 (부분 일치) |
 | pressName | string | X | - | 언론사명으로 필터링 (부분 일치) |
 | themeName | string | X | - | 테마명으로 필터링 (부분 일치) |
+| favoriteOnly | boolean | X | false | true일 경우 즐겨찾기한 뉴스만 조회 (인증 필요) |
 
 ### Response `200 OK`
 
@@ -68,6 +69,8 @@
 
 ```
 GET /member-api/api/news?page=0&size=10&title=삼성&pressName=한국경제&themeName=반도체
+GET /member-api/api/news?page=0&size=10&favoriteOnly=true
+Authorization: Bearer {token}
 ```
 
 ### Example Response

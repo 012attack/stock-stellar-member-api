@@ -1,10 +1,12 @@
 package yi.memberapi.adapter.webapi.news
 
 import org.springframework.http.ResponseEntity
+import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
+import yi.memberapi.adapter.security.MemberUserDetails
 import yi.memberapi.adapter.webapi.news.dto.response.NewsListResponse
 import yi.memberapi.application.required.NewsLister
 
@@ -20,9 +22,15 @@ class GetNewsListApi(
         @RequestParam(defaultValue = "20") size: Int,
         @RequestParam(required = false) title: String?,
         @RequestParam(required = false) pressName: String?,
-        @RequestParam(required = false) themeName: String?
+        @RequestParam(required = false) themeName: String?,
+        @RequestParam(required = false) favoriteOnly: Boolean = false
     ): ResponseEntity<NewsListResponse> {
-        val response = newsLister.list(page, size, title, pressName, themeName)
+        val memberId = if (favoriteOnly) {
+            val memberUserDetails = SecurityContextHolder.getContext().authentication?.principal as? MemberUserDetails
+            memberUserDetails?.getMember()?.id
+        } else null
+
+        val response = newsLister.list(page, size, title, pressName, themeName, favoriteOnly, memberId)
         return ResponseEntity.ok(response)
     }
 }

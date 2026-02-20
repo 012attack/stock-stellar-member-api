@@ -24,6 +24,7 @@
 | page | int | X | 0 | 페이지 번호 (0부터 시작) |
 | size | int | X | 20 | 페이지 당 항목 수 |
 | themeName | string | X | - | 테마명으로 검색 (부분 일치) |
+| favoriteOnly | boolean | X | false | true일 경우 즐겨찾기한 테마만 조회 (인증 필요) |
 
 ### Response `200 OK`
 
@@ -47,6 +48,8 @@
 ```
 GET /member-api/api/themes?page=0&size=10
 GET /member-api/api/themes?page=0&size=10&themeName=반도체
+GET /member-api/api/themes?page=0&size=10&favoriteOnly=true
+Authorization: Bearer {token}
 ```
 
 ### Example Response

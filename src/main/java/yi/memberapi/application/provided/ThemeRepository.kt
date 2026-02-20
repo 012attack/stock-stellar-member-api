@@ -21,4 +21,21 @@ interface ThemeRepository : JpaRepository<Theme, Int> {
         themeName: String?,
         pageable: Pageable
     ): Page<Theme>
+
+    @Query("""
+        SELECT t FROM Theme t
+        WHERE t.id IN :favoriteIds
+        AND (:themeName IS NULL OR t.themeName LIKE %:themeName%)
+        ORDER BY t.themeName ASC
+    """,
+        countQuery = """
+        SELECT COUNT(t) FROM Theme t
+        WHERE t.id IN :favoriteIds
+        AND (:themeName IS NULL OR t.themeName LIKE %:themeName%)
+    """)
+    fun findWithFiltersByFavoriteIds(
+        themeName: String?,
+        favoriteIds: List<Int>,
+        pageable: Pageable
+    ): Page<Theme>
 }

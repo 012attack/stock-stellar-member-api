@@ -19,12 +19,13 @@ class GetStockGroupListApi(
     @GetMapping
     fun list(
         @RequestParam(defaultValue = "0") page: Int,
-        @RequestParam(defaultValue = "20") size: Int
+        @RequestParam(defaultValue = "20") size: Int,
+        @RequestParam(required = false) favoriteOnly: Boolean = false
     ): ResponseEntity<StockGroupListResponse> {
         val memberUserDetails = SecurityContextHolder.getContext().authentication!!.principal as MemberUserDetails
         val memberId = memberUserDetails.getMember().id!!
 
-        val response = stockGroupLister.list(page, size, memberId)
+        val response = stockGroupLister.list(page, size, memberId, favoriteOnly)
         return ResponseEntity.ok(response)
     }
 }

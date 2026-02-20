@@ -11,9 +11,11 @@ import yi.memberapi.adapter.webapi.opinion.dto.response.OpinionTargetResponse
 import yi.memberapi.adapter.webapi.stock.dto.response.StockResponse
 import yi.memberapi.adapter.webapi.theme.dto.response.ThemeResponse
 import yi.memberapi.application.provided.DailyTop30RecordRepository
+import yi.memberapi.application.provided.FavoriteRepository
 import yi.memberapi.application.provided.NewsRepository
 import yi.memberapi.application.provided.OpinionRepository
 import yi.memberapi.application.required.OpinionLister
+import yi.memberapi.domain.favorite.FavoriteTargetType
 import yi.memberapi.domain.opinion.Opinion
 import yi.memberapi.domain.opinion.TargetType
 
@@ -22,18 +24,31 @@ import yi.memberapi.domain.opinion.TargetType
 class QueryOpinionLister(
     private val opinionRepository: OpinionRepository,
     private val newsRepository: NewsRepository,
-    private val dailyTop30RecordRepository: DailyTop30RecordRepository
+    private val dailyTop30RecordRepository: DailyTop30RecordRepository,
+    private val favoriteRepository: FavoriteRepository
 ) : OpinionLister {
 
-    override fun listByTarget(targetType: TargetType, targetId: Int, page: Int, size: Int): OpinionListResponse {
+    override fun listByTarget(targetType: TargetType, targetId: Int, page: Int, size: Int, favoriteOnly: Boolean, memberId: Long?): OpinionListResponse {
         val pageable = PageRequest.of(page, size)
-        val opinionPage = opinionRepository.findByTargetTypeAndTargetId(targetType, targetId, pageable)
+        val opinionPage = if (favoriteOnly && memberId != null) {
+            val favoriteIds = favoriteRepository.findTargetIdsByMemberIdAndTargetType(memberId, FavoriteTargetType.OPINION)
+            if (favoriteIds.isEmpty()) return OpinionListResponse(opinions = emptyList(), page = page, size = size, totalElements = 0, totalPages = 0)
+            opinionRepository.findByTargetTypeAndTargetIdByFavoriteIds(targetType, targetId, favoriteIds, pageable)
+        } else {
+            opinionRepository.findByTargetTypeAndTargetId(targetType, targetId, pageable)
+        }
         return toResponse(opinionPage)
     }
 
-    override fun listByTargetType(targetType: TargetType, page: Int, size: Int): OpinionListResponse {
+    override fun listByTargetType(targetType: TargetType, page: Int, size: Int, favoriteOnly: Boolean, memberId: Long?): OpinionListResponse {
         val pageable = PageRequest.of(page, size)
-        val opinionPage = opinionRepository.findByTargetType(targetType, pageable)
+        val opinionPage = if (favoriteOnly && memberId != null) {
+            val favoriteIds = favoriteRepository.findTargetIdsByMemberIdAndTargetType(memberId, FavoriteTargetType.OPINION)
+            if (favoriteIds.isEmpty()) return OpinionListResponse(opinions = emptyList(), page = page, size = size, totalElements = 0, totalPages = 0)
+            opinionRepository.findByTargetTypeByFavoriteIds(targetType, favoriteIds, pageable)
+        } else {
+            opinionRepository.findByTargetType(targetType, pageable)
+        }
         return toResponse(opinionPage)
     }
 

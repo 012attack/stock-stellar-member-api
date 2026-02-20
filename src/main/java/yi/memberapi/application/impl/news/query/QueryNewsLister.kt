@@ -7,18 +7,28 @@ import yi.memberapi.adapter.webapi.news.dto.response.NewsListResponse
 import yi.memberapi.adapter.webapi.news.dto.response.NewsResponse
 import yi.memberapi.adapter.webapi.news.dto.response.PressResponse
 import yi.memberapi.adapter.webapi.theme.dto.response.ThemeResponse
+import yi.memberapi.application.provided.FavoriteRepository
 import yi.memberapi.application.provided.NewsRepository
 import yi.memberapi.application.required.NewsLister
+import yi.memberapi.domain.favorite.FavoriteTargetType
 
 @Service
 @Transactional(readOnly = true)
 class QueryNewsLister(
-    private val newsRepository: NewsRepository
+    private val newsRepository: NewsRepository,
+    private val favoriteRepository: FavoriteRepository
 ) : NewsLister {
 
-    override fun list(page: Int, size: Int, title: String?, pressName: String?, themeName: String?): NewsListResponse {
+    override fun list(page: Int, size: Int, title: String?, pressName: String?, themeName: String?, favoriteOnly: Boolean, memberId: Long?): NewsListResponse {
         val pageable = PageRequest.of(page, size)
-        val newsPage = newsRepository.findWithFilters(title, pressName, themeName, pageable)
+
+        val newsPage = if (favoriteOnly && memberId != null) {
+            val favoriteIds = favoriteRepository.findTargetIdsByMemberIdAndTargetType(memberId, FavoriteTargetType.NEWS)
+            if (favoriteIds.isEmpty()) return NewsListResponse(news = emptyList(), page = page, size = size, totalElements = 0, totalPages = 0)
+            newsRepository.findWithFiltersByFavoriteIds(title, pressName, themeName, favoriteIds, pageable)
+        } else {
+            newsRepository.findWithFilters(title, pressName, themeName, pageable)
+        }
 
         val newsList = newsPage.content.map { news ->
             NewsResponse(

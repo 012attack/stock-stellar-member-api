@@ -30,8 +30,98 @@ interface DailyTop30RecordRepository : JpaRepository<DailyTop30Record, Int> {
         themeName: String?
     ): List<DailyTop30Record>
 
+    @Query("SELECT r FROM DailyTop30Record r LEFT JOIN FETCH r.stock LEFT JOIN FETCH r.themes WHERE r.id IN :favoriteIds AND r.recordDate BETWEEN :startDate AND :endDate ORDER BY r.recordDate DESC, r.rank ASC")
+    fun findByRecordDateBetweenWithStockAndThemesByFavoriteIds(startDate: LocalDate, endDate: LocalDate, favoriteIds: List<Int>): List<DailyTop30Record>
+
+    @Query("""
+        SELECT DISTINCT r FROM DailyTop30Record r
+        LEFT JOIN FETCH r.stock s
+        LEFT JOIN FETCH r.themes t
+        WHERE r.id IN :favoriteIds
+        AND r.recordDate BETWEEN :startDate AND :endDate
+        AND (:stockName IS NULL OR s.stockName LIKE %:stockName%)
+        AND (:stockCode IS NULL OR s.stockCode LIKE %:stockCode%)
+        AND (:themeName IS NULL OR t.themeName LIKE %:themeName%)
+        ORDER BY r.recordDate DESC, r.rank ASC
+    """)
+    fun findByDateRangeWithFiltersByFavoriteIds(
+        startDate: LocalDate,
+        endDate: LocalDate,
+        stockName: String?,
+        stockCode: String?,
+        themeName: String?,
+        favoriteIds: List<Int>
+    ): List<DailyTop30Record>
+
     fun findByRecordDate(recordDate: LocalDate, pageable: Pageable): Page<DailyTop30Record>
 
     @Query("SELECT DISTINCT r.recordDate FROM DailyTop30Record r ORDER BY r.recordDate DESC")
     fun findDistinctRecordDates(pageable: Pageable): List<LocalDate>
+
+    @Query(
+        value = "SELECT DISTINCT r FROM DailyTop30Record r LEFT JOIN FETCH r.stock LEFT JOIN FETCH r.themes ORDER BY r.recordDate DESC, r.rank ASC",
+        countQuery = "SELECT COUNT(DISTINCT r) FROM DailyTop30Record r"
+    )
+    fun findAllWithStockAndThemes(pageable: Pageable): Page<DailyTop30Record>
+
+    @Query(
+        value = """
+            SELECT DISTINCT r FROM DailyTop30Record r
+            LEFT JOIN FETCH r.stock s
+            LEFT JOIN FETCH r.themes t
+            WHERE (:stockName IS NULL OR s.stockName LIKE %:stockName%)
+            AND (:stockCode IS NULL OR s.stockCode LIKE %:stockCode%)
+            AND (:themeName IS NULL OR t.themeName LIKE %:themeName%)
+            ORDER BY r.recordDate DESC, r.rank ASC
+        """,
+        countQuery = """
+            SELECT COUNT(DISTINCT r) FROM DailyTop30Record r
+            LEFT JOIN r.stock s
+            LEFT JOIN r.themes t
+            WHERE (:stockName IS NULL OR s.stockName LIKE %:stockName%)
+            AND (:stockCode IS NULL OR s.stockCode LIKE %:stockCode%)
+            AND (:themeName IS NULL OR t.themeName LIKE %:themeName%)
+        """
+    )
+    fun findWithFilters(
+        stockName: String?,
+        stockCode: String?,
+        themeName: String?,
+        pageable: Pageable
+    ): Page<DailyTop30Record>
+
+    @Query(
+        value = "SELECT DISTINCT r FROM DailyTop30Record r LEFT JOIN FETCH r.stock LEFT JOIN FETCH r.themes WHERE r.id IN :favoriteIds ORDER BY r.recordDate DESC, r.rank ASC",
+        countQuery = "SELECT COUNT(DISTINCT r) FROM DailyTop30Record r WHERE r.id IN :favoriteIds"
+    )
+    fun findAllWithStockAndThemesByFavoriteIds(favoriteIds: List<Int>, pageable: Pageable): Page<DailyTop30Record>
+
+    @Query(
+        value = """
+            SELECT DISTINCT r FROM DailyTop30Record r
+            LEFT JOIN FETCH r.stock s
+            LEFT JOIN FETCH r.themes t
+            WHERE r.id IN :favoriteIds
+            AND (:stockName IS NULL OR s.stockName LIKE %:stockName%)
+            AND (:stockCode IS NULL OR s.stockCode LIKE %:stockCode%)
+            AND (:themeName IS NULL OR t.themeName LIKE %:themeName%)
+            ORDER BY r.recordDate DESC, r.rank ASC
+        """,
+        countQuery = """
+            SELECT COUNT(DISTINCT r) FROM DailyTop30Record r
+            LEFT JOIN r.stock s
+            LEFT JOIN r.themes t
+            WHERE r.id IN :favoriteIds
+            AND (:stockName IS NULL OR s.stockName LIKE %:stockName%)
+            AND (:stockCode IS NULL OR s.stockCode LIKE %:stockCode%)
+            AND (:themeName IS NULL OR t.themeName LIKE %:themeName%)
+        """
+    )
+    fun findWithFiltersByFavoriteIds(
+        stockName: String?,
+        stockCode: String?,
+        themeName: String?,
+        favoriteIds: List<Int>,
+        pageable: Pageable
+    ): Page<DailyTop30Record>
 }

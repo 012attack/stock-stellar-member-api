@@ -5,10 +5,22 @@ import java.time.LocalDate
 
 interface DailyTop30RecordLister {
     fun listByDateRange(
-        startDate: LocalDate?,
-        endDate: LocalDate?,
+        startDate: LocalDate,
+        endDate: LocalDate,
         stockName: String? = null,
         stockCode: String? = null,
-        themeName: String? = null
+        themeName: String? = null,
+        favoriteOnly: Boolean = false,
+        memberId: Long? = null
+    ): DailyTop30RecordListResponse
+
+    fun listByPage(
+        page: Int,
+        size: Int,
+        stockName: String? = null,
+        stockCode: String? = null,
+        themeName: String? = null,
+        favoriteOnly: Boolean = false,
+        memberId: Long? = null
     ): DailyTop30RecordListResponse
 }

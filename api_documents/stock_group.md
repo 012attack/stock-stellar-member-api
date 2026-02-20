@@ -167,6 +167,7 @@ Authorization: Bearer {token}
 |-----------|------|----------|---------|-------------|
 | page | int | X | 0 | 페이지 번호 (0부터 시작) |
 | size | int | X | 20 | 페이지 당 항목 수 |
+| favoriteOnly | boolean | X | false | true일 경우 즐겨찾기한 종목 그룹만 조회 |
 
 ### Response `200 OK`
 
@@ -193,6 +194,9 @@ Authorization: Bearer {token}
 
 ```
 GET /member-api/api/stock-groups?page=0&size=10
+Authorization: Bearer {token}
+
+GET /member-api/api/stock-groups?page=0&size=10&favoriteOnly=true
 Authorization: Bearer {token}
 ```
 

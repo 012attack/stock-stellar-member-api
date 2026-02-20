@@ -19,6 +19,17 @@ interface StockGroupRepository : JpaRepository<StockGroup, Int> {
     """)
     fun findByMemberId(memberId: Long, pageable: Pageable): Page<StockGroup>
 
+    @Query("""
+        SELECT sg FROM StockGroup sg
+        WHERE sg.member.id = :memberId AND sg.id IN :favoriteIds
+        ORDER BY sg.createdAt DESC
+    """,
+        countQuery = """
+        SELECT COUNT(sg) FROM StockGroup sg
+        WHERE sg.member.id = :memberId AND sg.id IN :favoriteIds
+    """)
+    fun findByMemberIdAndFavoriteIds(memberId: Long, favoriteIds: List<Int>, pageable: Pageable): Page<StockGroup>
+
     @Query("SELECT sg FROM StockGroup sg LEFT JOIN FETCH sg.stocks WHERE sg.id = :id")
     fun findByIdWithStocks(id: Int): StockGroup?
 

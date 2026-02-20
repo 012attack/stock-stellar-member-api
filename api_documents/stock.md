@@ -29,6 +29,7 @@
 | stockName | string | X | - | 종목명으로 검색 (부분 일치) |
 | stockCode | string | X | - | 종목코드로 검색 (부분 일치) |
 | themeName | string | X | - | 테마명으로 필터 (부분 일치) |
+| favoriteOnly | boolean | X | false | true일 경우 즐겨찾기한 종목만 조회 (인증 필요) |
 
 ### Response `200 OK`
 
@@ -64,6 +65,8 @@ GET /member-api/api/stocks?page=0&size=10
 GET /member-api/api/stocks?page=0&size=10&stockName=삼성
 GET /member-api/api/stocks?page=0&size=10&stockCode=005930
 GET /member-api/api/stocks?page=0&size=10&themeName=반도체
+GET /member-api/api/stocks?page=0&size=10&favoriteOnly=true
+Authorization: Bearer {token}
 ```
 
 ### Example Response

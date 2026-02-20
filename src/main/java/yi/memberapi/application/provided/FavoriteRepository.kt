@@ -36,4 +36,7 @@ interface FavoriteRepository : JpaRepository<Favorite, Int> {
         targetType: FavoriteTargetType,
         targetId: Int
     )
+
+    @Query("SELECT f.targetId FROM Favorite f WHERE f.member.id = :memberId AND f.targetType = :targetType")
+    fun findTargetIdsByMemberIdAndTargetType(memberId: Long, targetType: FavoriteTargetType): List<Int>
 }
