@@ -20,6 +20,10 @@ class QueryNewsFinder(
             ?: throw IllegalArgumentException("News not found: $id")
     }
 
+    override fun findAllEntitiesByIds(ids: List<Int>): List<News> {
+        return newsRepository.findAllById(ids)
+    }
+
     override fun findById(id: Int): NewsResponse? {
         return newsRepository.findByIdWithPressAndThemes(id)?.let { news ->
             NewsResponse(

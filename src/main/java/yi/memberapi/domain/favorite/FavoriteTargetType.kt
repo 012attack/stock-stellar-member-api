@@ -5,6 +5,7 @@ enum class FavoriteTargetType {
     STOCK_GROUP,
     RECORD,
     NEWS,
+    NEWS_GROUP,
     THEME,
     OPINION
 }

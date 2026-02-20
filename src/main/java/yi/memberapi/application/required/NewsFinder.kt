@@ -6,4 +6,5 @@ import yi.memberapi.domain.news.News
 interface NewsFinder {
     fun findById(id: Int): NewsResponse?
     fun findEntityByIdWithPressAndThemes(id: Int): News
+    fun findAllEntitiesByIds(ids: List<Int>): List<News>
 }
