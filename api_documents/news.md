@@ -29,6 +29,7 @@
 | pressName | string | X | - | 언론사명으로 필터링 (부분 일치) |
 | themeName | string | X | - | 테마명으로 필터링 (부분 일치) |
 | favoriteOnly | boolean | X | false | true일 경우 즐겨찾기한 뉴스만 조회 (인증 필요) |
+| minScore | decimal | X | - | 별점(importance) 최소 점수 필터. 해당 점수 이상인 뉴스만 조회 (인증 필요) |
 
 ### Response `200 OK`
 
@@ -70,6 +71,14 @@
 ```
 GET /member-api/api/news?page=0&size=10&title=삼성&pressName=한국경제&themeName=반도체
 GET /member-api/api/news?page=0&size=10&favoriteOnly=true
+Authorization: Bearer {token}
+
+# 별점 필터 조회 (score >= 2인 뉴스만)
+GET /member-api/api/news?minScore=2
+Authorization: Bearer {token}
+
+# 즐겨찾기 + 별점 필터 동시 사용 (교집합)
+GET /member-api/api/news?favoriteOnly=true&minScore=3
 Authorization: Bearer {token}
 ```
 

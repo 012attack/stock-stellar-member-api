@@ -9,17 +9,38 @@ import yi.memberapi.adapter.webapi.stock.dto.response.StockResponse
 import yi.memberapi.adapter.webapi.theme.dto.response.ThemeResponse
 import yi.memberapi.application.provided.DailyTop30RecordRepository
 import yi.memberapi.application.provided.FavoriteRepository
+import yi.memberapi.application.provided.ImportanceRepository
 import yi.memberapi.application.required.DailyTop30RecordLister
 import yi.memberapi.domain.favorite.FavoriteTargetType
+import yi.memberapi.domain.importance.ImportanceTargetType
 import yi.memberapi.domain.record.DailyTop30Record
+import java.math.BigDecimal
 import java.time.LocalDate
 
 @Service
 @Transactional(readOnly = true)
 class QueryDailyTop30RecordLister(
     private val dailyTop30RecordRepository: DailyTop30RecordRepository,
-    private val favoriteRepository: FavoriteRepository
+    private val favoriteRepository: FavoriteRepository,
+    private val importanceRepository: ImportanceRepository
 ) : DailyTop30RecordLister {
+
+    private fun resolveFilteredIds(favoriteOnly: Boolean, memberId: Long?, minScore: BigDecimal?): List<Int>? {
+        val favoriteIds = if (favoriteOnly && memberId != null) {
+            favoriteRepository.findTargetIdsByMemberIdAndTargetType(memberId, FavoriteTargetType.RECORD)
+        } else null
+
+        val importanceIds = if (minScore != null && memberId != null) {
+            importanceRepository.findTargetIdsByMemberIdAndTargetTypeAndMinScore(memberId, ImportanceTargetType.RECORD, minScore)
+        } else null
+
+        return when {
+            favoriteIds != null && importanceIds != null -> favoriteIds.intersect(importanceIds.toSet()).toList()
+            favoriteIds != null -> favoriteIds
+            importanceIds != null -> importanceIds
+            else -> null
+        }
+    }
 
     override fun listByDateRange(
         startDate: LocalDate,
@@ -28,17 +49,19 @@ class QueryDailyTop30RecordLister(
         stockCode: String?,
         themeName: String?,
         favoriteOnly: Boolean,
-        memberId: Long?
+        memberId: Long?,
+        minScore: BigDecimal?
     ): DailyTop30RecordListResponse {
-        if (favoriteOnly && memberId != null) {
-            val favoriteIds = favoriteRepository.findTargetIdsByMemberIdAndTargetType(memberId, FavoriteTargetType.RECORD)
-            if (favoriteIds.isEmpty()) return DailyTop30RecordListResponse(records = emptyList(), startDate = startDate, endDate = endDate)
+        val filteredIds = resolveFilteredIds(favoriteOnly, memberId, minScore)
+
+        if (filteredIds != null) {
+            if (filteredIds.isEmpty()) return DailyTop30RecordListResponse(records = emptyList(), startDate = startDate, endDate = endDate)
 
             val hasFilters = stockName != null || stockCode != null || themeName != null
             val records = if (hasFilters) {
-                dailyTop30RecordRepository.findByDateRangeWithFiltersByFavoriteIds(startDate, endDate, stockName, stockCode, themeName, favoriteIds)
+                dailyTop30RecordRepository.findByDateRangeWithFiltersByFavoriteIds(startDate, endDate, stockName, stockCode, themeName, filteredIds)
             } else {
-                dailyTop30RecordRepository.findByRecordDateBetweenWithStockAndThemesByFavoriteIds(startDate, endDate, favoriteIds)
+                dailyTop30RecordRepository.findByRecordDateBetweenWithStockAndThemesByFavoriteIds(startDate, endDate, filteredIds)
             }
 
             return DailyTop30RecordListResponse(
@@ -69,13 +92,14 @@ class QueryDailyTop30RecordLister(
         stockCode: String?,
         themeName: String?,
         favoriteOnly: Boolean,
-        memberId: Long?
+        memberId: Long?,
+        minScore: BigDecimal?
     ): DailyTop30RecordListResponse {
         val pageable = PageRequest.of(page, size)
+        val filteredIds = resolveFilteredIds(favoriteOnly, memberId, minScore)
 
-        val recordPage = if (favoriteOnly && memberId != null) {
-            val favoriteIds = favoriteRepository.findTargetIdsByMemberIdAndTargetType(memberId, FavoriteTargetType.RECORD)
-            if (favoriteIds.isEmpty()) return DailyTop30RecordListResponse(
+        val recordPage = if (filteredIds != null) {
+            if (filteredIds.isEmpty()) return DailyTop30RecordListResponse(
                 records = emptyList(),
                 page = page,
                 size = size,
@@ -85,9 +109,9 @@ class QueryDailyTop30RecordLister(
 
             val hasFilters = stockName != null || stockCode != null || themeName != null
             if (hasFilters) {
-                dailyTop30RecordRepository.findWithFiltersByFavoriteIds(stockName, stockCode, themeName, favoriteIds, pageable)
+                dailyTop30RecordRepository.findWithFiltersByFavoriteIds(stockName, stockCode, themeName, filteredIds, pageable)
             } else {
-                dailyTop30RecordRepository.findAllWithStockAndThemesByFavoriteIds(favoriteIds, pageable)
+                dailyTop30RecordRepository.findAllWithStockAndThemesByFavoriteIds(filteredIds, pageable)
             }
         } else {
             val hasFilters = stockName != null || stockCode != null || themeName != null

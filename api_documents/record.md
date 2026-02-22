@@ -30,6 +30,7 @@
 | stockCode | string | X | - | 종목코드로 필터링 (부분 일치) |
 | themeName | string | X | - | 테마명으로 필터링 (부분 일치) |
 | favoriteOnly | boolean | X | false | true일 경우 즐겨찾기한 기록만 조회 (인증 필요) |
+| minScore | decimal | X | - | 별점(importance) 최소 점수 필터. 해당 점수 이상인 기록만 조회 (인증 필요) |
 
 ### Response `200 OK` (날짜 범위 조회 시)
 
@@ -94,6 +95,14 @@ GET /member-api/api/daily-top30-records?page=1&size=10&stockName=삼성
 
 # 즐겨찾기 조회
 GET /member-api/api/daily-top30-records?favoriteOnly=true
+Authorization: Bearer {token}
+
+# 별점 필터 조회 (score >= 3인 기록만)
+GET /member-api/api/daily-top30-records?minScore=3
+Authorization: Bearer {token}
+
+# 즐겨찾기 + 별점 필터 동시 사용 (교집합)
+GET /member-api/api/daily-top30-records?favoriteOnly=true&minScore=5
 Authorization: Bearer {token}
 ```
 

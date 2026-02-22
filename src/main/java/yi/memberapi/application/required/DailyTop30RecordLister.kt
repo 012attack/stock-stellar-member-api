@@ -1,6 +1,7 @@
 package yi.memberapi.application.required
 
 import yi.memberapi.adapter.webapi.record.dto.response.DailyTop30RecordListResponse
+import java.math.BigDecimal
 import java.time.LocalDate
 
 interface DailyTop30RecordLister {
@@ -11,7 +12,8 @@ interface DailyTop30RecordLister {
         stockCode: String? = null,
         themeName: String? = null,
         favoriteOnly: Boolean = false,
-        memberId: Long? = null
+        memberId: Long? = null,
+        minScore: BigDecimal? = null
     ): DailyTop30RecordListResponse
 
     fun listByPage(
@@ -21,6 +23,7 @@ interface DailyTop30RecordLister {
         stockCode: String? = null,
         themeName: String? = null,
         favoriteOnly: Boolean = false,
-        memberId: Long? = null
+        memberId: Long? = null,
+        minScore: BigDecimal? = null
     ): DailyTop30RecordListResponse
 }
