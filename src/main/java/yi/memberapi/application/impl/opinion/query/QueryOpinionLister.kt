@@ -14,10 +14,13 @@ import yi.memberapi.application.provided.DailyTop30RecordRepository
 import yi.memberapi.application.provided.FavoriteRepository
 import yi.memberapi.application.provided.NewsRepository
 import yi.memberapi.application.provided.OpinionRepository
+import yi.memberapi.application.provided.ReadCheckRepository
 import yi.memberapi.application.required.OpinionLister
 import yi.memberapi.domain.favorite.FavoriteTargetType
 import yi.memberapi.domain.opinion.Opinion
 import yi.memberapi.domain.opinion.TargetType
+import yi.memberapi.domain.readcheck.ReadCheckTargetType
+import yi.memberapi.domain.readcheck.ReadFilter
 
 @Service
 @Transactional(readOnly = true)
@@ -25,27 +28,94 @@ class QueryOpinionLister(
     private val opinionRepository: OpinionRepository,
     private val newsRepository: NewsRepository,
     private val dailyTop30RecordRepository: DailyTop30RecordRepository,
-    private val favoriteRepository: FavoriteRepository
+    private val favoriteRepository: FavoriteRepository,
+    private val readCheckRepository: ReadCheckRepository
 ) : OpinionLister {
 
-    override fun listByTarget(targetType: TargetType, targetId: Int, page: Int, size: Int, favoriteOnly: Boolean, memberId: Long?): OpinionListResponse {
+    override fun listByTarget(targetType: TargetType, targetId: Int, page: Int, size: Int, favoriteOnly: Boolean, memberId: Long?, readFilter: ReadFilter?): OpinionListResponse {
         val pageable = PageRequest.of(page, size)
-        val opinionPage = if (favoriteOnly && memberId != null) {
-            val favoriteIds = favoriteRepository.findTargetIdsByMemberIdAndTargetType(memberId, FavoriteTargetType.OPINION)
-            if (favoriteIds.isEmpty()) return OpinionListResponse(opinions = emptyList(), page = page, size = size, totalElements = 0, totalPages = 0)
-            opinionRepository.findByTargetTypeAndTargetIdByFavoriteIds(targetType, targetId, favoriteIds, pageable)
+        val emptyResponse = OpinionListResponse(opinions = emptyList(), page = page, size = size, totalElements = 0, totalPages = 0)
+
+        var filteredIds: List<Int>? = if (favoriteOnly && memberId != null) {
+            favoriteRepository.findTargetIdsByMemberIdAndTargetType(memberId, FavoriteTargetType.OPINION)
+        } else null
+
+        var excludeIds: List<Int>? = null
+
+        if (readFilter != null && memberId != null) {
+            val readIds = readCheckRepository.findTargetIdsByMemberIdAndTargetType(memberId, ReadCheckTargetType.OPINION)
+            when (readFilter) {
+                ReadFilter.READ -> {
+                    filteredIds = if (filteredIds != null) {
+                        filteredIds.intersect(readIds.toSet()).toList()
+                    } else {
+                        readIds
+                    }
+                }
+                ReadFilter.UNREAD -> {
+                    if (filteredIds != null) {
+                        filteredIds = filteredIds.minus(readIds.toSet())
+                    } else {
+                        excludeIds = readIds
+                    }
+                }
+            }
+        }
+
+        val opinionPage = if (filteredIds != null) {
+            if (filteredIds.isEmpty()) return emptyResponse
+            opinionRepository.findByTargetTypeAndTargetIdByFavoriteIds(targetType, targetId, filteredIds, pageable)
+        } else if (excludeIds != null) {
+            if (excludeIds.isEmpty()) {
+                opinionRepository.findByTargetTypeAndTargetId(targetType, targetId, pageable)
+            } else {
+                opinionRepository.findByTargetTypeAndTargetIdByExcludeIds(targetType, targetId, excludeIds, pageable)
+            }
         } else {
             opinionRepository.findByTargetTypeAndTargetId(targetType, targetId, pageable)
         }
         return toResponse(opinionPage)
     }
 
-    override fun listByTargetType(targetType: TargetType, page: Int, size: Int, favoriteOnly: Boolean, memberId: Long?): OpinionListResponse {
+    override fun listByTargetType(targetType: TargetType, page: Int, size: Int, favoriteOnly: Boolean, memberId: Long?, readFilter: ReadFilter?): OpinionListResponse {
         val pageable = PageRequest.of(page, size)
-        val opinionPage = if (favoriteOnly && memberId != null) {
-            val favoriteIds = favoriteRepository.findTargetIdsByMemberIdAndTargetType(memberId, FavoriteTargetType.OPINION)
-            if (favoriteIds.isEmpty()) return OpinionListResponse(opinions = emptyList(), page = page, size = size, totalElements = 0, totalPages = 0)
-            opinionRepository.findByTargetTypeByFavoriteIds(targetType, favoriteIds, pageable)
+        val emptyResponse = OpinionListResponse(opinions = emptyList(), page = page, size = size, totalElements = 0, totalPages = 0)
+
+        var filteredIds: List<Int>? = if (favoriteOnly && memberId != null) {
+            favoriteRepository.findTargetIdsByMemberIdAndTargetType(memberId, FavoriteTargetType.OPINION)
+        } else null
+
+        var excludeIds: List<Int>? = null
+
+        if (readFilter != null && memberId != null) {
+            val readIds = readCheckRepository.findTargetIdsByMemberIdAndTargetType(memberId, ReadCheckTargetType.OPINION)
+            when (readFilter) {
+                ReadFilter.READ -> {
+                    filteredIds = if (filteredIds != null) {
+                        filteredIds.intersect(readIds.toSet()).toList()
+                    } else {
+                        readIds
+                    }
+                }
+                ReadFilter.UNREAD -> {
+                    if (filteredIds != null) {
+                        filteredIds = filteredIds.minus(readIds.toSet())
+                    } else {
+                        excludeIds = readIds
+                    }
+                }
+            }
+        }
+
+        val opinionPage = if (filteredIds != null) {
+            if (filteredIds.isEmpty()) return emptyResponse
+            opinionRepository.findByTargetTypeByFavoriteIds(targetType, filteredIds, pageable)
+        } else if (excludeIds != null) {
+            if (excludeIds.isEmpty()) {
+                opinionRepository.findByTargetType(targetType, pageable)
+            } else {
+                opinionRepository.findByTargetTypeByExcludeIds(targetType, excludeIds, pageable)
+            }
         } else {
             opinionRepository.findByTargetType(targetType, pageable)
         }

@@ -31,6 +31,7 @@
 | themeName | string | X | - | 테마명으로 필터링 (부분 일치) |
 | favoriteOnly | boolean | X | false | true일 경우 즐겨찾기한 기록만 조회 (인증 필요) |
 | minScore | decimal | X | - | 별점(importance) 최소 점수 필터. 해당 점수 이상인 기록만 조회 (인증 필요) |
+| readFilter | string | X | - | 읽음 필터. `READ`: 읽은 항목만, `UNREAD`: 읽지 않은 항목만 (인증 필요) |
 
 ### Response `200 OK` (날짜 범위 조회 시)
 
@@ -103,6 +104,18 @@ Authorization: Bearer {token}
 
 # 즐겨찾기 + 별점 필터 동시 사용 (교집합)
 GET /member-api/api/daily-top30-records?favoriteOnly=true&minScore=5
+Authorization: Bearer {token}
+
+# 읽은 기록만 조회
+GET /member-api/api/daily-top30-records?readFilter=READ
+Authorization: Bearer {token}
+
+# 읽지 않은 기록만 조회
+GET /member-api/api/daily-top30-records?readFilter=UNREAD
+Authorization: Bearer {token}
+
+# 즐겨찾기 + 읽지 않은 기록 조회
+GET /member-api/api/daily-top30-records?favoriteOnly=true&readFilter=UNREAD
 Authorization: Bearer {token}
 ```
 

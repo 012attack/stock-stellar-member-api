@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController
 import yi.memberapi.adapter.security.MemberUserDetails
 import yi.memberapi.adapter.webapi.news.dto.response.NewsListResponse
 import yi.memberapi.application.required.NewsLister
+import yi.memberapi.domain.readcheck.ReadFilter
 import java.math.BigDecimal
 
 @RestController
@@ -25,14 +26,15 @@ class GetNewsListApi(
         @RequestParam(required = false) pressName: String?,
         @RequestParam(required = false) themeName: String?,
         @RequestParam(required = false) favoriteOnly: Boolean = false,
-        @RequestParam(required = false) minScore: BigDecimal? = null
+        @RequestParam(required = false) minScore: BigDecimal? = null,
+        @RequestParam(required = false) readFilter: ReadFilter? = null
     ): ResponseEntity<NewsListResponse> {
-        val memberId = if (favoriteOnly || minScore != null) {
+        val memberId = if (favoriteOnly || minScore != null || readFilter != null) {
             val memberUserDetails = SecurityContextHolder.getContext().authentication?.principal as? MemberUserDetails
             memberUserDetails?.getMember()?.id
         } else null
 
-        val response = newsLister.list(page, size, title, pressName, themeName, favoriteOnly, memberId, minScore)
+        val response = newsLister.list(page, size, title, pressName, themeName, favoriteOnly, memberId, minScore, readFilter)
         return ResponseEntity.ok(response)
     }
 }

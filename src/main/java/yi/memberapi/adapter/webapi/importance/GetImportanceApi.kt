@@ -26,6 +26,7 @@ class GetImportanceApi(
         val memberId = memberUserDetails.getMember().id!!
 
         val response = importanceGetter.get(targetType, targetId, memberId)
+            ?: return ResponseEntity.notFound().build()
         return ResponseEntity.ok(response)
     }
 }

@@ -72,4 +72,37 @@ interface OpinionRepository : JpaRepository<Opinion, Int> {
         favoriteIds: List<Int>,
         pageable: Pageable
     ): Page<Opinion>
+
+    @Query("""
+        SELECT o FROM Opinion o
+        LEFT JOIN FETCH o.member
+        WHERE o.id NOT IN :excludeIds AND o.targetType = :targetType AND o.targetId = :targetId
+        ORDER BY o.createdAt DESC
+    """,
+        countQuery = """
+        SELECT COUNT(o) FROM Opinion o
+        WHERE o.id NOT IN :excludeIds AND o.targetType = :targetType AND o.targetId = :targetId
+    """)
+    fun findByTargetTypeAndTargetIdByExcludeIds(
+        targetType: TargetType,
+        targetId: Int,
+        excludeIds: List<Int>,
+        pageable: Pageable
+    ): Page<Opinion>
+
+    @Query("""
+        SELECT o FROM Opinion o
+        LEFT JOIN FETCH o.member
+        WHERE o.id NOT IN :excludeIds AND o.targetType = :targetType
+        ORDER BY o.createdAt DESC
+    """,
+        countQuery = """
+        SELECT COUNT(o) FROM Opinion o
+        WHERE o.id NOT IN :excludeIds AND o.targetType = :targetType
+    """)
+    fun findByTargetTypeByExcludeIds(
+        targetType: TargetType,
+        excludeIds: List<Int>,
+        pageable: Pageable
+    ): Page<Opinion>
 }

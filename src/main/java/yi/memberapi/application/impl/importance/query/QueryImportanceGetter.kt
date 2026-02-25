@@ -13,10 +13,10 @@ class QueryImportanceGetter(
     private val importanceRepository: ImportanceRepository
 ) : ImportanceGetter {
 
-    override fun get(targetType: ImportanceTargetType, targetId: Int, memberId: Long): ImportanceResponse {
+    override fun get(targetType: ImportanceTargetType, targetId: Int, memberId: Long): ImportanceResponse? {
         val importance = importanceRepository.findByMemberIdAndTargetTypeAndTargetId(
             memberId, targetType, targetId
-        ).orElseThrow { IllegalArgumentException("별점이 존재하지 않습니다.") }
+        ).orElse(null) ?: return null
 
         return ImportanceResponse(
             id = importance.id!!,

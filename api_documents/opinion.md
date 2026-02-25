@@ -94,6 +94,7 @@ Content-Type: application/json
 | page | int | X | 0 | 페이지 번호 (0부터 시작) |
 | size | int | X | 20 | 페이지 당 항목 수 |
 | favoriteOnly | boolean | X | false | true일 경우 즐겨찾기한 의견만 조회 (인증 필요) |
+| readFilter | string | X | - | 읽음 필터. `READ`: 읽은 항목만, `UNREAD`: 읽지 않은 항목만 (인증 필요) |
 
 ### Response `200 OK`
 
@@ -155,6 +156,9 @@ Authorization: Bearer {accessToken}
 
 GET /member-api/api/daily-top30-records/1/opinions?page=0&size=10&favoriteOnly=true
 Authorization: Bearer {accessToken}
+
+GET /member-api/api/daily-top30-records/1/opinions?page=0&size=10&readFilter=UNREAD
+Authorization: Bearer {accessToken}
 ```
 
 ### Example Response
@@ -211,6 +215,7 @@ Authorization: Bearer {accessToken}
 | page | int | X | 0 | 페이지 번호 (0부터 시작) |
 | size | int | X | 20 | 페이지 당 항목 수 |
 | favoriteOnly | boolean | X | false | true일 경우 즐겨찾기한 의견만 조회 (인증 필요) |
+| readFilter | string | X | - | 읽음 필터. `READ`: 읽은 항목만, `UNREAD`: 읽지 않은 항목만 (인증 필요) |
 
 ### Response `200 OK`
 
@@ -223,6 +228,9 @@ GET /member-api/api/opinions/records?page=0&size=10
 Authorization: Bearer {accessToken}
 
 GET /member-api/api/opinions/records?page=0&size=10&favoriteOnly=true
+Authorization: Bearer {accessToken}
+
+GET /member-api/api/opinions/records?page=0&size=10&readFilter=READ
 Authorization: Bearer {accessToken}
 ```
 
@@ -295,6 +303,7 @@ Content-Type: application/json
 | page | int | X | 0 | 페이지 번호 (0부터 시작) |
 | size | int | X | 20 | 페이지 당 항목 수 |
 | favoriteOnly | boolean | X | false | true일 경우 즐겨찾기한 의견만 조회 (인증 필요) |
+| readFilter | string | X | - | 읽음 필터. `READ`: 읽은 항목만, `UNREAD`: 읽지 않은 항목만 (인증 필요) |
 
 ### Response `200 OK`
 
@@ -307,6 +316,9 @@ GET /member-api/api/news/1/opinions?page=0&size=10
 Authorization: Bearer {accessToken}
 
 GET /member-api/api/news/1/opinions?page=0&size=10&favoriteOnly=true
+Authorization: Bearer {accessToken}
+
+GET /member-api/api/news/1/opinions?page=0&size=10&readFilter=UNREAD
 Authorization: Bearer {accessToken}
 ```
 
@@ -323,6 +335,7 @@ Authorization: Bearer {accessToken}
 | page | int | X | 0 | 페이지 번호 (0부터 시작) |
 | size | int | X | 20 | 페이지 당 항목 수 |
 | favoriteOnly | boolean | X | false | true일 경우 즐겨찾기한 의견만 조회 (인증 필요) |
+| readFilter | string | X | - | 읽음 필터. `READ`: 읽은 항목만, `UNREAD`: 읽지 않은 항목만 (인증 필요) |
 
 ### Response `200 OK`
 
@@ -335,6 +348,9 @@ GET /member-api/api/opinions/news?page=0&size=10
 Authorization: Bearer {accessToken}
 
 GET /member-api/api/opinions/news?page=0&size=10&favoriteOnly=true
+Authorization: Bearer {accessToken}
+
+GET /member-api/api/opinions/news?page=0&size=10&readFilter=READ
 Authorization: Bearer {accessToken}
 ```
 

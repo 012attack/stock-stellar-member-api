@@ -30,6 +30,7 @@
 | themeName | string | X | - | 테마명으로 필터링 (부분 일치) |
 | favoriteOnly | boolean | X | false | true일 경우 즐겨찾기한 뉴스만 조회 (인증 필요) |
 | minScore | decimal | X | - | 별점(importance) 최소 점수 필터. 해당 점수 이상인 뉴스만 조회 (인증 필요) |
+| readFilter | string | X | - | 읽음 필터. `READ`: 읽은 항목만, `UNREAD`: 읽지 않은 항목만 (인증 필요) |
 
 ### Response `200 OK`
 
@@ -79,6 +80,14 @@ Authorization: Bearer {token}
 
 # 즐겨찾기 + 별점 필터 동시 사용 (교집합)
 GET /member-api/api/news?favoriteOnly=true&minScore=3
+Authorization: Bearer {token}
+
+# 읽은 뉴스만 조회
+GET /member-api/api/news?readFilter=READ
+Authorization: Bearer {token}
+
+# 읽지 않은 뉴스만 조회
+GET /member-api/api/news?readFilter=UNREAD
 Authorization: Bearer {token}
 ```
 

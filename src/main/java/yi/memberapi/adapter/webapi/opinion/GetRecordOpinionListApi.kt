@@ -7,6 +7,7 @@ import yi.memberapi.adapter.security.MemberUserDetails
 import yi.memberapi.adapter.webapi.opinion.dto.response.OpinionListResponse
 import yi.memberapi.application.required.OpinionLister
 import yi.memberapi.domain.opinion.TargetType
+import yi.memberapi.domain.readcheck.ReadFilter
 
 @RestController
 class GetRecordOpinionListApi(
@@ -18,14 +19,15 @@ class GetRecordOpinionListApi(
         @PathVariable recordId: Int,
         @RequestParam(defaultValue = "0") page: Int,
         @RequestParam(defaultValue = "20") size: Int,
-        @RequestParam(required = false) favoriteOnly: Boolean = false
+        @RequestParam(required = false) favoriteOnly: Boolean = false,
+        @RequestParam(required = false) readFilter: ReadFilter? = null
     ): ResponseEntity<OpinionListResponse> {
-        val memberId = if (favoriteOnly) {
+        val memberId = if (favoriteOnly || readFilter != null) {
             val memberUserDetails = SecurityContextHolder.getContext().authentication?.principal as? MemberUserDetails
             memberUserDetails?.getMember()?.id
         } else null
 
-        val response = opinionLister.listByTarget(TargetType.RECORD, recordId, page, size, favoriteOnly, memberId)
+        val response = opinionLister.listByTarget(TargetType.RECORD, recordId, page, size, favoriteOnly, memberId, readFilter)
         return ResponseEntity.ok(response)
     }
 
@@ -33,14 +35,15 @@ class GetRecordOpinionListApi(
     fun getAllRecordOpinions(
         @RequestParam(defaultValue = "0") page: Int,
         @RequestParam(defaultValue = "20") size: Int,
-        @RequestParam(required = false) favoriteOnly: Boolean = false
+        @RequestParam(required = false) favoriteOnly: Boolean = false,
+        @RequestParam(required = false) readFilter: ReadFilter? = null
     ): ResponseEntity<OpinionListResponse> {
-        val memberId = if (favoriteOnly) {
+        val memberId = if (favoriteOnly || readFilter != null) {
             val memberUserDetails = SecurityContextHolder.getContext().authentication?.principal as? MemberUserDetails
             memberUserDetails?.getMember()?.id
         } else null
 
-        val response = opinionLister.listByTargetType(TargetType.RECORD, page, size, favoriteOnly, memberId)
+        val response = opinionLister.listByTargetType(TargetType.RECORD, page, size, favoriteOnly, memberId, readFilter)
         return ResponseEntity.ok(response)
     }
 }

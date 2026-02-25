@@ -10,9 +10,12 @@ import yi.memberapi.adapter.webapi.theme.dto.response.ThemeResponse
 import yi.memberapi.application.provided.FavoriteRepository
 import yi.memberapi.application.provided.ImportanceRepository
 import yi.memberapi.application.provided.NewsRepository
+import yi.memberapi.application.provided.ReadCheckRepository
 import yi.memberapi.application.required.NewsLister
 import yi.memberapi.domain.favorite.FavoriteTargetType
 import yi.memberapi.domain.importance.ImportanceTargetType
+import yi.memberapi.domain.readcheck.ReadCheckTargetType
+import yi.memberapi.domain.readcheck.ReadFilter
 import java.math.BigDecimal
 
 @Service
@@ -20,10 +23,11 @@ import java.math.BigDecimal
 class QueryNewsLister(
     private val newsRepository: NewsRepository,
     private val favoriteRepository: FavoriteRepository,
-    private val importanceRepository: ImportanceRepository
+    private val importanceRepository: ImportanceRepository,
+    private val readCheckRepository: ReadCheckRepository
 ) : NewsLister {
 
-    override fun list(page: Int, size: Int, title: String?, pressName: String?, themeName: String?, favoriteOnly: Boolean, memberId: Long?, minScore: BigDecimal?): NewsListResponse {
+    override fun list(page: Int, size: Int, title: String?, pressName: String?, themeName: String?, favoriteOnly: Boolean, memberId: Long?, minScore: BigDecimal?, readFilter: ReadFilter?): NewsListResponse {
         val pageable = PageRequest.of(page, size)
 
         val favoriteIds = if (favoriteOnly && memberId != null) {
@@ -34,7 +38,7 @@ class QueryNewsLister(
             importanceRepository.findTargetIdsByMemberIdAndTargetTypeAndMinScore(memberId, ImportanceTargetType.NEWS, minScore)
         } else null
 
-        val filteredIds = when {
+        val baseFilteredIds = when {
             favoriteIds != null && importanceIds != null -> favoriteIds.intersect(importanceIds.toSet()).toList()
             favoriteIds != null -> favoriteIds
             importanceIds != null -> importanceIds
@@ -43,9 +47,38 @@ class QueryNewsLister(
 
         val emptyResponse = NewsListResponse(news = emptyList(), page = page, size = size, totalElements = 0, totalPages = 0)
 
+        var filteredIds = baseFilteredIds
+        var excludeIds: List<Int>? = null
+
+        if (readFilter != null && memberId != null) {
+            val readIds = readCheckRepository.findTargetIdsByMemberIdAndTargetType(memberId, ReadCheckTargetType.NEWS)
+            when (readFilter) {
+                ReadFilter.READ -> {
+                    filteredIds = if (filteredIds != null) {
+                        filteredIds.intersect(readIds.toSet()).toList()
+                    } else {
+                        readIds
+                    }
+                }
+                ReadFilter.UNREAD -> {
+                    if (filteredIds != null) {
+                        filteredIds = filteredIds.minus(readIds.toSet())
+                    } else {
+                        excludeIds = readIds
+                    }
+                }
+            }
+        }
+
         val newsPage = if (filteredIds != null) {
             if (filteredIds.isEmpty()) return emptyResponse
             newsRepository.findWithFiltersByFavoriteIds(title, pressName, themeName, filteredIds, pageable)
+        } else if (excludeIds != null) {
+            if (excludeIds.isEmpty()) {
+                newsRepository.findWithFilters(title, pressName, themeName, pageable)
+            } else {
+                newsRepository.findWithFiltersByExcludeIds(title, pressName, themeName, excludeIds, pageable)
+            }
         } else {
             newsRepository.findWithFilters(title, pressName, themeName, pageable)
         }

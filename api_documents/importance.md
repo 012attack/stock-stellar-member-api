@@ -79,6 +79,7 @@ Content-Type: application/json
 ## 2. 별점 조회
 
 특정 대상에 대한 현재 사용자의 별점을 조회합니다.
+별점이 없는 경우 `null`을 반환합니다 (에러가 아닌 정상 응답).
 
 ### Request
 
@@ -93,6 +94,8 @@ GET /member-api/api/importances?targetType={targetType}&targetId={targetId}
 
 ### Response (200 OK)
 
+별점이 존재하는 경우:
+
 | 필드 | 타입 | 설명 |
 |------|------|------|
 | `id` | Integer | 중요도 ID |
@@ -104,6 +107,8 @@ GET /member-api/api/importances?targetType={targetType}&targetId={targetId}
 
 ### Response Body 예시
 
+별점이 존재하는 경우:
+
 ```json
 {
   "id": 1,
@@ -113,6 +118,12 @@ GET /member-api/api/importances?targetType={targetType}&targetId={targetId}
   "createdAt": "2026-02-22T21:07:00",
   "updatedAt": "2026-02-22T21:10:00"
 }
+```
+
+별점이 없는 경우:
+
+```json
+null
 ```
 
 ---

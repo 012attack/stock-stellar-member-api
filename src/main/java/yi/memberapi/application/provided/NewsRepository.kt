@@ -75,4 +75,30 @@ interface NewsRepository : JpaRepository<News, Int> {
         ORDER BY n.createdAt DESC
     """)
     fun findByThemeId(themeId: Int): List<News>
+
+    @Query("""
+        SELECT DISTINCT n FROM News n
+        LEFT JOIN FETCH n.press
+        LEFT JOIN n.themes t
+        WHERE n.id NOT IN :excludeIds
+        AND (:title IS NULL OR n.title LIKE %:title%)
+        AND (:pressName IS NULL OR n.press.name LIKE %:pressName%)
+        AND (:themeName IS NULL OR t.themeName LIKE %:themeName%)
+        ORDER BY n.createdAt DESC
+    """,
+        countQuery = """
+        SELECT COUNT(DISTINCT n) FROM News n
+        LEFT JOIN n.themes t
+        WHERE n.id NOT IN :excludeIds
+        AND (:title IS NULL OR n.title LIKE %:title%)
+        AND (:pressName IS NULL OR n.press.name LIKE %:pressName%)
+        AND (:themeName IS NULL OR t.themeName LIKE %:themeName%)
+    """)
+    fun findWithFiltersByExcludeIds(
+        title: String?,
+        pressName: String?,
+        themeName: String?,
+        excludeIds: List<Int>,
+        pageable: Pageable
+    ): Page<News>
 }

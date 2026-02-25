@@ -9,27 +9,33 @@ import org.junit.jupiter.api.Test
 import org.springframework.data.redis.core.RedisTemplate
 import org.springframework.data.redis.core.SetOperations
 import org.springframework.data.redis.core.ValueOperations
+
 import yi.memberapi.domain.token.RefreshTokenInfo
 import java.time.Duration
 import java.time.Instant
 
 class RedisTokenRepositoryTest {
 
-    private lateinit var redisTemplate: RedisTemplate<String, Any>
-    private lateinit var valueOperations: ValueOperations<String, Any>
-    private lateinit var setOperations: SetOperations<String, Any>
+    private lateinit var refreshTokenRedisTemplate: RedisTemplate<String, RefreshTokenInfo>
+    private lateinit var tokenStringRedisTemplate: RedisTemplate<String, String>
+    private lateinit var refreshValueOperations: ValueOperations<String, RefreshTokenInfo>
+    private lateinit var stringValueOperations: ValueOperations<String, String>
+    private lateinit var stringSetOperations: SetOperations<String, String>
     private lateinit var redisTokenRepository: RedisTokenRepository
 
     @BeforeEach
     fun setUp() {
-        redisTemplate = mockk(relaxed = true)
-        valueOperations = mockk(relaxed = true)
-        setOperations = mockk(relaxed = true)
+        refreshTokenRedisTemplate = mockk(relaxed = true)
+        tokenStringRedisTemplate = mockk(relaxed = true)
+        refreshValueOperations = mockk(relaxed = true)
+        stringValueOperations = mockk(relaxed = true)
+        stringSetOperations = mockk(relaxed = true)
 
-        every { redisTemplate.opsForValue() } returns valueOperations
-        every { redisTemplate.opsForSet() } returns setOperations
+        every { refreshTokenRedisTemplate.opsForValue() } returns refreshValueOperations
+        every { tokenStringRedisTemplate.opsForValue() } returns stringValueOperations
+        every { tokenStringRedisTemplate.opsForSet() } returns stringSetOperations
 
-        redisTokenRepository = RedisTokenRepository(redisTemplate)
+        redisTokenRepository = RedisTokenRepository(refreshTokenRedisTemplate, tokenStringRedisTemplate)
     }
 
     @Nested
@@ -46,10 +52,10 @@ class RedisTokenRepositoryTest {
             redisTokenRepository.saveRefreshToken(token, tokenInfo, ttlSeconds)
 
             verify {
-                valueOperations.set(match { it.startsWith("refresh_token:") }, eq(tokenInfo), any<Duration>())
+                refreshValueOperations.set(match { it.startsWith("refresh_token:") }, eq(tokenInfo), any<Duration>())
             }
             verify {
-                setOperations.add(eq("user_tokens:${tokenInfo.memberId}"), any<String>())
+                stringSetOperations.add(eq("user_tokens:${tokenInfo.memberId}"), any<String>())
             }
         }
     }
@@ -64,7 +70,7 @@ class RedisTokenRepositoryTest {
             val token = "test-refresh-token"
             val tokenInfo = createRefreshTokenInfo()
 
-            every { valueOperations.get(any<String>()) } returns tokenInfo
+            every { refreshValueOperations.get(any<String>()) } returns tokenInfo
 
             val result = redisTokenRepository.findRefreshToken(token)
 
@@ -78,7 +84,7 @@ class RedisTokenRepositoryTest {
         fun findRefreshToken_notExists() {
             val token = "non-existent-token"
 
-            every { valueOperations.get(any<String>()) } returns null
+            every { refreshValueOperations.get(any<String>()) } returns null
 
             val result = redisTokenRepository.findRefreshToken(token)
 
@@ -96,13 +102,13 @@ class RedisTokenRepositoryTest {
             val token = "test-refresh-token"
             val tokenInfo = createRefreshTokenInfo()
 
-            every { valueOperations.get(any<String>()) } returns tokenInfo
-            every { redisTemplate.delete(any<String>()) } returns true
+            every { refreshValueOperations.get(any<String>()) } returns tokenInfo
+            every { refreshTokenRedisTemplate.delete(any<String>()) } returns true
 
             redisTokenRepository.deleteRefreshToken(token)
 
-            verify { redisTemplate.delete(match<String> { it.startsWith("refresh_token:") }) }
-            verify { setOperations.remove(eq("user_tokens:${tokenInfo.memberId}"), any()) }
+            verify { refreshTokenRedisTemplate.delete(match<String> { it.startsWith("refresh_token:") }) }
+            verify { stringSetOperations.remove(eq("user_tokens:${tokenInfo.memberId}"), any()) }
         }
 
         @Test
@@ -110,8 +116,8 @@ class RedisTokenRepositoryTest {
         fun deleteRefreshToken_notExists() {
             val token = "non-existent-token"
 
-            every { valueOperations.get(any<String>()) } returns null
-            every { redisTemplate.delete(any<String>()) } returns false
+            every { refreshValueOperations.get(any<String>()) } returns null
+            every { refreshTokenRedisTemplate.delete(any<String>()) } returns false
 
             assertDoesNotThrow {
                 redisTokenRepository.deleteRefreshToken(token)
@@ -129,13 +135,14 @@ class RedisTokenRepositoryTest {
             val memberId = 1L
             val tokenHashes = setOf("hash1", "hash2", "hash3")
 
-            every { setOperations.members("user_tokens:$memberId") } returns tokenHashes
-            every { redisTemplate.delete(any<String>()) } returns true
+            every { stringSetOperations.members("user_tokens:$memberId") } returns tokenHashes
+            every { refreshTokenRedisTemplate.delete(any<String>()) } returns true
+            every { tokenStringRedisTemplate.delete(any<String>()) } returns true
 
             redisTokenRepository.deleteAllUserTokens(memberId)
 
-            verify(exactly = 3) { redisTemplate.delete(match<String> { it.startsWith("refresh_token:") }) }
-            verify { redisTemplate.delete("user_tokens:$memberId") }
+            verify(exactly = 3) { refreshTokenRedisTemplate.delete(match<String> { it.startsWith("refresh_token:") }) }
+            verify { tokenStringRedisTemplate.delete("user_tokens:$memberId") }
         }
 
         @Test
@@ -143,7 +150,7 @@ class RedisTokenRepositoryTest {
         fun deleteAllUserTokens_noTokens() {
             val memberId = 1L
 
-            every { setOperations.members("user_tokens:$memberId") } returns emptySet()
+            every { stringSetOperations.members("user_tokens:$memberId") } returns emptySet()
 
             assertDoesNotThrow {
                 redisTokenRepository.deleteAllUserTokens(memberId)
@@ -165,9 +172,9 @@ class RedisTokenRepositoryTest {
             redisTokenRepository.saveAccessToken(token, memberId, ttlSeconds)
 
             verify {
-                valueOperations.set(
+                stringValueOperations.set(
                     match { it.startsWith("access_token:") },
-                    eq(memberId),
+                    eq(memberId.toString()),
                     any<Duration>()
                 )
             }
@@ -178,7 +185,7 @@ class RedisTokenRepositoryTest {
         fun isAccessTokenValid_valid() {
             val token = "valid-access-token"
 
-            every { redisTemplate.hasKey(any<String>()) } returns true
+            every { tokenStringRedisTemplate.hasKey(any<String>()) } returns true
 
             val result = redisTokenRepository.isAccessTokenValid(token)
 
@@ -190,7 +197,7 @@ class RedisTokenRepositoryTest {
         fun isAccessTokenValid_invalid() {
             val token = "invalid-access-token"
 
-            every { redisTemplate.hasKey(any<String>()) } returns false
+            every { tokenStringRedisTemplate.hasKey(any<String>()) } returns false
 
             val result = redisTokenRepository.isAccessTokenValid(token)
 
@@ -202,11 +209,11 @@ class RedisTokenRepositoryTest {
         fun invalidateAccessToken_success() {
             val token = "test-access-token"
 
-            every { redisTemplate.delete(any<String>()) } returns true
+            every { tokenStringRedisTemplate.delete(any<String>()) } returns true
 
             redisTokenRepository.invalidateAccessToken(token)
 
-            verify { redisTemplate.delete(match<String> { it.startsWith("access_token:") }) }
+            verify { tokenStringRedisTemplate.delete(match<String> { it.startsWith("access_token:") }) }
         }
     }
 

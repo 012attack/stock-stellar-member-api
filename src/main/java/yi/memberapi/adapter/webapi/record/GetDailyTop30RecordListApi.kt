@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController
 import yi.memberapi.adapter.security.MemberUserDetails
 import yi.memberapi.adapter.webapi.record.dto.response.DailyTop30RecordListResponse
 import yi.memberapi.application.required.DailyTop30RecordLister
+import yi.memberapi.domain.readcheck.ReadFilter
 import java.math.BigDecimal
 import java.time.LocalDate
 
@@ -29,17 +30,18 @@ class GetDailyTop30RecordListApi(
         @RequestParam(required = false) stockCode: String?,
         @RequestParam(required = false) themeName: String?,
         @RequestParam(required = false) favoriteOnly: Boolean = false,
-        @RequestParam(required = false) minScore: BigDecimal? = null
+        @RequestParam(required = false) minScore: BigDecimal? = null,
+        @RequestParam(required = false) readFilter: ReadFilter? = null
     ): ResponseEntity<DailyTop30RecordListResponse> {
-        val memberId = if (favoriteOnly || minScore != null) {
+        val memberId = if (favoriteOnly || minScore != null || readFilter != null) {
             val memberUserDetails = SecurityContextHolder.getContext().authentication?.principal as? MemberUserDetails
             memberUserDetails?.getMember()?.id
         } else null
 
         val response = if (startDate != null && endDate != null) {
-            dailyTop30RecordLister.listByDateRange(startDate, endDate, stockName, stockCode, themeName, favoriteOnly, memberId, minScore)
+            dailyTop30RecordLister.listByDateRange(startDate, endDate, stockName, stockCode, themeName, favoriteOnly, memberId, minScore, readFilter)
         } else {
-            dailyTop30RecordLister.listByPage(page, size, stockName, stockCode, themeName, favoriteOnly, memberId, minScore)
+            dailyTop30RecordLister.listByPage(page, size, stockName, stockCode, themeName, favoriteOnly, memberId, minScore, readFilter)
         }
 
         return ResponseEntity.ok(response)
