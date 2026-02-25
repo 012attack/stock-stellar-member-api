@@ -70,4 +70,7 @@ interface StockRepository : JpaRepository<Stock, Int> {
         WHERE t.id = :themeId
     """)
     fun findByThemeId(themeId: Int): List<Stock>
+
+    @Query("SELECT s FROM Stock s LEFT JOIN FETCH s.news WHERE s.id = :id")
+    fun findByIdWithNews(id: Int): Stock?
 }

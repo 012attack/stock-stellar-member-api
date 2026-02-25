@@ -13,6 +13,9 @@
 | GET | `/code/{stockCode}` | 종목 상세 조회 (종목코드) | 필요 |
 | POST | `/{stockId}/themes` | 종목에 테마 추가 | 필요 |
 | DELETE | `/{stockId}/themes/{themeId}` | 종목에서 테마 제거 | 필요 |
+| GET | `/{stockId}/news` | 종목의 연관 뉴스 목록 조회 | 필요 |
+| POST | `/{stockId}/news` | 종목에 뉴스 연결 | 필요 |
+| DELETE | `/{stockId}/news/{newsId}` | 종목에서 뉴스 연결 해제 | 필요 |
 
 ---
 
@@ -249,6 +252,134 @@ Content-Type: application/json
 
 ```
 DELETE /member-api/api/stocks/1/themes/2
+```
+
+### Response `204 No Content`
+
+성공 시 빈 응답
+
+### Response `400 Bad Request`
+
+종목을 찾을 수 없는 경우
+
+---
+
+## GET /{stockId}/news
+
+> 종목에 연결된 뉴스 목록 조회
+
+### Path Parameters
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| stockId | int | O | 종목 ID |
+
+### Response `200 OK`
+
+| Field | Type | Description |
+|-------|------|-------------|
+| (array) | array[News] | 뉴스 목록 |
+
+### News Object
+
+| Field | Type | Description |
+|-------|------|-------------|
+| id | int | 뉴스 ID |
+| title | string | 뉴스 제목 |
+| link | string | 뉴스 링크 |
+| press | object | 언론사 정보 (nullable) |
+| press.id | int | 언론사 ID |
+| press.name | string | 언론사명 |
+| themes | array | 빈 배열 (이 API에서는 미포함) |
+| createdAt | string | 생성일시 (nullable) |
+
+### Example Request
+
+```
+GET /member-api/api/stocks/1/news
+```
+
+### Example Response
+
+```json
+[
+  {
+    "id": 10,
+    "title": "삼성전자, AI 반도체 투자 확대",
+    "link": "https://example.com/news/10",
+    "press": { "id": 1, "name": "한국경제" },
+    "themes": [],
+    "createdAt": "2026-02-25T10:00:00"
+  },
+  {
+    "id": 15,
+    "title": "삼성전자 4분기 실적 발표",
+    "link": "https://example.com/news/15",
+    "press": { "id": 2, "name": "매일경제" },
+    "themes": [],
+    "createdAt": "2026-02-24T14:30:00"
+  }
+]
+```
+
+### Response `400 Bad Request`
+
+종목을 찾을 수 없는 경우
+
+---
+
+## POST /{stockId}/news
+
+> 종목에 뉴스 연결
+
+### Path Parameters
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| stockId | int | O | 종목 ID |
+
+### Request Body
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| newsIds | array[int] | O | 연결할 뉴스 ID 목록 |
+
+### Example Request
+
+```
+POST /member-api/api/stocks/1/news
+Content-Type: application/json
+
+{
+  "newsIds": [10, 15, 20]
+}
+```
+
+### Response `200 OK`
+
+성공 시 빈 응답
+
+### Response `400 Bad Request`
+
+종목을 찾을 수 없는 경우
+
+---
+
+## DELETE /{stockId}/news/{newsId}
+
+> 종목에서 뉴스 연결 해제
+
+### Path Parameters
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| stockId | int | O | 종목 ID |
+| newsId | int | O | 해제할 뉴스 ID |
+
+### Example Request
+
+```
+DELETE /member-api/api/stocks/1/news/10
 ```
 
 ### Response `204 No Content`

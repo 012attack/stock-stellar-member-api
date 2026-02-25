@@ -1,6 +1,7 @@
 package yi.memberapi.domain.stock
 
 import jakarta.persistence.*
+import yi.memberapi.domain.news.News
 import yi.memberapi.domain.theme.Theme
 import java.time.LocalDateTime
 
@@ -32,7 +33,15 @@ class Stock(
         joinColumns = [JoinColumn(name = "stock_id")],
         inverseJoinColumns = [JoinColumn(name = "theme_id")]
     )
-    val themes: MutableSet<Theme> = mutableSetOf()
+    val themes: MutableSet<Theme> = mutableSetOf(),
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+        name = "stock_news",
+        joinColumns = [JoinColumn(name = "stock_id")],
+        inverseJoinColumns = [JoinColumn(name = "news_id")]
+    )
+    val news: MutableSet<News> = mutableSetOf()
 ) {
-    protected constructor() : this(null, "", "", null, null, null, mutableSetOf())
+    protected constructor() : this(null, "", "", null, null, null, mutableSetOf(), mutableSetOf())
 }

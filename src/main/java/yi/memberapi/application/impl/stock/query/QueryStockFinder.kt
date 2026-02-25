@@ -19,6 +19,11 @@ class QueryStockFinder(
             ?: throw IllegalArgumentException("Stock not found: $id")
     }
 
+    override fun findEntityByIdWithNews(id: Int): Stock {
+        return stockRepository.findByIdWithNews(id)
+            ?: throw IllegalArgumentException("Stock not found: $id")
+    }
+
     override fun findAllEntitiesByIds(ids: List<Int>): List<Stock> {
         return stockRepository.findAllById(ids)
     }
