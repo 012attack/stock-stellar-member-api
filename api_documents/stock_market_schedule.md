@@ -65,6 +65,7 @@
 | size | Int | 20 | 페이지 크기 |
 | startDate | LocalDate | - | 조회 시작 날짜 (yyyy-MM-dd) |
 | endDate | LocalDate | - | 조회 종료 날짜 (yyyy-MM-dd) |
+| favoriteOnly | Boolean | false | true일 경우 즐겨찾기한 일정만 조회 (인증 필요) |
 
 ### Response (200 OK)
 

@@ -7,5 +7,6 @@ enum class FavoriteTargetType {
     NEWS,
     NEWS_GROUP,
     THEME,
-    OPINION
+    OPINION,
+    STOCK_MARKET_SCHEDULE
 }

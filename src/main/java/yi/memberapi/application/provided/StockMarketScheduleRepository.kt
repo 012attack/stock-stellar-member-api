@@ -29,6 +29,28 @@ interface StockMarketScheduleRepository : JpaRepository<StockMarketSchedule, Int
     """)
     fun findByScheduleDateBetween(startDate: LocalDate, endDate: LocalDate, pageable: Pageable): Page<StockMarketSchedule>
 
+    @Query("""
+        SELECT s FROM StockMarketSchedule s
+        WHERE s.id IN :ids
+        ORDER BY s.scheduleDate DESC
+    """,
+        countQuery = """
+        SELECT COUNT(s) FROM StockMarketSchedule s
+        WHERE s.id IN :ids
+    """)
+    fun findByIdInOrderByScheduleDateDesc(ids: List<Int>, pageable: Pageable): Page<StockMarketSchedule>
+
+    @Query("""
+        SELECT s FROM StockMarketSchedule s
+        WHERE s.id IN :ids AND s.scheduleDate BETWEEN :startDate AND :endDate
+        ORDER BY s.scheduleDate DESC
+    """,
+        countQuery = """
+        SELECT COUNT(s) FROM StockMarketSchedule s
+        WHERE s.id IN :ids AND s.scheduleDate BETWEEN :startDate AND :endDate
+    """)
+    fun findByIdInAndScheduleDateBetween(ids: List<Int>, startDate: LocalDate, endDate: LocalDate, pageable: Pageable): Page<StockMarketSchedule>
+
     @Query("SELECT s FROM StockMarketSchedule s LEFT JOIN FETCH s.member WHERE s.id = :id")
     fun findByIdWithMember(id: Int): StockMarketSchedule?
 }
