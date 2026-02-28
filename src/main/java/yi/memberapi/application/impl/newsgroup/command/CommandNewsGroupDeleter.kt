@@ -3,8 +3,8 @@ package yi.memberapi.application.impl.newsgroup.command
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import yi.memberapi.application.provided.NewsGroupRepository
-import yi.memberapi.application.required.NewsGroupDeleter
-import yi.memberapi.application.required.NewsGroupFinder
+import yi.memberapi.application.required.newsgroup.NewsGroupDeleter
+import yi.memberapi.application.required.newsgroup.NewsGroupFinder
 
 @Service
 @Transactional

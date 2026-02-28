@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import yi.memberapi.adapter.webapi.news.dto.response.NewsResponse
-import yi.memberapi.application.required.NewsFinder
+import yi.memberapi.application.required.news.NewsFinder
 
 @RestController
 @RequestMapping("/api/news")

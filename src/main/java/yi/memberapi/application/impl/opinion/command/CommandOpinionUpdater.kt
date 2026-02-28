@@ -4,8 +4,8 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import yi.memberapi.adapter.webapi.opinion.dto.request.UpdateOpinionRequest
 import yi.memberapi.adapter.webapi.opinion.dto.response.OpinionResponse
-import yi.memberapi.application.required.OpinionFinder
-import yi.memberapi.application.required.OpinionUpdater
+import yi.memberapi.application.required.opinion.OpinionFinder
+import yi.memberapi.application.required.opinion.OpinionUpdater
 
 @Service
 @Transactional

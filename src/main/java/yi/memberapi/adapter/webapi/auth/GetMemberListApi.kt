@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import yi.memberapi.adapter.webapi.auth.dto.response.MemberListResponse
-import yi.memberapi.application.required.MemberLister
+import yi.memberapi.application.required.auth.MemberLister
 
 @RestController
 @RequestMapping("/api/members")

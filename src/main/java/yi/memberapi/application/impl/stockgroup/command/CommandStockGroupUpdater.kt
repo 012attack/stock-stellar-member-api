@@ -4,8 +4,8 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import yi.memberapi.adapter.webapi.stockgroup.dto.request.UpdateStockGroupRequest
 import yi.memberapi.adapter.webapi.stockgroup.dto.response.StockGroupResponse
-import yi.memberapi.application.required.StockGroupFinder
-import yi.memberapi.application.required.StockGroupUpdater
+import yi.memberapi.application.required.stockgroup.StockGroupFinder
+import yi.memberapi.application.required.stockgroup.StockGroupUpdater
 
 @Service
 @Transactional

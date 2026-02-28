@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController
 import yi.memberapi.adapter.security.MemberUserDetails
 import yi.memberapi.adapter.webapi.newsgroup.dto.request.CreateNewsGroupRequest
 import yi.memberapi.adapter.webapi.newsgroup.dto.response.NewsGroupResponse
-import yi.memberapi.application.required.NewsGroupCreator
+import yi.memberapi.application.required.newsgroup.NewsGroupCreator
 import java.net.URI
 
 @RestController

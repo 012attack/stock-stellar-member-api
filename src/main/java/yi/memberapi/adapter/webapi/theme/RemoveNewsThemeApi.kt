@@ -2,7 +2,7 @@ package yi.memberapi.adapter.webapi.theme
 
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
-import yi.memberapi.application.required.NewsThemeRemover
+import yi.memberapi.application.required.news.NewsThemeRemover
 
 @RestController
 @RequestMapping("/api/news")

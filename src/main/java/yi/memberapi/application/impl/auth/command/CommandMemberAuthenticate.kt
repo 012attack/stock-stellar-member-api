@@ -11,7 +11,7 @@ import yi.memberapi.adapter.security.MemberUserDetailsService
 import yi.memberapi.adapter.webapi.auth.dto.request.LoginRequest
 import yi.memberapi.adapter.webapi.auth.dto.response.LoginResponse
 import yi.memberapi.application.impl.auth.service.AuthCookieManager
-import yi.memberapi.application.required.MemberAuthenticator
+import yi.memberapi.application.required.auth.MemberAuthenticator
 import yi.memberapi.application.provided.RedisTokenRepository
 import yi.memberapi.common.exception.AuthException
 import yi.memberapi.common.util.JwtTokenProvider

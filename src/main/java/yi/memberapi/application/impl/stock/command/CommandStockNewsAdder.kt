@@ -2,9 +2,9 @@ package yi.memberapi.application.impl.stock.command
 
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import yi.memberapi.application.required.NewsFinder
-import yi.memberapi.application.required.StockFinder
-import yi.memberapi.application.required.StockNewsAdder
+import yi.memberapi.application.required.news.NewsFinder
+import yi.memberapi.application.required.stock.StockFinder
+import yi.memberapi.application.required.stock.StockNewsAdder
 
 @Service
 @Transactional

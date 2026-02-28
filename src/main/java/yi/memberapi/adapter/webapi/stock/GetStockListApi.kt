@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import yi.memberapi.adapter.security.MemberUserDetails
 import yi.memberapi.adapter.webapi.stock.dto.response.StockListResponse
-import yi.memberapi.application.required.StockLister
+import yi.memberapi.application.required.stock.StockLister
 
 @RestController
 @RequestMapping("/api/stocks")

@@ -5,8 +5,8 @@ import org.springframework.transaction.annotation.Transactional
 import yi.memberapi.adapter.webapi.favorite.dto.request.AddFavoriteRequest
 import yi.memberapi.adapter.webapi.favorite.dto.response.FavoriteResponse
 import yi.memberapi.application.provided.FavoriteRepository
-import yi.memberapi.application.required.FavoriteAdder
-import yi.memberapi.application.required.MemberFinder
+import yi.memberapi.application.required.favorite.FavoriteAdder
+import yi.memberapi.application.required.auth.MemberFinder
 import yi.memberapi.domain.favorite.Favorite
 
 @Service

@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import yi.memberapi.adapter.security.MemberUserDetails
 import yi.memberapi.adapter.webapi.newsgroup.dto.response.NewsGroupDetailResponse
-import yi.memberapi.application.required.NewsGroupFinder
+import yi.memberapi.application.required.newsgroup.NewsGroupFinder
 
 @RestController
 @RequestMapping("/api/news-groups")

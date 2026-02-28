@@ -5,8 +5,8 @@ import org.springframework.transaction.annotation.Transactional
 import yi.memberapi.adapter.webapi.investmentcase.dto.request.CreateInvestmentCaseRequest
 import yi.memberapi.adapter.webapi.investmentcase.dto.response.InvestmentCaseResponse
 import yi.memberapi.application.provided.InvestmentCaseRepository
-import yi.memberapi.application.required.InvestmentCaseCreator
-import yi.memberapi.application.required.MemberFinder
+import yi.memberapi.application.required.investmentcase.InvestmentCaseCreator
+import yi.memberapi.application.required.auth.MemberFinder
 import yi.memberapi.domain.investmentcase.InvestmentCase
 
 @Service

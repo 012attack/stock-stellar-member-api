@@ -5,7 +5,7 @@ import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.web.bind.annotation.*
 import yi.memberapi.adapter.security.MemberUserDetails
 import yi.memberapi.adapter.webapi.opinion.dto.response.OpinionListResponse
-import yi.memberapi.application.required.OpinionLister
+import yi.memberapi.application.required.opinion.OpinionLister
 import yi.memberapi.domain.opinion.TargetType
 import yi.memberapi.domain.readcheck.ReadFilter
 

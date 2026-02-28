@@ -3,7 +3,7 @@ package yi.memberapi.application.impl.auth.query
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import yi.memberapi.application.provided.MemberRepository
-import yi.memberapi.application.required.MemberFinder
+import yi.memberapi.application.required.auth.MemberFinder
 import yi.memberapi.domain.member.Member
 import java.util.Optional
 

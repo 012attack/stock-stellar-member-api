@@ -7,7 +7,7 @@ import yi.memberapi.adapter.webapi.theme.dto.response.ThemeListResponse
 import yi.memberapi.adapter.webapi.theme.dto.response.ThemeResponse
 import yi.memberapi.application.provided.FavoriteRepository
 import yi.memberapi.application.provided.ThemeRepository
-import yi.memberapi.application.required.ThemeLister
+import yi.memberapi.application.required.theme.ThemeLister
 import yi.memberapi.domain.favorite.FavoriteTargetType
 
 @Service

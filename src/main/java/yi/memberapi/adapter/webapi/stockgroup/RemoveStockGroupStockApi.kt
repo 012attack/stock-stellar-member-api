@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import yi.memberapi.adapter.security.MemberUserDetails
-import yi.memberapi.application.required.StockGroupStockRemover
+import yi.memberapi.application.required.stockgroup.StockGroupStockRemover
 
 @RestController
 @RequestMapping("/api/stock-groups")

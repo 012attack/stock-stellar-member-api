@@ -10,7 +10,7 @@ import org.junit.jupiter.api.assertThrows
 import org.springframework.security.crypto.password.PasswordEncoder
 import yi.memberapi.adapter.webapi.auth.dto.request.RegisterRequest
 import yi.memberapi.application.provided.MemberRepository
-import yi.memberapi.application.required.MemberFinder
+import yi.memberapi.application.required.auth.MemberFinder
 import yi.memberapi.common.exception.AuthException
 import yi.memberapi.domain.member.Member
 

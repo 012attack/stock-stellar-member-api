@@ -4,7 +4,7 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import yi.memberapi.adapter.webapi.readcheck.dto.response.ReadCheckCheckResponse
 import yi.memberapi.application.provided.ReadCheckRepository
-import yi.memberapi.application.required.ReadCheckChecker
+import yi.memberapi.application.required.readcheck.ReadCheckChecker
 import yi.memberapi.domain.readcheck.ReadCheckTargetType
 
 @Service

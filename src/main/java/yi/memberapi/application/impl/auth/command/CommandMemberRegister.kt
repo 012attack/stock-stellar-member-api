@@ -5,8 +5,8 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import yi.memberapi.adapter.webapi.auth.dto.request.RegisterRequest
 import yi.memberapi.adapter.webapi.auth.dto.response.RegisterResponse
-import yi.memberapi.application.required.MemberFinder
-import yi.memberapi.application.required.MemberRegister
+import yi.memberapi.application.required.auth.MemberFinder
+import yi.memberapi.application.required.auth.MemberRegister
 import yi.memberapi.application.provided.MemberRepository
 import yi.memberapi.common.exception.AuthException
 import yi.memberapi.domain.member.Member

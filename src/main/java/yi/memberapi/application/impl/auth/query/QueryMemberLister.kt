@@ -7,7 +7,7 @@ import org.springframework.transaction.annotation.Transactional
 import yi.memberapi.adapter.webapi.auth.dto.response.MemberListResponse
 import yi.memberapi.adapter.webapi.auth.dto.response.MemberResponse
 import yi.memberapi.application.provided.MemberRepository
-import yi.memberapi.application.required.MemberLister
+import yi.memberapi.application.required.auth.MemberLister
 
 @Service
 @Transactional(readOnly = true)

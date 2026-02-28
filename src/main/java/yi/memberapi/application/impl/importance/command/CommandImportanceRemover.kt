@@ -3,7 +3,7 @@ package yi.memberapi.application.impl.importance.command
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import yi.memberapi.application.provided.ImportanceRepository
-import yi.memberapi.application.required.ImportanceRemover
+import yi.memberapi.application.required.importance.ImportanceRemover
 import yi.memberapi.domain.importance.ImportanceTargetType
 
 @Service

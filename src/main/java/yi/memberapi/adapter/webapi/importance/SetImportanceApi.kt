@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController
 import yi.memberapi.adapter.security.MemberUserDetails
 import yi.memberapi.adapter.webapi.importance.dto.request.SetImportanceRequest
 import yi.memberapi.adapter.webapi.importance.dto.response.ImportanceResponse
-import yi.memberapi.application.required.ImportanceSetter
+import yi.memberapi.application.required.importance.ImportanceSetter
 
 @RestController
 @RequestMapping("/api/importances")

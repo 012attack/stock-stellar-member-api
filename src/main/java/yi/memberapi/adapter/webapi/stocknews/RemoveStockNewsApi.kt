@@ -2,7 +2,7 @@ package yi.memberapi.adapter.webapi.stocknews
 
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
-import yi.memberapi.application.required.StockNewsRemover
+import yi.memberapi.application.required.stock.StockNewsRemover
 
 @RestController
 @RequestMapping("/api/stocks")

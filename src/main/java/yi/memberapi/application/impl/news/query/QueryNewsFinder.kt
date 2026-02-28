@@ -6,7 +6,7 @@ import yi.memberapi.adapter.webapi.news.dto.response.NewsResponse
 import yi.memberapi.adapter.webapi.news.dto.response.PressResponse
 import yi.memberapi.adapter.webapi.theme.dto.response.ThemeResponse
 import yi.memberapi.application.provided.NewsRepository
-import yi.memberapi.application.required.NewsFinder
+import yi.memberapi.application.required.news.NewsFinder
 import yi.memberapi.domain.news.News
 
 @Service

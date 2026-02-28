@@ -3,7 +3,7 @@ package yi.memberapi.application.impl.opinion.query
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import yi.memberapi.application.provided.OpinionRepository
-import yi.memberapi.application.required.OpinionFinder
+import yi.memberapi.application.required.opinion.OpinionFinder
 import yi.memberapi.domain.opinion.Opinion
 
 @Service

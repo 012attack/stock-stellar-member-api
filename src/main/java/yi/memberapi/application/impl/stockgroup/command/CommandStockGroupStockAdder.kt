@@ -2,9 +2,9 @@ package yi.memberapi.application.impl.stockgroup.command
 
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import yi.memberapi.application.required.StockFinder
-import yi.memberapi.application.required.StockGroupFinder
-import yi.memberapi.application.required.StockGroupStockAdder
+import yi.memberapi.application.required.stock.StockFinder
+import yi.memberapi.application.required.stockgroup.StockGroupFinder
+import yi.memberapi.application.required.stockgroup.StockGroupStockAdder
 
 @Service
 @Transactional

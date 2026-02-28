@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import yi.memberapi.adapter.security.MemberUserDetails
 import yi.memberapi.adapter.webapi.stockgroup.dto.response.StockGroupDetailResponse
-import yi.memberapi.application.required.StockGroupFinder
+import yi.memberapi.application.required.stockgroup.StockGroupFinder
 
 @RestController
 @RequestMapping("/api/stock-groups")

@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import yi.memberapi.adapter.security.MemberUserDetails
 import yi.memberapi.adapter.webapi.importance.dto.response.ImportanceResponse
-import yi.memberapi.application.required.ImportanceGetter
+import yi.memberapi.application.required.importance.ImportanceGetter
 import yi.memberapi.domain.importance.ImportanceTargetType
 
 @RestController

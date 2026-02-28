@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController
 import yi.memberapi.adapter.security.MemberUserDetails
 import yi.memberapi.adapter.webapi.readcheck.dto.request.MarkReadCheckRequest
 import yi.memberapi.adapter.webapi.readcheck.dto.response.ReadCheckResponse
-import yi.memberapi.application.required.ReadCheckMarker
+import yi.memberapi.application.required.readcheck.ReadCheckMarker
 import java.net.URI
 
 @RestController

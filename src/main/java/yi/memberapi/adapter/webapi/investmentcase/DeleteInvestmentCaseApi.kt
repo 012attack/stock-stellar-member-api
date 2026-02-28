@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import yi.memberapi.adapter.security.MemberUserDetails
-import yi.memberapi.application.required.InvestmentCaseDeleter
+import yi.memberapi.application.required.investmentcase.InvestmentCaseDeleter
 
 @RestController
 @RequestMapping("/api/investment-cases")

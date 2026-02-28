@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestHeader
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
-import yi.memberapi.application.required.MemberAuthenticator
-import yi.memberapi.application.required.MemberRegister
-import yi.memberapi.application.required.TokenRefresher
+import yi.memberapi.application.required.auth.MemberAuthenticator
+import yi.memberapi.application.required.auth.MemberRegister
+import yi.memberapi.application.required.auth.TokenRefresher
 import yi.memberapi.adapter.webapi.auth.dto.request.LoginRequest
 import yi.memberapi.adapter.webapi.auth.dto.request.RegisterRequest
 import yi.memberapi.adapter.webapi.auth.dto.response.LoginResponse

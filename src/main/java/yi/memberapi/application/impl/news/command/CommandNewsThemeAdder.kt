@@ -2,9 +2,9 @@ package yi.memberapi.application.impl.news.command
 
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import yi.memberapi.application.required.NewsFinder
-import yi.memberapi.application.required.ThemeFinder
-import yi.memberapi.application.required.NewsThemeAdder
+import yi.memberapi.application.required.news.NewsFinder
+import yi.memberapi.application.required.theme.ThemeFinder
+import yi.memberapi.application.required.news.NewsThemeAdder
 
 @Service
 @Transactional

@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import yi.memberapi.adapter.security.MemberUserDetails
 import yi.memberapi.adapter.webapi.favorite.dto.response.FavoriteCheckResponse
-import yi.memberapi.application.required.FavoriteChecker
+import yi.memberapi.application.required.favorite.FavoriteChecker
 import yi.memberapi.domain.favorite.FavoriteTargetType
 
 @RestController

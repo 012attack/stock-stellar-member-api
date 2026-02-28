@@ -8,7 +8,7 @@ import yi.memberapi.adapter.webapi.stock.dto.response.StockResponse
 import yi.memberapi.adapter.webapi.theme.dto.response.ThemeResponse
 import yi.memberapi.application.provided.FavoriteRepository
 import yi.memberapi.application.provided.StockRepository
-import yi.memberapi.application.required.StockLister
+import yi.memberapi.application.required.stock.StockLister
 import yi.memberapi.domain.favorite.FavoriteTargetType
 
 @Service

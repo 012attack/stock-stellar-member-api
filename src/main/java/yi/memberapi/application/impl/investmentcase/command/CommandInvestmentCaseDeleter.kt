@@ -3,8 +3,8 @@ package yi.memberapi.application.impl.investmentcase.command
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import yi.memberapi.application.provided.InvestmentCaseRepository
-import yi.memberapi.application.required.InvestmentCaseDeleter
-import yi.memberapi.application.required.InvestmentCaseFinder
+import yi.memberapi.application.required.investmentcase.InvestmentCaseDeleter
+import yi.memberapi.application.required.investmentcase.InvestmentCaseFinder
 
 @Service
 @Transactional

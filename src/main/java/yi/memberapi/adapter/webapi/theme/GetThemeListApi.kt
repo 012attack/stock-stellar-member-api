@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import yi.memberapi.adapter.security.MemberUserDetails
 import yi.memberapi.adapter.webapi.theme.dto.response.ThemeListResponse
-import yi.memberapi.application.required.ThemeLister
+import yi.memberapi.application.required.theme.ThemeLister
 
 @RestController
 @RequestMapping("/api/themes")

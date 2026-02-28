@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*
 import yi.memberapi.adapter.security.MemberUserDetails
 import yi.memberapi.adapter.webapi.newsgroup.dto.request.UpdateNewsGroupRequest
 import yi.memberapi.adapter.webapi.newsgroup.dto.response.NewsGroupResponse
-import yi.memberapi.application.required.NewsGroupUpdater
+import yi.memberapi.application.required.newsgroup.NewsGroupUpdater
 
 @RestController
 @RequestMapping("/api/news-groups")

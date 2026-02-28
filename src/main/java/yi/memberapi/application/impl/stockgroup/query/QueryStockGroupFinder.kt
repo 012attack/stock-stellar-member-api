@@ -6,7 +6,7 @@ import yi.memberapi.adapter.webapi.stockgroup.dto.response.StockGroupDetailRespo
 import yi.memberapi.adapter.webapi.stock.dto.response.StockResponse
 import yi.memberapi.adapter.webapi.theme.dto.response.ThemeResponse
 import yi.memberapi.application.provided.StockGroupRepository
-import yi.memberapi.application.required.StockGroupFinder
+import yi.memberapi.application.required.stockgroup.StockGroupFinder
 import yi.memberapi.domain.stockgroup.StockGroup
 
 @Service

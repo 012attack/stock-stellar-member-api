@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import yi.memberapi.adapter.webapi.financialstatement.dto.response.FinancialStatementListResponse
-import yi.memberapi.application.required.FinancialStatementLister
+import yi.memberapi.application.required.financialstatement.FinancialStatementLister
 
 @RestController
 @RequestMapping("/api/financial-statements")

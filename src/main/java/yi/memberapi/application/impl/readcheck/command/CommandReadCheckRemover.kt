@@ -3,7 +3,7 @@ package yi.memberapi.application.impl.readcheck.command
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import yi.memberapi.application.provided.ReadCheckRepository
-import yi.memberapi.application.required.ReadCheckRemover
+import yi.memberapi.application.required.readcheck.ReadCheckRemover
 import yi.memberapi.domain.readcheck.ReadCheckTargetType
 
 @Service

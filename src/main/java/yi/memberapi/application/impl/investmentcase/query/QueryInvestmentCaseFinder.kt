@@ -4,7 +4,7 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import yi.memberapi.adapter.webapi.investmentcase.dto.response.InvestmentCaseDetailResponse
 import yi.memberapi.application.provided.InvestmentCaseRepository
-import yi.memberapi.application.required.InvestmentCaseFinder
+import yi.memberapi.application.required.investmentcase.InvestmentCaseFinder
 import yi.memberapi.domain.investmentcase.InvestmentCase
 
 @Service

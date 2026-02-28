@@ -10,7 +10,7 @@ import yi.memberapi.adapter.webapi.theme.dto.response.ThemeResponse
 import yi.memberapi.application.provided.NewsRepository
 import yi.memberapi.application.provided.StockRepository
 import yi.memberapi.application.provided.ThemeRepository
-import yi.memberapi.application.required.ThemeFinder
+import yi.memberapi.application.required.theme.ThemeFinder
 import yi.memberapi.domain.theme.Theme
 
 @Service

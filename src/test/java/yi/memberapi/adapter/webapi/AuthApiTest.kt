@@ -26,9 +26,9 @@ import yi.memberapi.adapter.webapi.auth.dto.request.RegisterRequest
 import yi.memberapi.adapter.webapi.auth.dto.response.LoginResponse
 import yi.memberapi.adapter.webapi.auth.dto.response.RefreshResponse
 import yi.memberapi.adapter.webapi.auth.dto.response.RegisterResponse
-import yi.memberapi.application.required.MemberAuthenticator
-import yi.memberapi.application.required.MemberRegister
-import yi.memberapi.application.required.TokenRefresher
+import yi.memberapi.application.required.auth.MemberAuthenticator
+import yi.memberapi.application.required.auth.MemberRegister
+import yi.memberapi.application.required.auth.TokenRefresher
 import yi.memberapi.common.exception.AuthException
 import yi.memberapi.common.exception.GlobalExceptionHandler
 

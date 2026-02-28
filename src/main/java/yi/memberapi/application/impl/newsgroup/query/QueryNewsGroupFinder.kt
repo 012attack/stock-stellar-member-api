@@ -7,7 +7,7 @@ import yi.memberapi.adapter.webapi.news.dto.response.PressResponse
 import yi.memberapi.adapter.webapi.newsgroup.dto.response.NewsGroupDetailResponse
 import yi.memberapi.adapter.webapi.theme.dto.response.ThemeResponse
 import yi.memberapi.application.provided.NewsGroupRepository
-import yi.memberapi.application.required.NewsGroupFinder
+import yi.memberapi.application.required.newsgroup.NewsGroupFinder
 import yi.memberapi.domain.newsgroup.NewsGroup
 
 @Service

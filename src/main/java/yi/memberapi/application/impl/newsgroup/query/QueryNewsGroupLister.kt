@@ -7,7 +7,7 @@ import yi.memberapi.adapter.webapi.newsgroup.dto.response.NewsGroupListResponse
 import yi.memberapi.adapter.webapi.newsgroup.dto.response.NewsGroupResponse
 import yi.memberapi.application.provided.FavoriteRepository
 import yi.memberapi.application.provided.NewsGroupRepository
-import yi.memberapi.application.required.NewsGroupLister
+import yi.memberapi.application.required.newsgroup.NewsGroupLister
 import yi.memberapi.domain.favorite.FavoriteTargetType
 
 @Service

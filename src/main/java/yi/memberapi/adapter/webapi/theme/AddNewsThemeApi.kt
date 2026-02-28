@@ -3,7 +3,7 @@ package yi.memberapi.adapter.webapi.theme
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import yi.memberapi.adapter.webapi.theme.dto.request.AddNewsThemeRequest
-import yi.memberapi.application.required.NewsThemeAdder
+import yi.memberapi.application.required.news.NewsThemeAdder
 
 @RestController
 @RequestMapping("/api/news")

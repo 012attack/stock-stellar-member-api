@@ -5,8 +5,8 @@ import org.springframework.transaction.annotation.Transactional
 import yi.memberapi.adapter.webapi.readcheck.dto.request.MarkReadCheckRequest
 import yi.memberapi.adapter.webapi.readcheck.dto.response.ReadCheckResponse
 import yi.memberapi.application.provided.ReadCheckRepository
-import yi.memberapi.application.required.MemberFinder
-import yi.memberapi.application.required.ReadCheckMarker
+import yi.memberapi.application.required.auth.MemberFinder
+import yi.memberapi.application.required.readcheck.ReadCheckMarker
 import yi.memberapi.domain.readcheck.ReadCheck
 
 @Service

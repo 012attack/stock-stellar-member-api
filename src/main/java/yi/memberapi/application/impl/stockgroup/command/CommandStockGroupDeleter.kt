@@ -3,8 +3,8 @@ package yi.memberapi.application.impl.stockgroup.command
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import yi.memberapi.application.provided.StockGroupRepository
-import yi.memberapi.application.required.StockGroupDeleter
-import yi.memberapi.application.required.StockGroupFinder
+import yi.memberapi.application.required.stockgroup.StockGroupDeleter
+import yi.memberapi.application.required.stockgroup.StockGroupFinder
 
 @Service
 @Transactional

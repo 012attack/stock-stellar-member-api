@@ -5,7 +5,7 @@ import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.web.bind.annotation.*
 import yi.memberapi.adapter.security.MemberUserDetails
 import yi.memberapi.adapter.webapi.stockgroup.dto.request.AddStockGroupStockRequest
-import yi.memberapi.application.required.StockGroupStockAdder
+import yi.memberapi.application.required.stockgroup.StockGroupStockAdder
 
 @RestController
 @RequestMapping("/api/stock-groups")

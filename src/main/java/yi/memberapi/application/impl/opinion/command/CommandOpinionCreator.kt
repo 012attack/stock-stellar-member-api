@@ -5,8 +5,8 @@ import org.springframework.transaction.annotation.Transactional
 import yi.memberapi.adapter.webapi.opinion.dto.request.CreateOpinionRequest
 import yi.memberapi.adapter.webapi.opinion.dto.response.OpinionResponse
 import yi.memberapi.application.provided.OpinionRepository
-import yi.memberapi.application.required.MemberFinder
-import yi.memberapi.application.required.OpinionCreator
+import yi.memberapi.application.required.auth.MemberFinder
+import yi.memberapi.application.required.opinion.OpinionCreator
 import yi.memberapi.domain.opinion.Opinion
 import yi.memberapi.domain.opinion.TargetType
 

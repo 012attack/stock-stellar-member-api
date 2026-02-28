@@ -5,7 +5,7 @@ import org.springframework.transaction.annotation.Transactional
 import yi.memberapi.adapter.webapi.stock.dto.response.StockResponse
 import yi.memberapi.adapter.webapi.theme.dto.response.ThemeResponse
 import yi.memberapi.application.provided.StockRepository
-import yi.memberapi.application.required.StockFinder
+import yi.memberapi.application.required.stock.StockFinder
 import yi.memberapi.domain.stock.Stock
 
 @Service

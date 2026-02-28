@@ -6,7 +6,7 @@ import org.springframework.transaction.annotation.Transactional
 import yi.memberapi.adapter.webapi.investmentcase.dto.response.InvestmentCaseListResponse
 import yi.memberapi.adapter.webapi.investmentcase.dto.response.InvestmentCaseResponse
 import yi.memberapi.application.provided.InvestmentCaseRepository
-import yi.memberapi.application.required.InvestmentCaseLister
+import yi.memberapi.application.required.investmentcase.InvestmentCaseLister
 import yi.memberapi.domain.investmentcase.InvestmentResultType
 
 @Service

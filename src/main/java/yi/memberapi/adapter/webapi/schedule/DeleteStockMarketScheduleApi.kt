@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import yi.memberapi.adapter.security.MemberUserDetails
-import yi.memberapi.application.required.StockMarketScheduleDeleter
+import yi.memberapi.application.required.schedule.StockMarketScheduleDeleter
 
 @RestController
 @RequestMapping("/api/stock-market-schedules")

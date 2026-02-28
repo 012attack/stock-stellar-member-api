@@ -7,7 +7,7 @@ import yi.memberapi.adapter.webapi.financialstatement.dto.response.FinancialStat
 import yi.memberapi.adapter.webapi.financialstatement.dto.response.FinancialStatementResponse
 import yi.memberapi.adapter.webapi.stock.dto.response.StockResponse
 import yi.memberapi.application.provided.FinancialStatementRepository
-import yi.memberapi.application.required.FinancialStatementLister
+import yi.memberapi.application.required.financialstatement.FinancialStatementLister
 
 @Service
 @Transactional(readOnly = true)

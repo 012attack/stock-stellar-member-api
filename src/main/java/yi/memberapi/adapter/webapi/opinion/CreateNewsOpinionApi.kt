@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*
 import yi.memberapi.adapter.security.MemberUserDetails
 import yi.memberapi.adapter.webapi.opinion.dto.request.CreateOpinionRequest
 import yi.memberapi.adapter.webapi.opinion.dto.response.OpinionResponse
-import yi.memberapi.application.required.OpinionCreator
+import yi.memberapi.application.required.opinion.OpinionCreator
 import yi.memberapi.domain.opinion.TargetType
 import java.net.URI
 

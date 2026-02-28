@@ -5,8 +5,8 @@ import org.springframework.transaction.annotation.Transactional
 import yi.memberapi.adapter.webapi.newsgroup.dto.request.CreateNewsGroupRequest
 import yi.memberapi.adapter.webapi.newsgroup.dto.response.NewsGroupResponse
 import yi.memberapi.application.provided.NewsGroupRepository
-import yi.memberapi.application.required.MemberFinder
-import yi.memberapi.application.required.NewsGroupCreator
+import yi.memberapi.application.required.auth.MemberFinder
+import yi.memberapi.application.required.newsgroup.NewsGroupCreator
 import yi.memberapi.domain.newsgroup.NewsGroup
 
 @Service

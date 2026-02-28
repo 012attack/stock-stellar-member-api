@@ -4,8 +4,8 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import yi.memberapi.adapter.webapi.newsgroup.dto.request.UpdateNewsGroupRequest
 import yi.memberapi.adapter.webapi.newsgroup.dto.response.NewsGroupResponse
-import yi.memberapi.application.required.NewsGroupFinder
-import yi.memberapi.application.required.NewsGroupUpdater
+import yi.memberapi.application.required.newsgroup.NewsGroupFinder
+import yi.memberapi.application.required.newsgroup.NewsGroupUpdater
 
 @Service
 @Transactional

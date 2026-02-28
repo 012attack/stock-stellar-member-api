@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*
 import yi.memberapi.adapter.security.MemberUserDetails
 import yi.memberapi.adapter.webapi.investmentcase.dto.request.UpdateInvestmentCaseRequest
 import yi.memberapi.adapter.webapi.investmentcase.dto.response.InvestmentCaseResponse
-import yi.memberapi.application.required.InvestmentCaseUpdater
+import yi.memberapi.application.required.investmentcase.InvestmentCaseUpdater
 
 @RestController
 @RequestMapping("/api/investment-cases")

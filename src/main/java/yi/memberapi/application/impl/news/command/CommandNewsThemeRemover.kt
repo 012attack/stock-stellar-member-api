@@ -2,8 +2,8 @@ package yi.memberapi.application.impl.news.command
 
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import yi.memberapi.application.required.NewsFinder
-import yi.memberapi.application.required.NewsThemeRemover
+import yi.memberapi.application.required.news.NewsFinder
+import yi.memberapi.application.required.news.NewsThemeRemover
 
 @Service
 @Transactional

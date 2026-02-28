@@ -11,7 +11,7 @@ import yi.memberapi.application.provided.DailyTop30RecordRepository
 import yi.memberapi.application.provided.FavoriteRepository
 import yi.memberapi.application.provided.ImportanceRepository
 import yi.memberapi.application.provided.ReadCheckRepository
-import yi.memberapi.application.required.DailyTop30RecordLister
+import yi.memberapi.application.required.record.DailyTop30RecordLister
 import yi.memberapi.domain.favorite.FavoriteTargetType
 import yi.memberapi.domain.importance.ImportanceTargetType
 import yi.memberapi.domain.readcheck.ReadCheckTargetType

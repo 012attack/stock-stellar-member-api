@@ -3,7 +3,7 @@ package yi.memberapi.adapter.webapi.theme
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import yi.memberapi.adapter.webapi.theme.dto.request.AddStockThemeRequest
-import yi.memberapi.application.required.StockThemeAdder
+import yi.memberapi.application.required.stock.StockThemeAdder
 
 @RestController
 @RequestMapping("/api/stocks")

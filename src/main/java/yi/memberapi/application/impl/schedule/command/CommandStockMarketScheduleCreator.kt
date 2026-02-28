@@ -5,8 +5,8 @@ import org.springframework.transaction.annotation.Transactional
 import yi.memberapi.adapter.webapi.schedule.dto.request.CreateStockMarketScheduleRequest
 import yi.memberapi.adapter.webapi.schedule.dto.response.StockMarketScheduleResponse
 import yi.memberapi.application.provided.StockMarketScheduleRepository
-import yi.memberapi.application.required.MemberFinder
-import yi.memberapi.application.required.StockMarketScheduleCreator
+import yi.memberapi.application.required.auth.MemberFinder
+import yi.memberapi.application.required.schedule.StockMarketScheduleCreator
 import yi.memberapi.domain.schedule.StockMarketSchedule
 
 @Service

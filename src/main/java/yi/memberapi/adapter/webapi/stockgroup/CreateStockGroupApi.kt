@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController
 import yi.memberapi.adapter.security.MemberUserDetails
 import yi.memberapi.adapter.webapi.stockgroup.dto.request.CreateStockGroupRequest
 import yi.memberapi.adapter.webapi.stockgroup.dto.response.StockGroupResponse
-import yi.memberapi.application.required.StockGroupCreator
+import yi.memberapi.application.required.stockgroup.StockGroupCreator
 import java.net.URI
 
 @RestController

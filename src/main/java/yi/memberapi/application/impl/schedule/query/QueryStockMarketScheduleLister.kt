@@ -7,7 +7,7 @@ import yi.memberapi.adapter.webapi.schedule.dto.response.StockMarketScheduleList
 import yi.memberapi.adapter.webapi.schedule.dto.response.StockMarketScheduleResponse
 import yi.memberapi.application.provided.FavoriteRepository
 import yi.memberapi.application.provided.StockMarketScheduleRepository
-import yi.memberapi.application.required.StockMarketScheduleLister
+import yi.memberapi.application.required.schedule.StockMarketScheduleLister
 import yi.memberapi.domain.favorite.FavoriteTargetType
 import java.time.LocalDate
 

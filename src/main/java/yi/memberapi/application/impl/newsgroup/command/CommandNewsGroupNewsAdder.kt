@@ -2,9 +2,9 @@ package yi.memberapi.application.impl.newsgroup.command
 
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import yi.memberapi.application.required.NewsFinder
-import yi.memberapi.application.required.NewsGroupFinder
-import yi.memberapi.application.required.NewsGroupNewsAdder
+import yi.memberapi.application.required.news.NewsFinder
+import yi.memberapi.application.required.newsgroup.NewsGroupFinder
+import yi.memberapi.application.required.newsgroup.NewsGroupNewsAdder
 
 @Service
 @Transactional

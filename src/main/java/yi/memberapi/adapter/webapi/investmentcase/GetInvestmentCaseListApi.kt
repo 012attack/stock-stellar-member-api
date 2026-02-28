@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import yi.memberapi.adapter.webapi.investmentcase.dto.response.InvestmentCaseListResponse
-import yi.memberapi.application.required.InvestmentCaseLister
+import yi.memberapi.application.required.investmentcase.InvestmentCaseLister
 import yi.memberapi.domain.investmentcase.InvestmentResultType
 
 @RestController

@@ -4,7 +4,7 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import yi.memberapi.adapter.webapi.schedule.dto.response.StockMarketScheduleDetailResponse
 import yi.memberapi.application.provided.StockMarketScheduleRepository
-import yi.memberapi.application.required.StockMarketScheduleFinder
+import yi.memberapi.application.required.schedule.StockMarketScheduleFinder
 import yi.memberapi.domain.schedule.StockMarketSchedule
 
 @Service

@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*
 import yi.memberapi.adapter.security.MemberUserDetails
 import yi.memberapi.adapter.webapi.schedule.dto.request.UpdateStockMarketScheduleRequest
 import yi.memberapi.adapter.webapi.schedule.dto.response.StockMarketScheduleResponse
-import yi.memberapi.application.required.StockMarketScheduleUpdater
+import yi.memberapi.application.required.schedule.StockMarketScheduleUpdater
 
 @RestController
 @RequestMapping("/api/stock-market-schedules")

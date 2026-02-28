@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController
 import yi.memberapi.adapter.security.MemberUserDetails
 import yi.memberapi.adapter.webapi.schedule.dto.request.CreateStockMarketScheduleRequest
 import yi.memberapi.adapter.webapi.schedule.dto.response.StockMarketScheduleResponse
-import yi.memberapi.application.required.StockMarketScheduleCreator
+import yi.memberapi.application.required.schedule.StockMarketScheduleCreator
 import java.net.URI
 
 @RestController

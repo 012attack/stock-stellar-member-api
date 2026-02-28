@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*
 import yi.memberapi.adapter.security.MemberUserDetails
 import yi.memberapi.adapter.webapi.opinion.dto.request.UpdateOpinionRequest
 import yi.memberapi.adapter.webapi.opinion.dto.response.OpinionResponse
-import yi.memberapi.application.required.OpinionUpdater
+import yi.memberapi.application.required.opinion.OpinionUpdater
 
 @RestController
 @RequestMapping("/api/daily-top30-records")

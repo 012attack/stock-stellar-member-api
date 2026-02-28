@@ -5,8 +5,8 @@ import org.springframework.transaction.annotation.Transactional
 import yi.memberapi.adapter.webapi.stockgroup.dto.request.CreateStockGroupRequest
 import yi.memberapi.adapter.webapi.stockgroup.dto.response.StockGroupResponse
 import yi.memberapi.application.provided.StockGroupRepository
-import yi.memberapi.application.required.MemberFinder
-import yi.memberapi.application.required.StockGroupCreator
+import yi.memberapi.application.required.auth.MemberFinder
+import yi.memberapi.application.required.stockgroup.StockGroupCreator
 import yi.memberapi.domain.stockgroup.StockGroup
 
 @Service

@@ -11,7 +11,7 @@ import yi.memberapi.application.provided.FavoriteRepository
 import yi.memberapi.application.provided.ImportanceRepository
 import yi.memberapi.application.provided.NewsRepository
 import yi.memberapi.application.provided.ReadCheckRepository
-import yi.memberapi.application.required.NewsLister
+import yi.memberapi.application.required.news.NewsLister
 import yi.memberapi.domain.favorite.FavoriteTargetType
 import yi.memberapi.domain.importance.ImportanceTargetType
 import yi.memberapi.domain.readcheck.ReadCheckTargetType

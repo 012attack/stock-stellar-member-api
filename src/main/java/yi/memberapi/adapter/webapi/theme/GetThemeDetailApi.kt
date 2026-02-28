@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import yi.memberapi.adapter.webapi.theme.dto.response.ThemeDetailResponse
-import yi.memberapi.application.required.ThemeFinder
+import yi.memberapi.application.required.theme.ThemeFinder
 
 @RestController
 @RequestMapping("/api/themes")

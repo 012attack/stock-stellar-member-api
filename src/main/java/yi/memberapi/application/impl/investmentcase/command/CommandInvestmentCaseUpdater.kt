@@ -4,8 +4,8 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import yi.memberapi.adapter.webapi.investmentcase.dto.request.UpdateInvestmentCaseRequest
 import yi.memberapi.adapter.webapi.investmentcase.dto.response.InvestmentCaseResponse
-import yi.memberapi.application.required.InvestmentCaseFinder
-import yi.memberapi.application.required.InvestmentCaseUpdater
+import yi.memberapi.application.required.investmentcase.InvestmentCaseFinder
+import yi.memberapi.application.required.investmentcase.InvestmentCaseUpdater
 
 @Service
 @Transactional

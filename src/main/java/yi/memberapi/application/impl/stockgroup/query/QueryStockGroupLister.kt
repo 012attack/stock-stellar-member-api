@@ -7,7 +7,7 @@ import yi.memberapi.adapter.webapi.stockgroup.dto.response.StockGroupListRespons
 import yi.memberapi.adapter.webapi.stockgroup.dto.response.StockGroupResponse
 import yi.memberapi.application.provided.FavoriteRepository
 import yi.memberapi.application.provided.StockGroupRepository
-import yi.memberapi.application.required.StockGroupLister
+import yi.memberapi.application.required.stockgroup.StockGroupLister
 import yi.memberapi.domain.favorite.FavoriteTargetType
 
 @Service

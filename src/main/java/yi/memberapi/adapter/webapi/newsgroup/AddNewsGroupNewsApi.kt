@@ -5,7 +5,7 @@ import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.web.bind.annotation.*
 import yi.memberapi.adapter.security.MemberUserDetails
 import yi.memberapi.adapter.webapi.newsgroup.dto.request.AddNewsGroupNewsRequest
-import yi.memberapi.application.required.NewsGroupNewsAdder
+import yi.memberapi.application.required.newsgroup.NewsGroupNewsAdder
 
 @RestController
 @RequestMapping("/api/news-groups")

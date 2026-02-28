@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController
 import yi.memberapi.adapter.security.MemberUserDetails
 import yi.memberapi.adapter.webapi.investmentcase.dto.request.CreateInvestmentCaseRequest
 import yi.memberapi.adapter.webapi.investmentcase.dto.response.InvestmentCaseResponse
-import yi.memberapi.application.required.InvestmentCaseCreator
+import yi.memberapi.application.required.investmentcase.InvestmentCaseCreator
 import java.net.URI
 
 @RestController

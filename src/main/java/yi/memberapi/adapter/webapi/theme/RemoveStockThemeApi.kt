@@ -2,7 +2,7 @@ package yi.memberapi.adapter.webapi.theme
 
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
-import yi.memberapi.application.required.StockThemeRemover
+import yi.memberapi.application.required.stock.StockThemeRemover
 
 @RestController
 @RequestMapping("/api/stocks")

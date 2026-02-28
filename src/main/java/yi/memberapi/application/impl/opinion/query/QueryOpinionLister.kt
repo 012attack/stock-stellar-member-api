@@ -15,7 +15,7 @@ import yi.memberapi.application.provided.FavoriteRepository
 import yi.memberapi.application.provided.NewsRepository
 import yi.memberapi.application.provided.OpinionRepository
 import yi.memberapi.application.provided.ReadCheckRepository
-import yi.memberapi.application.required.OpinionLister
+import yi.memberapi.application.required.opinion.OpinionLister
 import yi.memberapi.domain.favorite.FavoriteTargetType
 import yi.memberapi.domain.opinion.Opinion
 import yi.memberapi.domain.opinion.TargetType

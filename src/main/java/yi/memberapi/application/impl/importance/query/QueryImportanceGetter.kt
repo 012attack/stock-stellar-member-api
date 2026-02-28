@@ -4,7 +4,7 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import yi.memberapi.adapter.webapi.importance.dto.response.ImportanceResponse
 import yi.memberapi.application.provided.ImportanceRepository
-import yi.memberapi.application.required.ImportanceGetter
+import yi.memberapi.application.required.importance.ImportanceGetter
 import yi.memberapi.domain.importance.ImportanceTargetType
 
 @Service

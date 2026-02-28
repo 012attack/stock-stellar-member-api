@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*
 import yi.memberapi.adapter.security.MemberUserDetails
 import yi.memberapi.adapter.webapi.stockgroup.dto.request.UpdateStockGroupRequest
 import yi.memberapi.adapter.webapi.stockgroup.dto.response.StockGroupResponse
-import yi.memberapi.application.required.StockGroupUpdater
+import yi.memberapi.application.required.stockgroup.StockGroupUpdater
 
 @RestController
 @RequestMapping("/api/stock-groups")

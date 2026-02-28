@@ -3,8 +3,8 @@ package yi.memberapi.application.impl.schedule.command
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import yi.memberapi.application.provided.StockMarketScheduleRepository
-import yi.memberapi.application.required.StockMarketScheduleDeleter
-import yi.memberapi.application.required.StockMarketScheduleFinder
+import yi.memberapi.application.required.schedule.StockMarketScheduleDeleter
+import yi.memberapi.application.required.schedule.StockMarketScheduleFinder
 
 @Service
 @Transactional
