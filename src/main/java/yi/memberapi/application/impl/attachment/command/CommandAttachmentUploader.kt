@@ -44,6 +44,7 @@ class CommandAttachmentUploader(
         return AttachmentResponse(
             id = saved.id!!,
             originalFileName = saved.originalFileName,
+            filePath = fileStorageService.getAbsolutePath(saved.filePath),
             fileSize = saved.fileSize,
             contentType = saved.contentType,
             fileType = saved.fileType.name,

@@ -5,11 +5,13 @@ import org.springframework.transaction.annotation.Transactional
 import yi.memberapi.adapter.webapi.attachment.dto.response.AttachmentResponse
 import yi.memberapi.application.provided.AttachmentRepository
 import yi.memberapi.application.required.attachment.AttachmentFinder
+import yi.memberapi.common.service.FileStorageService
 
 @Service
 @Transactional(readOnly = true)
 class QueryAttachmentFinder(
-    private val attachmentRepository: AttachmentRepository
+    private val attachmentRepository: AttachmentRepository,
+    private val fileStorageService: FileStorageService
 ) : AttachmentFinder {
 
     override fun findById(id: Int): AttachmentResponse {
@@ -19,6 +21,7 @@ class QueryAttachmentFinder(
         return AttachmentResponse(
             id = attachment.id!!,
             originalFileName = attachment.originalFileName,
+            filePath = fileStorageService.getAbsolutePath(attachment.filePath),
             fileSize = attachment.fileSize,
             contentType = attachment.contentType,
             fileType = attachment.fileType.name,

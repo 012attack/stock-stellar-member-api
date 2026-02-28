@@ -7,11 +7,13 @@ import yi.memberapi.adapter.webapi.attachment.dto.response.AttachmentListRespons
 import yi.memberapi.adapter.webapi.attachment.dto.response.AttachmentResponse
 import yi.memberapi.application.provided.AttachmentRepository
 import yi.memberapi.application.required.attachment.AttachmentLister
+import yi.memberapi.common.service.FileStorageService
 
 @Service
 @Transactional(readOnly = true)
 class QueryAttachmentLister(
-    private val attachmentRepository: AttachmentRepository
+    private val attachmentRepository: AttachmentRepository,
+    private val fileStorageService: FileStorageService
 ) : AttachmentLister {
 
     override fun list(memberId: Long, page: Int, size: Int): AttachmentListResponse {
@@ -22,6 +24,7 @@ class QueryAttachmentLister(
             AttachmentResponse(
                 id = attachment.id!!,
                 originalFileName = attachment.originalFileName,
+                filePath = fileStorageService.getAbsolutePath(attachment.filePath),
                 fileSize = attachment.fileSize,
                 contentType = attachment.contentType,
                 fileType = attachment.fileType.name,

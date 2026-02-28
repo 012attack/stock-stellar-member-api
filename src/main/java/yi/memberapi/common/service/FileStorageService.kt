@@ -58,6 +58,10 @@ class FileStorageService(
         return resource
     }
 
+    fun getAbsolutePath(filePath: String): String {
+        return rootLocation.resolve(filePath).toAbsolutePath().normalize().toString()
+    }
+
     fun delete(filePath: String) {
         val file = rootLocation.resolve(filePath)
         Files.deleteIfExists(file)
