@@ -24,7 +24,7 @@ class QueryAttachmentLister(
             AttachmentResponse(
                 id = attachment.id!!,
                 originalFileName = attachment.originalFileName,
-                filePath = fileStorageService.getAbsolutePath(attachment.filePath),
+                filePath = fileStorageService.getPublicPath(attachment.filePath),
                 fileSize = attachment.fileSize,
                 contentType = attachment.contentType,
                 fileType = attachment.fileType.name,

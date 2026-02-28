@@ -58,8 +58,8 @@ class FileStorageService(
         return resource
     }
 
-    fun getAbsolutePath(filePath: String): String {
-        return rootLocation.resolve(filePath).toAbsolutePath().normalize().toString()
+    fun getPublicPath(filePath: String): String {
+        return "/uploads/$filePath"
     }
 
     fun delete(filePath: String) {

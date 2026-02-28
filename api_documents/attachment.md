@@ -32,7 +32,7 @@
 |-------|------|-------------|
 | id | int | 첨부파일 ID |
 | originalFileName | string | 원본 파일명 |
-| filePath | string | 파일 절대 경로 |
+| filePath | string | 파일 공개 경로 (/upload/...) |
 | fileSize | long | 파일 크기 (bytes) |
 | contentType | string | MIME type (nullable) |
 | fileType | string | 파일 타입 분류 |
@@ -65,7 +65,7 @@ file: (binary)
 {
   "id": 1,
   "originalFileName": "삼성전자_분석.pdf",
-  "filePath": "C:\\yi-project\\stockstellar\\BE\\member-api\\uploads\\2026\\02\\28\\a1b2c3d4-uuid.pdf",
+  "filePath": "/upload/2026/02/28/a1b2c3d4-uuid.pdf",
   "fileSize": 1048576,
   "contentType": "application/pdf",
   "fileType": "DOCUMENT",
@@ -119,7 +119,7 @@ Authorization: Bearer {token}
     {
       "id": 2,
       "originalFileName": "차트_스크린샷.png",
-      "filePath": "C:\\yi-project\\stockstellar\\BE\\member-api\\uploads\\2026\\02\\28\\e5f6g7h8-uuid.png",
+      "filePath": "/upload/2026/02/28/e5f6g7h8-uuid.png",
       "fileSize": 524288,
       "contentType": "image/png",
       "fileType": "IMAGE",
@@ -151,7 +151,7 @@ Authorization: Bearer {token}
 |-------|------|-------------|
 | id | int | 첨부파일 ID |
 | originalFileName | string | 원본 파일명 |
-| filePath | string | 파일 절대 경로 |
+| filePath | string | 파일 공개 경로 (/upload/...) |
 | fileSize | long | 파일 크기 (bytes) |
 | contentType | string | MIME type (nullable) |
 | fileType | string | 파일 타입 분류 |
@@ -170,7 +170,7 @@ Authorization: Bearer {token}
 {
   "id": 1,
   "originalFileName": "삼성전자_분석.pdf",
-  "filePath": "C:\\yi-project\\stockstellar\\BE\\member-api\\uploads\\2026\\02\\28\\a1b2c3d4-uuid.pdf",
+  "filePath": "/upload/2026/02/28/a1b2c3d4-uuid.pdf",
   "fileSize": 1048576,
   "contentType": "application/pdf",
   "fileType": "DOCUMENT",
