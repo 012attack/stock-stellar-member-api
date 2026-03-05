@@ -26,6 +26,7 @@ class GetDailyTop30RecordListApi(
         @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) endDate: LocalDate?,
         @RequestParam(defaultValue = "0") page: Int,
         @RequestParam(defaultValue = "20") size: Int,
+        @RequestParam(required = false) stockId: Int?,
         @RequestParam(required = false) stockName: String?,
         @RequestParam(required = false) stockCode: String?,
         @RequestParam(required = false) themeName: String?,
@@ -39,9 +40,9 @@ class GetDailyTop30RecordListApi(
         } else null
 
         val response = if (startDate != null && endDate != null) {
-            dailyTop30RecordLister.listByDateRange(startDate, endDate, stockName, stockCode, themeName, favoriteOnly, memberId, minScore, readFilter)
+            dailyTop30RecordLister.listByDateRange(startDate, endDate, stockId, stockName, stockCode, themeName, favoriteOnly, memberId, minScore, readFilter)
         } else {
-            dailyTop30RecordLister.listByPage(page, size, stockName, stockCode, themeName, favoriteOnly, memberId, minScore, readFilter)
+            dailyTop30RecordLister.listByPage(page, size, stockId, stockName, stockCode, themeName, favoriteOnly, memberId, minScore, readFilter)
         }
 
         return ResponseEntity.ok(response)

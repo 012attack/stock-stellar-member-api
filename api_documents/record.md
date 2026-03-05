@@ -26,6 +26,7 @@
 | endDate | string | X | - | 끝 날짜 (yyyy-MM-dd 형식). startDate와 함께 사용 |
 | page | int | X | 0 | 페이지 번호 (날짜 미전달 시 사용) |
 | size | int | X | 20 | 페이지 크기 (날짜 미전달 시 사용) |
+| stockId | int | X | - | 종목 ID로 필터링 (정확 일치). 해당 종목의 이력만 조회 |
 | stockName | string | X | - | 종목명으로 필터링 (부분 일치) |
 | stockCode | string | X | - | 종목코드로 필터링 (부분 일치) |
 | themeName | string | X | - | 테마명으로 필터링 (부분 일치) |
@@ -85,6 +86,7 @@
 ```
 # 날짜 범위 조회
 GET /member-api/api/daily-top30-records?startDate=2026-02-01&endDate=2026-02-04
+GET /member-api/api/daily-top30-records?startDate=2026-02-01&endDate=2026-02-04&stockId=1
 GET /member-api/api/daily-top30-records?startDate=2026-02-01&endDate=2026-02-04&stockName=삼성
 GET /member-api/api/daily-top30-records?startDate=2026-02-04&endDate=2026-02-04&stockCode=005930
 GET /member-api/api/daily-top30-records?startDate=2026-01-01&endDate=2026-02-04&themeName=반도체
@@ -92,6 +94,7 @@ GET /member-api/api/daily-top30-records?startDate=2026-01-01&endDate=2026-02-04&
 # 페이징 조회 (날짜 미전달)
 GET /member-api/api/daily-top30-records
 GET /member-api/api/daily-top30-records?page=0&size=20
+GET /member-api/api/daily-top30-records?page=0&size=20&stockId=1
 GET /member-api/api/daily-top30-records?page=1&size=10&stockName=삼성
 
 # 즐겨찾기 조회

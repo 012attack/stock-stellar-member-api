@@ -73,6 +73,7 @@ class QueryDailyTop30RecordLister(
     override fun listByDateRange(
         startDate: LocalDate,
         endDate: LocalDate,
+        stockId: Int?,
         stockName: String?,
         stockCode: String?,
         themeName: String?,
@@ -85,13 +86,13 @@ class QueryDailyTop30RecordLister(
         val (filteredIds, excludeIds) = applyReadFilter(baseFilteredIds, readFilter, memberId)
 
         val emptyResponse = DailyTop30RecordListResponse(records = emptyList(), startDate = startDate, endDate = endDate)
-        val hasFilters = stockName != null || stockCode != null || themeName != null
+        val hasFilters = stockId != null || stockName != null || stockCode != null || themeName != null
 
         if (filteredIds != null) {
             if (filteredIds.isEmpty()) return emptyResponse
 
             val records = if (hasFilters) {
-                dailyTop30RecordRepository.findByDateRangeWithFiltersByFavoriteIds(startDate, endDate, stockName, stockCode, themeName, filteredIds)
+                dailyTop30RecordRepository.findByDateRangeWithFiltersByFavoriteIds(startDate, endDate, stockId, stockName, stockCode, themeName, filteredIds)
             } else {
                 dailyTop30RecordRepository.findByRecordDateBetweenWithStockAndThemesByFavoriteIds(startDate, endDate, filteredIds)
             }
@@ -106,7 +107,7 @@ class QueryDailyTop30RecordLister(
         if (excludeIds != null) {
             if (excludeIds.isEmpty()) {
                 val records = if (hasFilters) {
-                    dailyTop30RecordRepository.findByDateRangeWithFilters(startDate, endDate, stockName, stockCode, themeName)
+                    dailyTop30RecordRepository.findByDateRangeWithFilters(startDate, endDate, stockId, stockName, stockCode, themeName)
                 } else {
                     dailyTop30RecordRepository.findByRecordDateBetweenWithStockAndThemes(startDate, endDate)
                 }
@@ -118,7 +119,7 @@ class QueryDailyTop30RecordLister(
             }
 
             val records = if (hasFilters) {
-                dailyTop30RecordRepository.findByDateRangeWithFiltersByExcludeIds(startDate, endDate, stockName, stockCode, themeName, excludeIds)
+                dailyTop30RecordRepository.findByDateRangeWithFiltersByExcludeIds(startDate, endDate, stockId, stockName, stockCode, themeName, excludeIds)
             } else {
                 dailyTop30RecordRepository.findByRecordDateBetweenWithStockAndThemesByExcludeIds(startDate, endDate, excludeIds)
             }
@@ -131,7 +132,7 @@ class QueryDailyTop30RecordLister(
         }
 
         val records = if (hasFilters) {
-            dailyTop30RecordRepository.findByDateRangeWithFilters(startDate, endDate, stockName, stockCode, themeName)
+            dailyTop30RecordRepository.findByDateRangeWithFilters(startDate, endDate, stockId, stockName, stockCode, themeName)
         } else {
             dailyTop30RecordRepository.findByRecordDateBetweenWithStockAndThemes(startDate, endDate)
         }
@@ -146,6 +147,7 @@ class QueryDailyTop30RecordLister(
     override fun listByPage(
         page: Int,
         size: Int,
+        stockId: Int?,
         stockName: String?,
         stockCode: String?,
         themeName: String?,
@@ -165,33 +167,33 @@ class QueryDailyTop30RecordLister(
             totalElements = 0,
             totalPages = 0
         )
-        val hasFilters = stockName != null || stockCode != null || themeName != null
+        val hasFilters = stockId != null || stockName != null || stockCode != null || themeName != null
 
         val recordPage = if (filteredIds != null) {
             if (filteredIds.isEmpty()) return emptyResponse
 
             if (hasFilters) {
-                dailyTop30RecordRepository.findWithFiltersByFavoriteIds(stockName, stockCode, themeName, filteredIds, pageable)
+                dailyTop30RecordRepository.findWithFiltersByFavoriteIds(stockId, stockName, stockCode, themeName, filteredIds, pageable)
             } else {
                 dailyTop30RecordRepository.findAllWithStockAndThemesByFavoriteIds(filteredIds, pageable)
             }
         } else if (excludeIds != null) {
             if (excludeIds.isEmpty()) {
                 if (hasFilters) {
-                    dailyTop30RecordRepository.findWithFilters(stockName, stockCode, themeName, pageable)
+                    dailyTop30RecordRepository.findWithFilters(stockId, stockName, stockCode, themeName, pageable)
                 } else {
                     dailyTop30RecordRepository.findAllWithStockAndThemes(pageable)
                 }
             } else {
                 if (hasFilters) {
-                    dailyTop30RecordRepository.findWithFiltersByExcludeIds(stockName, stockCode, themeName, excludeIds, pageable)
+                    dailyTop30RecordRepository.findWithFiltersByExcludeIds(stockId, stockName, stockCode, themeName, excludeIds, pageable)
                 } else {
                     dailyTop30RecordRepository.findAllWithStockAndThemesByExcludeIds(excludeIds, pageable)
                 }
             }
         } else {
             if (hasFilters) {
-                dailyTop30RecordRepository.findWithFilters(stockName, stockCode, themeName, pageable)
+                dailyTop30RecordRepository.findWithFilters(stockId, stockName, stockCode, themeName, pageable)
             } else {
                 dailyTop30RecordRepository.findAllWithStockAndThemes(pageable)
             }

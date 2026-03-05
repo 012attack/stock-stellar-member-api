@@ -9,6 +9,7 @@ interface DailyTop30RecordLister {
     fun listByDateRange(
         startDate: LocalDate,
         endDate: LocalDate,
+        stockId: Int? = null,
         stockName: String? = null,
         stockCode: String? = null,
         themeName: String? = null,
@@ -21,6 +22,7 @@ interface DailyTop30RecordLister {
     fun listByPage(
         page: Int,
         size: Int,
+        stockId: Int? = null,
         stockName: String? = null,
         stockCode: String? = null,
         themeName: String? = null,

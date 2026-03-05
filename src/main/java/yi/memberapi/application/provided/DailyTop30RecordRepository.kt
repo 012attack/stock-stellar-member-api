@@ -17,6 +17,7 @@ interface DailyTop30RecordRepository : JpaRepository<DailyTop30Record, Int> {
         LEFT JOIN FETCH r.stock s
         LEFT JOIN FETCH r.themes t
         WHERE r.recordDate BETWEEN :startDate AND :endDate
+        AND (:stockId IS NULL OR s.id = :stockId)
         AND (:stockName IS NULL OR s.stockName LIKE %:stockName%)
         AND (:stockCode IS NULL OR s.stockCode LIKE %:stockCode%)
         AND (:themeName IS NULL OR t.themeName LIKE %:themeName%)
@@ -25,6 +26,7 @@ interface DailyTop30RecordRepository : JpaRepository<DailyTop30Record, Int> {
     fun findByDateRangeWithFilters(
         startDate: LocalDate,
         endDate: LocalDate,
+        stockId: Int?,
         stockName: String?,
         stockCode: String?,
         themeName: String?
@@ -39,6 +41,7 @@ interface DailyTop30RecordRepository : JpaRepository<DailyTop30Record, Int> {
         LEFT JOIN FETCH r.themes t
         WHERE r.id IN :favoriteIds
         AND r.recordDate BETWEEN :startDate AND :endDate
+        AND (:stockId IS NULL OR s.id = :stockId)
         AND (:stockName IS NULL OR s.stockName LIKE %:stockName%)
         AND (:stockCode IS NULL OR s.stockCode LIKE %:stockCode%)
         AND (:themeName IS NULL OR t.themeName LIKE %:themeName%)
@@ -47,6 +50,7 @@ interface DailyTop30RecordRepository : JpaRepository<DailyTop30Record, Int> {
     fun findByDateRangeWithFiltersByFavoriteIds(
         startDate: LocalDate,
         endDate: LocalDate,
+        stockId: Int?,
         stockName: String?,
         stockCode: String?,
         themeName: String?,
@@ -69,7 +73,8 @@ interface DailyTop30RecordRepository : JpaRepository<DailyTop30Record, Int> {
             SELECT DISTINCT r FROM DailyTop30Record r
             LEFT JOIN FETCH r.stock s
             LEFT JOIN FETCH r.themes t
-            WHERE (:stockName IS NULL OR s.stockName LIKE %:stockName%)
+            WHERE (:stockId IS NULL OR s.id = :stockId)
+            AND (:stockName IS NULL OR s.stockName LIKE %:stockName%)
             AND (:stockCode IS NULL OR s.stockCode LIKE %:stockCode%)
             AND (:themeName IS NULL OR t.themeName LIKE %:themeName%)
             ORDER BY r.recordDate DESC, r.rank ASC
@@ -78,12 +83,14 @@ interface DailyTop30RecordRepository : JpaRepository<DailyTop30Record, Int> {
             SELECT COUNT(DISTINCT r) FROM DailyTop30Record r
             LEFT JOIN r.stock s
             LEFT JOIN r.themes t
-            WHERE (:stockName IS NULL OR s.stockName LIKE %:stockName%)
+            WHERE (:stockId IS NULL OR s.id = :stockId)
+            AND (:stockName IS NULL OR s.stockName LIKE %:stockName%)
             AND (:stockCode IS NULL OR s.stockCode LIKE %:stockCode%)
             AND (:themeName IS NULL OR t.themeName LIKE %:themeName%)
         """
     )
     fun findWithFilters(
+        stockId: Int?,
         stockName: String?,
         stockCode: String?,
         themeName: String?,
@@ -102,6 +109,7 @@ interface DailyTop30RecordRepository : JpaRepository<DailyTop30Record, Int> {
             LEFT JOIN FETCH r.stock s
             LEFT JOIN FETCH r.themes t
             WHERE r.id IN :favoriteIds
+            AND (:stockId IS NULL OR s.id = :stockId)
             AND (:stockName IS NULL OR s.stockName LIKE %:stockName%)
             AND (:stockCode IS NULL OR s.stockCode LIKE %:stockCode%)
             AND (:themeName IS NULL OR t.themeName LIKE %:themeName%)
@@ -112,12 +120,14 @@ interface DailyTop30RecordRepository : JpaRepository<DailyTop30Record, Int> {
             LEFT JOIN r.stock s
             LEFT JOIN r.themes t
             WHERE r.id IN :favoriteIds
+            AND (:stockId IS NULL OR s.id = :stockId)
             AND (:stockName IS NULL OR s.stockName LIKE %:stockName%)
             AND (:stockCode IS NULL OR s.stockCode LIKE %:stockCode%)
             AND (:themeName IS NULL OR t.themeName LIKE %:themeName%)
         """
     )
     fun findWithFiltersByFavoriteIds(
+        stockId: Int?,
         stockName: String?,
         stockCode: String?,
         themeName: String?,
@@ -134,6 +144,7 @@ interface DailyTop30RecordRepository : JpaRepository<DailyTop30Record, Int> {
         LEFT JOIN FETCH r.themes t
         WHERE r.id NOT IN :excludeIds
         AND r.recordDate BETWEEN :startDate AND :endDate
+        AND (:stockId IS NULL OR s.id = :stockId)
         AND (:stockName IS NULL OR s.stockName LIKE %:stockName%)
         AND (:stockCode IS NULL OR s.stockCode LIKE %:stockCode%)
         AND (:themeName IS NULL OR t.themeName LIKE %:themeName%)
@@ -142,6 +153,7 @@ interface DailyTop30RecordRepository : JpaRepository<DailyTop30Record, Int> {
     fun findByDateRangeWithFiltersByExcludeIds(
         startDate: LocalDate,
         endDate: LocalDate,
+        stockId: Int?,
         stockName: String?,
         stockCode: String?,
         themeName: String?,
@@ -160,6 +172,7 @@ interface DailyTop30RecordRepository : JpaRepository<DailyTop30Record, Int> {
             LEFT JOIN FETCH r.stock s
             LEFT JOIN FETCH r.themes t
             WHERE r.id NOT IN :excludeIds
+            AND (:stockId IS NULL OR s.id = :stockId)
             AND (:stockName IS NULL OR s.stockName LIKE %:stockName%)
             AND (:stockCode IS NULL OR s.stockCode LIKE %:stockCode%)
             AND (:themeName IS NULL OR t.themeName LIKE %:themeName%)
@@ -170,12 +183,14 @@ interface DailyTop30RecordRepository : JpaRepository<DailyTop30Record, Int> {
             LEFT JOIN r.stock s
             LEFT JOIN r.themes t
             WHERE r.id NOT IN :excludeIds
+            AND (:stockId IS NULL OR s.id = :stockId)
             AND (:stockName IS NULL OR s.stockName LIKE %:stockName%)
             AND (:stockCode IS NULL OR s.stockCode LIKE %:stockCode%)
             AND (:themeName IS NULL OR t.themeName LIKE %:themeName%)
         """
     )
     fun findWithFiltersByExcludeIds(
+        stockId: Int?,
         stockName: String?,
         stockCode: String?,
         themeName: String?,
